@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://happyfaces.org/happyfaces"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="edit" rendered="#{customerBean.editAllowed}" value="#{customerBean.edit}" />
+			<f:viewParam name="objectId" value="#{customerBean.objectId}" />
+			<f:event type="preRenderView" listener="#{customerBean.initEntity}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:param name="pageTitle" value="#{messages['customer.page.title']}" />
+	<ui:define name="content">
+		<hf:formPanel label="#{messages['customer.page.panel']}" backingBean="#{customerBean}" edit="#{edit}" columns="2" >
+			<hf:formField label="#{messages['customer.name']}" field="name" required="true" />
+			<!-- TODO support for embedded objects -->
+			<hf:formField label="#{messages['customer.city']}" field="contacts" childField="city" />
+			<hf:formField label="#{messages['customer.address']}" field="contacts"  childField="address" />
+			<hf:formField label="#{messages['customer.email']}" field="contacts" childField="email" />
+			<hf:formField label="#{messages['customer.phone']}" field="contacts" childField="phone" />
+		</hf:formPanel>
+	</ui:define>
+</ui:composition>

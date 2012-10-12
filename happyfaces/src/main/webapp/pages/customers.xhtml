@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://happyfaces.org/happyfaces"
+	template="../templates/template.xhtml">
+
+	<ui:param name="pageTitle" value="#{messages['customer.page.title']}" />
+
+	<ui:define name="content">
+		<hf:listPanel label="#{messages['customer.search']}" backingBean="#{customerBean}">
+			<hf:searchPanel columns="2">
+				<hf:searchField label="#{messages['customer.name']}" field="name" />
+				<hf:searchField label="#{messages['customer.city']}" field="contacts" childField="city" />
+				<hf:searchField label="#{messages['customer.address']}" field="contacts" childField="address" />
+				<hf:searchField label="#{messages['customer.email']}" field="contacts" childField="email" />
+				<hf:searchField label="#{messages['customer.phone']}" field="contacts" childField="phone" />
+			</hf:searchPanel>
+
+			<hf:dataList label="#{messages['customers.search.results']}">
+				<hf:column label="#{messages['customer.name']}" field="name" />
+				<hf:column label="#{messages['customer.city']}" field="contacts" childField="city" />
+				<hf:column label="#{messages['customer.address']}" field="contacts" childField="address" />
+				<hf:column label="#{messages['customer.email']}" field="contacts" childField="email" />
+				<hf:column label="#{messages['customer.phone']}" field="contacts" childField="phone" />
+				<hf:actionsColumn />
+			</hf:dataList>
+		</hf:listPanel>
+	</ui:define>
+</ui:composition>
