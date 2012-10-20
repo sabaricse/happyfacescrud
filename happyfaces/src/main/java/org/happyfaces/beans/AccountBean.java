@@ -1,5 +1,8 @@
 package org.happyfaces.beans;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -14,7 +17,7 @@ import org.happyfaces.services.base.IService;
 public class AccountBean extends BaseBean<Account> {
 
     private static final long serialVersionUID = 1L;
-    
+
     @ManagedProperty(value = "#{accountService}")
     private IAccountService accountService;
 
@@ -30,5 +33,27 @@ public class AccountBean extends BaseBean<Account> {
     public void setAccountService(IAccountService accountService) {
         this.accountService = accountService;
     }
-    
+
+    /**
+     * Fetch customer field so when not LazyInitialize exception is thrown when
+     * we access it from account list view.
+     * 
+     * @see org.happyfaces.beans.base.BaseBean#getListFieldsToFetch()
+     */
+    @Override
+    protected List<String> getListFieldsToFetch() {
+        return Arrays.asList("customer");
+    }
+
+    /**
+     * Fetch customer field so when not LazyInitialize exception is thrown when
+     * we access it from account edit view.
+     * 
+     * @see org.happyfaces.beans.base.BaseBean#getFormFieldsToFetch()
+     */
+    @Override
+    protected List<String> getFormFieldsToFetch() {
+        return Arrays.asList("customer");
+    }
+
 }

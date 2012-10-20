@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import org.happyfaces.domain.base.BaseEntity;
 
 /**
- * Application user entity. Used to demonstrate logging in.
+ * Application user entity. Used to demonstrate logging in. TODO
  * 
  * @author Ignas
  *
@@ -16,6 +16,8 @@ import org.happyfaces.domain.base.BaseEntity;
 @Table(name = "USER")
 public class User extends BaseEntity {
     
+    private static final long serialVersionUID = 1L;
+
     @Column(name = "USERNAME", unique = true, nullable = false)
     private String username;
 

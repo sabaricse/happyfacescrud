@@ -17,6 +17,10 @@
 		<c:if test="${empty columns}">
 			<c:set var="columns" value="2" />
 		</c:if>
+
+		<c:if test="${empty renderNewButton}">
+			<c:set var="renderNewButton" value="true" />
+		</c:if>
 		
 		<f:facet name="header">
 			<h:outputText value="#{label}" />
@@ -32,7 +36,7 @@
 			<h:panelGrid columns="7">
 				<p:commandButton id="buttonSearch" value="#{messages['commons.search']}" ajax="false" />
 				<p:commandButton id="buttonClear" action="#{backingBean.clean}" reRender="#{formId}" value="#{messages['commons.clean']}" ajax="false"/>
-				<p:button id="buttonNew" value="#{messages['commons.new']}" outcome="#{backingBean.getNewViewName()}"> 
+				<p:button id="buttonNew" value="#{messages['commons.new']}" outcome="#{backingBean.getNewViewName()}" render="#{renderNewButton}"> 
 					<f:param name = "edit" value="true"/>
 				</p:button>
 			</h:panelGrid>

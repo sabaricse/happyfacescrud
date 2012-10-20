@@ -1,5 +1,6 @@
 package org.happyfaces.services.base;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
 import java.math.BigDecimal;
@@ -28,9 +29,11 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 @Transactional(readOnly = true)
-public class BaseService<T extends IEntity> implements IService<T> {
+public class BaseService<T extends IEntity> implements IService<T>, Serializable {
 
-    protected final Class<T> entityClass;
+    private static final long serialVersionUID = 1L;
+
+    protected final Class<? extends IEntity> entityClass;
 
     private SessionFactory sessionFactory;
 
@@ -50,6 +53,11 @@ public class BaseService<T extends IEntity> implements IService<T> {
             this.entityClass = (Class<T>) o;
         }
     }
+    
+    public BaseService(Class<? extends IEntity> entityClass, SessionFactory sessionFactory) {
+        this.entityClass = entityClass;
+        this.sessionFactory = sessionFactory;
+    }   
 
     /**
      * Get Hibernate Session Factory
@@ -180,6 +188,7 @@ public class BaseService<T extends IEntity> implements IService<T> {
         return queryBuilder;
     }
 
+    //TODO rewrite in Criteria API
     /**
      * Add filter to QueryBuilder. If some non standard filter is needed - this
      * method can be overridden, however better approach is to add filter in

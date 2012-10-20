@@ -1,20 +1,23 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://happyfaces.org/happyfaces"
-	template="../templates/template.xhtml">
-	
+	xmlns:c="http://java.sun.com/jsp/jstl/core" template="../templates/template.xhtml">
+
 	<ui:define name="metadata">
 		<f:metadata>
 			<f:viewParam name="edit" rendered="#{accountBean.editAllowed}" value="#{accountBean.edit}" />
 			<f:viewParam name="objectId" value="#{accountBean.objectId}" />
-			<f:event type="preRenderView" listener="#{accountBean.initEntity}" />
 		</f:metadata>
 	</ui:define>
 
 	<ui:param name="pageTitle" value="#{messages['account.page.title']}" />
 	<ui:define name="content">
-		<hf:formPanel label="#{messages['account.page.panel']}" backingBean="#{accountBean}" edit="#{edit}" columns="2" >
+		<hf:formPanel label="#{messages['account.page.panel']}" backingBean="#{accountBean}" edit="#{edit}" columns="2">
 			<hf:formField label="#{messages['account.accountNumber']}" field="accountNumber" required="true" />
-			<hf:formEntityField label="#{messages['account.accountNumber']}" field="customer" childField="name" service="#{customerBean.persistenceService}" required="true" />
+			<hf:formEntityField label="#{messages['account.customer']}" field="customer" childField="name" popup="true" />
 		</hf:formPanel>
+
+		<hf:entityPopup id="customersPopup" header="#{messages['customer.search']}" updateField=":mainForm:customer" selection="#{accountBean.entity.customer}" backingBean="#{customerBean}" searchField1Label="#{messages['customer.name']}"
+			searchField1="name" column1Label="#{messages['customer.name']}" column1="name" />
+
 	</ui:define>
 </ui:composition>

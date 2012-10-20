@@ -6,7 +6,6 @@
 		<f:metadata>
 			<f:viewParam name="edit" rendered="#{customerBean.editAllowed}" value="#{customerBean.edit}" />
 			<f:viewParam name="objectId" value="#{customerBean.objectId}" />
-			<f:event type="preRenderView" listener="#{customerBean.initEntity}" />
 		</f:metadata>
 	</ui:define>
 

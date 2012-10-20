@@ -1,93 +1,93 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:ui="http://java.sun.com/jsf/facelets"
-		xmlns:h="http://java.sun.com/jsf/html"
-		xmlns:f="http://java.sun.com/jsf/core"
-	    xmlns:p="http://primefaces.org/ui"
-	   	xmlns:hf="http://happyfaces.org/happyfaces"
-		xmlns:c="http://java.sun.com/jsp/jstl/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:hf="http://happyfaces.org/happyfaces"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-	<ui:composition>
-		
-		<!-- The required attribute is optional, 
+<ui:composition>
+
+	<!-- The required attribute is optional, 
          initialize it to false if not found. -->
-	    <c:if test="${empty required}">
-	        <c:set var="required" value="false" />
-	    </c:if>
-	    
-	      <!-- If edit parameter not set -->
-	    <c:if test="${empty edit}">
-	        <c:set var="edit" value="false" />
-	    </c:if>
-	    <c:if test="${!empty objectId and !empty modifyOnCreate}">
-			<c:set var="edit" value="false" />
-		</c:if>
-	    
-	    <!-- Show form field -->
-	    <c:if test="${empty show}">
-			<c:set var="show" value="true" />
-		</c:if>	
-			    <c:if test="${empty show}">
-			<c:set var="show" value="true" />
-		</c:if>	
-	    
-	    <!-- Default size. -->
-	    <c:if test="${empty size}">
-	        <c:set var="size" value="20" />
-	    </c:if>
+	<c:if test="${empty required}">
+		<c:set var="required" value="false" />
+	</c:if>
 
-	    <!-- No popup is set. -->
-	    <c:if test="${empty popup}">
-	        <c:set var="popup" value="false" />
-	    </c:if>
-	    <c:if test="${show}">
-	    
-		    <c:if test="${popup}">
-		        <c:set var="childEntity" value="#{entity[field]}" />
-		    		<p:outputLabel for="#{id}" value="#{label}" />  
-			    	<h:panelGrid columns="3" >
-				    	<p:inputText id="#{id}" rendered="#{edit and childEntity!=null}" value="#{childEntity[childField]}" required="${required}" size="#{size}" disabled="true"/>
-				    	<h:inputHidden rendered="#{edit and childEntity==null}" required="${required}"/>
-				    	<p:inputText rendered="#{edit and childEntity==null}" value="" size="#{size}" required="${required}" disabled="true" />
-				    	<p:commandLink  rendered="#{edit}" id="selectLink" onclick="Richfaces.showModalPanel('#{popupId}');" >
-			                 <h:graphicImage value="/img/search.gif" style="border:0"/>
-			            </p:commandLink>
-						<p:tooltip for="selectLink" value="#{messages['commons.search']}"/>
-			            <h:outputText rendered="#{!edit}" value="#{childEntity[childField]}" style="font-weight:bold;" />
-			        </h:panelGrid>
-		    </c:if>
-	
-		    <c:if test="${!popup}">
-		    	
-		    	<!-- if service is set, then load list of all entities from db and show as drop down list -->
-		      <c:if test="${!empty service}">
-		    		<c:if test="${edit}">
-		            	<c:set var="entityField" value="#{entity[field]}" />
-		            </c:if>
-		            #{field} #{childField}
-		    		<p:selectOneMenu rendered="#{edit and empty listElements}" id="level" value="#{entityField}" required="${required}" >
-			            <f:selectItems value="${service.list()}" var="childEntity" label="#{childEntity[childField]}" noSelectionLabel=""/>
-			        </p:selectOneMenu>
-		    		<p:selectOneMenu rendered="#{edit and not empty listElements}" id="levelListElements" value="#{entityField}" required="${required}">
-			            <f:selectItems value="${listElements}" var="childEntity" label="#{childEntity[childField]}" noSelectionLabel=""/>
-			        </p:selectOneMenu>
-			        <h:outputText rendered="#{!edit}" value="#{entity[field][childField]}" style="font-weight:bold;"/>
-			        <ui:insert />
-		       	</c:if>
-		       	
-		       	<!-- if service is not set, then just render fields for embedded entity -->
-		       	<c:if test="${empty service}">
-			    	 <c:set var="childEntity" value="#{entity[field]}" />
-			    	 <c:if test="${!empty childEntity}">
-			    	    <hf:formField disabled="#{disabled}" label="#{label}" entity="#{childEntity}" field="#{childField}" textArea="#{textArea}" cols="#{cols}" rows="#{rows}"  maxlength="#{maxlength}" validateRib="#{validateRib}"/>
-		    	     </c:if>
-		    	 </c:if>
-		    </c:if>
-		    
+	<!-- If edit parameter not set -->
+	<c:if test="${empty edit}">
+		<c:set var="edit" value="false" />
+	</c:if>
+	<c:if test="${!empty objectId and !empty modifyOnCreate}">
+		<c:set var="edit" value="false" />
+	</c:if>
+
+	<!-- Show form field -->
+	<c:if test="${empty show}">
+		<c:set var="show" value="true" />
+	</c:if>
+	<c:if test="${empty show}">
+		<c:set var="show" value="true" />
+	</c:if>
+
+	<!-- Default size. -->
+	<c:if test="${empty size}">
+		<c:set var="size" value="20" />
+	</c:if>
+
+	<c:if test="${empty id}">
+		<c:set var="id" value="#{field}" />
+	</c:if>
+
+	<!-- No popup is set. -->
+	<c:if test="${empty popup}">
+		<c:set var="popup" value="false" />
+	</c:if>
+	<c:if test="${show}">
+
+		<c:if test="${popup}">
+			<c:set var="childEntity" value="#{entity[field]}" />
+			<p:outputLabel for="#{id}" value="#{label}" />
+			<h:panelGrid columns="3">
+				<p:inputText id="#{id}" rendered="#{edit and childEntity!=null}" value="#{childEntity[childField]}" required="${required}" size="#{size}" disabled="true" />
+				<p:inputText rendered="#{edit and childEntity==null}" value="" size="#{size}" required="${required}" disabled="true" />
+				<p:commandLink rendered="#{edit}" id="selectLink" onclick="dlg.show()">
+					<h:graphicImage value="/images/search.gif" style="border:0" />
+				</p:commandLink>
+				<p:tooltip for="selectLink" value="#{messages['commons.search']}" />
+				<h:outputText rendered="#{!edit}" value="#{childEntity[childField]}" style="font-weight:bold;" />
+			</h:panelGrid>
 		</c:if>
-	    
-    </ui:composition>
+		
+		<c:if test="${!popup}">
+
+			<!-- if service is set, then load list of all entities from db and show as drop down list -->
+			<c:if test="${!empty service}">
+				<c:if test="${edit}">
+					<c:set var="entityField" value="#{entity[field]}" />
+				</c:if>
+				<p:outputLabel for="#{id}_level" value="#{label}" />
+				<p:selectOneMenu rendered="#{edit and empty listElements}" id="#{id}_level" value="#{entityField}" required="${required}">
+					<f:selectItems value="${service.list()}" var="childEntity" itemLabel="#{childEntity[childField]}" />
+				</p:selectOneMenu>
+				<p:selectOneMenu rendered="#{edit and not empty listElements}" id="#{id}_levelListElements" value="#{entityField}" required="${required}">
+					<f:selectItems value="${listElements}" var="childEntity" itemLabel="#{childEntity[childField]}" />
+				</p:selectOneMenu>
+				<h:outputText rendered="#{!edit}" value="#{entity[field][childField]}" style="font-weight:bold;" />
+				<ui:insert />
+			</c:if>
+
+			<!-- if service is not set, then just render fields for embedded entity -->
+			<c:if test="${empty service}">
+				<c:set var="childEntity" value="#{entity[field]}" />
+				<c:if test="${!empty childEntity}">
+					<hf:formField disabled="#{disabled}" label="#{label}" entity="#{childEntity}" field="#{childField}" textArea="#{textArea}" cols="#{cols}" rows="#{rows}"
+						maxlength="#{maxlength}" validateRib="#{validateRib}" />
+				</c:if>
+			</c:if>
+		</c:if>
+
+	</c:if>
+
+</ui:composition>
 
 </html>

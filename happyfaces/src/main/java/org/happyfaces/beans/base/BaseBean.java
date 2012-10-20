@@ -37,7 +37,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * Loaded entity for edit or view.
      */
     private T entity;
-
+    
     /**
      * Request parameter. Used for loading in object by its id.
      */

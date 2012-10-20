@@ -23,10 +23,10 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<!-- Data Source Declaration -->
 	<bean id="DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
-		<property name="driverClass" value="${db.driver}" />
-		<property name="jdbcUrl" value="${db.url}" />
-		<property name="user" value="${db.username}" />
-		<property name="password" value="${db.password}" />
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/happyfaces" />
+		<property name="user" value="root" />
+		<property name="password" value="aaa" />
 		<property name="maxPoolSize" value="10" />
 		<property name="maxStatements" value="0" />
 		<property name="minPoolSize" value="5" />
@@ -39,9 +39,9 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		<property name="packagesToScan" value="org.happyfaces.domain" />
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">${db.dialect}</prop>
-				<prop key="hibernate.show_sql">${db.showSql}</prop>
-				<prop key="hibernate.hbm2ddl.auto">${db.hbm2ddl}</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 	</bean>

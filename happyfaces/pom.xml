@@ -305,6 +305,7 @@
 							<targetPath>WEB-INF</targetPath>
 							<includes>
 								<include>**/applicationContext.xml</include>
+								<include>**/applicationContext-security.xml</include>
 							</includes>
 						</resource>
 					</webResources>

@@ -14,7 +14,9 @@ import javax.persistence.MappedSuperclass;
  *
  */
 @MappedSuperclass
-public class BaseEntity implements IEntity {
+public class BaseEntity implements IEntity, Serializable {
+    
+    private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +24,7 @@ public class BaseEntity implements IEntity {
     private Integer id;
 
     @Override
-    public Serializable getId() {
+    public Integer getId() {
         return id;
     }
     

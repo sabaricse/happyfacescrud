@@ -1,5 +1,7 @@
 package org.happyfaces.beans;
 
+import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -17,7 +19,7 @@ public class CustomerBean extends BaseBean<Customer> {
     
     @ManagedProperty(value = "#{customerService}")
     private ICustomerService customerService;
-
+    
     public CustomerBean() {
         super(Customer.class);
     }
@@ -29,6 +31,10 @@ public class CustomerBean extends BaseBean<Customer> {
 
     public void setCustomerService(ICustomerService customerService) {
         this.customerService = customerService;
+    }
+    
+    public List<Customer> getCustomers() {
+        return customerService.list();
     }
 
 }

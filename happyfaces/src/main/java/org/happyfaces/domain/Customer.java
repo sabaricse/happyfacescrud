@@ -15,6 +15,8 @@ import org.happyfaces.domain.base.BaseEntity;
 @Table(name = "CUSTOMER")
 public class Customer extends BaseEntity {
 
+    private static final long serialVersionUID = 1L;
+
     @Column(name = "CUSTOMER_NAME", nullable = false)
     private String name;
 

@@ -22,6 +22,8 @@ import org.happyfaces.domain.base.BaseEntity;
 @Table(name = "OPERATION")
 public class Operation extends BaseEntity {
     
+    private static final long serialVersionUID = 1L;
+
     @Column(name = "OPERATION_NAME")
     private String operationName;
     

@@ -1,5 +1,7 @@
 package org.happyfaces.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -13,8 +15,10 @@ import org.hibernate.validator.constraints.Length;
  *
  */
 @Embeddable
-public class Contacts {
+public class Contacts implements Serializable {
     
+    private static final long serialVersionUID = 1L;
+
     @Column(name = "CITY")
     private String city;
     

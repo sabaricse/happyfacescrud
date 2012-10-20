@@ -26,12 +26,18 @@
 		<c:set var="showFormButtons" value="true" />
 	</c:if>
 
-	<c:set var="entity" value="#{backingBean.entity}" />
+	<c:if test="${!empty backingBean}">
+		<c:set var="entity" value="#{backingBean.entity}" />
+	</c:if>
+	<c:if test="${!empty entity}">
+		<c:set var="entity" value="#{entity}" />
+	</c:if>
+
 	<!-- <p:panel> -->
 		<f:facet name="header">
 			<h:outputText value="#{label}" />
 		</f:facet>
-		<h:form>
+		<h:form id="mainForm">
 			<p:messages id="messages" />
 			<h:panelGrid columns="#{columns}" columnClasses="#{columnClasses}">
 				<ui:insert />

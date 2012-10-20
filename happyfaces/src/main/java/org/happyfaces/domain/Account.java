@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.happyfaces.domain.base.BaseEntity;
-import org.hibernate.validator.constraints.CreditCardNumber;
 
 /**
  * @author Ignas
@@ -23,11 +22,12 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 @Table(name = "ACCOUNT")
 public class Account extends BaseEntity {
     
+    private static final long serialVersionUID = 1L;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
     
-    @CreditCardNumber
     @NotNull
     @Column(name = "ACCOUNT_NUMBER", nullable = false)
     private String accountNumber;
