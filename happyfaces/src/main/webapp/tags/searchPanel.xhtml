@@ -10,10 +10,6 @@
 
 	<ui:composition>
 	
-		<c:if test="${empty formId}">
-			<c:set var="formId" value="formId" />
-		</c:if>
-		
 		<c:if test="${empty columns}">
 			<c:set var="columns" value="2" />
 		</c:if>
@@ -29,15 +25,15 @@
 		<!-- Set entity variable. -->
 		<c:set var="entity" value="#{backingBean.instance}" />
 		
-		<h:form  id="#{formId}" styleClass="mainForm" >
+		<h:form id="searchForm" styleClass="mainForm" >
 			<h:panelGrid columns="#{columns}">
 				<ui:insert />
 			</h:panelGrid>
-			<h:panelGrid columns="7">
+			<h:panelGrid columns="3">
 				<p:commandButton id="buttonSearch" value="#{messages['commons.search']}" ajax="false" />
-				<p:commandButton id="buttonClear" action="#{backingBean.clean}" reRender="#{formId}" value="#{messages['commons.clean']}" ajax="false"/>
+				<p:commandButton id="buttonClear" action="#{backingBean.clean}" value="#{messages['commons.clean']}" ajax="false"/>
 				<p:button id="buttonNew" value="#{messages['commons.new']}" outcome="#{backingBean.getNewViewName()}" render="#{renderNewButton}"> 
-					<f:param name = "edit" value="true"/>
+					<f:param name="edit" value="true"/>
 				</p:button>
 			</h:panelGrid>
 		</h:form>

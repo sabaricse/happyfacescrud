@@ -74,7 +74,7 @@
       <!-- Primefaces config -->
       <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>sunny</param-value>
+        <param-value>start</param-value>
       </context-param>
       
       <!-- Facelets taglib -->

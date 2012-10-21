@@ -17,10 +17,10 @@
 			<c:set var="renderEditLink" value="true" />
 		</c:if>
 		<c:if test="${empty renderDeleteLink}">
-			<c:set var="renderDeleteLink" value="false" />
+			<c:set var="renderDeleteLink" value="true" />
 		</c:if>
 	
-		<p:column styleClass="actions-column">
+		<p:column style="width: 20px;">
              <f:facet name="header">
                     <h:outputText value="#{messages['commons.actions']}" />
              </f:facet>
@@ -38,7 +38,7 @@
              	<f:param name="edit" value="true"/>
              </h:link>
              <p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
-             <h:commandLink id="deletelink" action="#{backingBean.delete(entity.id)}" rendered="#{renderDeleteLink}" onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}">
+             <h:commandLink id="deletelink" action="#{backingBean.delete}" rendered="#{renderDeleteLink}">
                  <h:graphicImage value="/images/delete.gif" style="border:0"/>
              </h:commandLink>
          </p:column>

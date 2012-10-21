@@ -32,18 +32,26 @@ public interface IService<T extends IEntity> {
     /**
      * Delete entity
      * 
-     * @param Entity
+     * @param entity
      *            to delete
      */
     public void delete(T entity);
 
     /**
+     * Delete entity by its id.
+     * 
+     * @param id
+     *            entity id to delete
+     */
+    public void delete(Integer id);
+
+    /**
      * Delete many entities provided with list of ids
      * 
-     * @param Entity
+     * @param ids
      *            to delete
      */
-    public void deleteMany(Set<Long> ids);
+    public void deleteMany(Set<Integer> ids);
 
     /**
      * Get entity by ID

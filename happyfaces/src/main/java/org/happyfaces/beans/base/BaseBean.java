@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityExistsException;
+
 import org.apache.log4j.Logger;
 import org.happyfaces.beans.SessionPreferences;
 import org.happyfaces.domain.base.IEntity;
@@ -37,7 +39,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * Loaded entity for edit or view.
      */
     private T entity;
-    
+
     /**
      * Request parameter. Used for loading in object by its id.
      */
@@ -187,69 +189,58 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
         sb.append("s");
         return sb.toString();
     }
+    
+    public void delete() {
+        log.info("aaa");
+    }
 
-    // /**
-    // * Delete Entity using it's ID. Add error message to {@link
-    // statusMessages}
-    // * if unsuccessful.
-    // *
-    // * @param id
-    // * Entity id to delete
-    // */
-    // @SuppressWarnings("unchecked")
-    // public void delete(Long id) {
-    // try {
-    // log.info(String.format("Deleting entity %s with id = %s",
-    // clazz.getName(), id));
-    // getPersistenceService().delete(id);
-    // FacesContext.getCurrentInstance().addMessage(null, new
-    // FacesMessage(bundle.getString("disabled.successful")));
-    // } catch (Throwable t) {
-    // if (t.getCause() instanceof EntityExistsException) {
-    // log.info("delete was unsuccessful because entity is used in the system",
-    // t);
-    // FacesContext.getCurrentInstance().addMessage(null, new
-    // FacesMessage(bundle.getString("error.delete.entityUsed")));
-    // } else {
-    // log.info("unexpected exception when deleting!", t);
-    // FacesContext.getCurrentInstance().addMessage(null, new
-    // FacesMessage(bundle.getString("error.delete.unexpected")));
-    // }
-    // }
-    // }
+    /**
+     * Delete Entity using it's ID. Add error message to {@link statusMessages}
+     * if unsuccessful.
+     * 
+     * @param id
+     *            Entity id to delete
+     */
+    public void delete(Long id) {
+        try {
+            log.info(String.format("Deleting entity %s with id = %s", clazz.getName(), id));
+            getPersistenceService().delete(id.intValue());
+            FacesUtils.info("delete.successful");
+        } catch (Throwable t) {
+            if (t.getCause() instanceof EntityExistsException) {
+                log.info("delete was unsuccessful because entity is used in the system", t);
+                FacesUtils.error("delete.entityUsed");
+            } else {
+                log.info("unexpected exception when deleting!", t);
+                FacesUtils.error("delete.unexpected");
+            }
+        }
+    }
 
     // TODO implement
-    // /**
-    // * Delete checked entities. Add error message to {@link statusMessages} if
-    // * unsuccessful.
-    // */
-    // @SuppressWarnings("unchecked")
-    // public void deleteMany() {
-    // try {
-    // // log.info(String.format("Deleting entities %s with id = %s",
-    // // clazz.getName(), id));
-    // Set<Long> idsToDelete = new HashSet<Long>();
-    // for (Long id : checked.keySet()) {
-    // if (checked.get(id)) {
-    // idsToDelete.add(id);
-    // }
-    // }
-    // getPersistenceService().deleteMany(idsToDelete);
-    // FacesContext.getCurrentInstance().addMessage(null, new
-    // FacesMessage(bundle.getString("delete.entitities.successful")));
-    // } catch (Throwable t) {
-    // if (t.getCause() instanceof EntityExistsException) {
-    // log.info("delete was unsuccessful because entity is used in the system",
-    // t);
-    // FacesContext.getCurrentInstance().addMessage(null, new
-    // FacesMessage(bundle.getString("error.delete.entityUsed")));
-    // } else {
-    // log.info("unexpected exception when deleting!", t);
-    // FacesContext.getCurrentInstance().addMessage(null, new
-    // FacesMessage(bundle.getString("error.delete.unexpected")));
-    // }
-    // }
-    // }
+    /**
+     * Delete checked entities. Add error message to {@link statusMessages} if
+     * unsuccessful.
+     */
+    public void deleteMany() {
+        /*
+         * try { log.info(String.format("Deleting entities %s with id = %s",
+         * clazz.getName(), id)); Set<Long> idsToDelete = new HashSet<Long>();
+         * for (Long id : checked.keySet()) { if (checked.get(id)) {
+         * idsToDelete.add(id); } }
+         * getPersistenceService().deleteMany(idsToDelete);
+         * FacesContext.getCurrentInstance().addMessage(null, new
+         * FacesMessage(bundle.getString("delete.entitities.successful"))); }
+         * catch (Throwable t) { if (t.getCause() instanceof
+         * EntityExistsException) {
+         * log.info("delete was unsuccessful because entity is used in the system"
+         * , t); FacesContext.getCurrentInstance().addMessage(null, new
+         * FacesMessage(bundle.getString("error.delete.entityUsed"))); } else {
+         * log.info("unexpected exception when deleting!", t);
+         * FacesContext.getCurrentInstance().addMessage(null, new
+         * FacesMessage(bundle.getString("error.delete.unexpected"))); } }
+         */
+    }
 
     /**
      * Gets search filters map.
@@ -381,8 +372,8 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     }
 
     /**
-     * Check if user has authority (from spring security) to edit. Override if specific role is
-     * required for different pages.
+     * Check if user has authority (from spring security) to edit. Override if
+     * specific role is required for different pages.
      * 
      * @return true if edit is allowed
      */

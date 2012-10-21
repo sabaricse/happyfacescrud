@@ -21,12 +21,10 @@
 					<hf:searchField label="#{searchField1Label}" field="#{searchField1}" />
 				</c:if>
 				<c:if test="${not empty searchField2}">
-					<p:outputLabel for="#{searchField2}" value="#{searchField2Label}" />
-					<p:inputText id="#{searchField2}" value="#{filtersMap[searchField2]}" />
+					<hf:searchField label="#{searchField2Label}" field="#{searchField2}" />
 				</c:if>
 				<c:if test="${not empty searchField3}">
-					<p:outputLabel for="#{searchField3}" value="#{searchField3Label}" />
-					<p:inputText id="#{searchField3}" value="#{filtersMap[searchField3]}" />
+					<hf:searchField label="#{searchField3Label}" field="#{searchField3}" />
 				</c:if>
 			</h:panelGrid>
 			<h:panelGrid columns="2">

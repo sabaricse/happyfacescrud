@@ -39,7 +39,7 @@
 		<c:set var="isList" value="false" />
 	</c:if>
 
-	<p:column width="100" sortBy="#{field}">
+	<p:column sortBy="#{field}">
 	
 		<f:facet name="header">
        		<h:outputText value="#{label}" />
@@ -80,7 +80,7 @@
 						<c:set var="child" value="#{entity[field]}" />
 						<c:set var="fieldValue" value="#{child[childField]}" />
 						<!-- If childField ID is not provided then we dont need link to entity page. -->
-						<c:if test="${empty childFieldId}">
+						<c:if test="${empty entityView}">
 							<c:if test="${isMessage}">
 								<h:outputText rendered="#{fieldValue != null and fieldValue.toString() == 'true'}" value="#{messages['commons.yes']}" />
 								<h:outputText rendered="#{fieldValue != null and fieldValue.toString() == 'false'}" value="#{messages['commons.no']}" />
@@ -90,20 +90,20 @@
 								<h:outputText value="#{fieldValue}" />
 							</c:if>
 						</c:if>
-						<!-- If childField ID provided then show link to childField entity page. -->
-						<c:if test="${not empty childFieldId}">
+						<!-- If entityView provided then show link to childField entity page. -->
+						<c:if test="${not empty entityView}">
 							<c:set var="fieldId" value="#{child[childFieldId]}" />
 							<c:if test="${isMessage}">
-								<hf:linkToEntity entityId="#{fieldId}" value="#{messages[fieldValue]}" view="#{view}">
-									<c:if test="${showPopup}">
-										<hf:entityTooltip entity="#{child}" entityFields="#{popupFields}" />
+								<hf:linkToEntity id="#{field}_#{childField}_link" entityId="#{fieldId}" value="#{messages[fieldValue]}" view="#{entityView}">
+									<c:if test="${not empty popupFields}">
+										<hf:entityTooltip forElement="#{field}_#{childField}_link}" entity="#{child}" entityFields="#{popupFields}" />
 									</c:if>
 								</hf:linkToEntity>
 							</c:if>
 							<c:if test="${!isMessage}">
-								<hf:linkToEntity entityId="#{fieldId}" value="#{fieldValue}" view="#{view}">
-									<c:if test="${showPopup}">
-										<hf:entityTooltip entity="#{child}" entityFields="#{popupFields}" />
+								<hf:linkToEntity id="#{field}_#{childField}_link" entityId="#{fieldId}" value="#{fieldValue}" view="#{entityView}">
+									<c:if test="${not empty popupFields}">
+										<hf:entityTooltip forElement="#{field}_#{childField}_link" entity="#{child}" entityFields="#{popupFields}" />
 									</c:if>
 								</hf:linkToEntity>
 							</c:if>
@@ -117,7 +117,8 @@
 						<ui:repeat value="#{child}" var="c" rendered="#{child.size > 0}">
 							<!-- If childField ID is not provided then we dont need link to entity page. -->
 							<c:set var="fieldValue" value="#{c[childField]}" />
-							<c:if test="${empty childFieldId}">
+							<c:set var="childFieldId" value="id" />
+							<c:if test="${empty entityView}">
 								<c:if test="${isMessage}">
 									<h:outputText rendered="#{fieldValue != null and fieldValue.toString() == 'true'}" value="#{messages['commons.yes']}" />
 									<h:outputText rendered="#{fieldValue != null and fieldValue.toString() == 'false'}" value="#{messages['commons.no']}" />
@@ -127,20 +128,20 @@
 									<h:outputText value="#{fieldValue}" />
 								</c:if>
 							</c:if>
-							<!-- If childField ID provided then show link to childField entity page. -->
-							<c:if test="${not empty childFieldId}">
+							<!-- If entityView provided then show link to childField entity page. -->
+							<c:if test="${not empty entityView}">
 								<c:set var="fieldId" value="#{c[childFieldId]}" />
 								<c:if test="${isMessage}">
-									<hf:linkToEntity entityId="#{fieldId}" value="#{fieldValue}" view="#{view}" backView="#{backView}">
-										<c:if test="${showPopup}">
-											<hf:entityTooltip entity="#{c}" entityFields="#{popupFields}" />
+									<hf:linkToEntity id="#{field}_#{childField}_link" entityId="#{fieldId}" value="#{fieldValue}" view="#{entityView}">
+										<c:if test="${not empty popupFields}">
+											<hf:entityTooltip forElement="#{field}_#{childField}_link" entity="#{c}" entityFields="#{popupFields}" />
 										</c:if>
 									</hf:linkToEntity>
 								</c:if>
 								<c:if test="${!isMessage}">
-									<hf:linkToEntity entityId="#{fieldId}" value="#{fieldValue}" view="#{view}" backView="#{backView}">
-										<c:if test="${showPopup}">
-											<hf:entityTooltip entity="#{c}" entityFields="#{popupFields}" />
+									<hf:linkToEntity id="#{field}_#{childField}_link" entityId="#{fieldId}" value="#{fieldValue}" view="#{entityView}">
+										<c:if test="${not empty popupFields}">
+											<hf:entityTooltip forElement="#{field}_#{childField}_link" entity="#{c}" entityFields="#{popupFields}" />
 										</c:if>
 									</hf:linkToEntity>
 								</c:if>

@@ -42,7 +42,7 @@ public class AccountBean extends BaseBean<Account> {
      */
     @Override
     protected List<String> getListFieldsToFetch() {
-        return Arrays.asList("customer");
+        return Arrays.asList("customer", "operations");
     }
 
     /**
@@ -53,7 +53,7 @@ public class AccountBean extends BaseBean<Account> {
      */
     @Override
     protected List<String> getFormFieldsToFetch() {
-        return Arrays.asList("customer");
+        return Arrays.asList("customer", "operations");
     }
 
 }

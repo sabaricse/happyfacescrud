@@ -36,24 +36,16 @@
 	    
 	    <!-- Search with entity popup -->
 	    <c:if test="${popup}">
-	        <c:set var="childEntity" value="#{entity[field]}" />
-	        	<p:outputLabel for="#{field}" value="#{label}" />
-		    	<h:panelGrid id=#{field} columns="2">
-		    		<h:column>
-				    	<p:inputText value="#{filtersMap[field][childField]}" disabled="true" size="#{size}" />
-				    	<p:commandLink  id="selectLink" onclick="Richfaces.showModalPanel('#{popupId}');">
-			                 <h:graphicImage value="/img/search.gif" style="border:0"/>
-			            </p:commandLink>
-						<p:tooltip for="selectLink" value="#{messages['commons.search']}" showEffect="slide" hideEffect="slide" />
-			        </h:column>
-			        <h:column>
-			            <p:commandLink rendered="#{clearButton}" id="clearLink" action="#{filtersMap.put(field, null)}" reRender="formId" >
-			                 <h:graphicImage value="/images/delete.gif" style="border:0"/>
-			            </p:commandLink>
-			            <p:tooltip for="clearLink" value="#{messages['commons.clearField']}" showEffect="slide" hideEffect="slide"/>
-			        </h:column>
-		        </h:panelGrid>
-	    </c:if>
+			<c:set var="childEntity" value="#{entity[field]}" />
+			<p:outputLabel for="#{field}_child" value="#{label}" />
+			<h:panelGrid id="#{field}" columns="3">
+				<p:inputText id="#{field}_child" value="#{filtersMap[field][childField]}" required="${required}" size="#{size}" disabled="true" />
+				<p:commandLink id="selectLink" onclick="dlg.show()">
+					<h:graphicImage value="/images/search.gif" style="border:0" />
+				</p:commandLink>
+				<p:tooltip for="selectLink" value="#{messages['commons.search']}" />
+			</h:panelGrid>
+		</c:if>
 
 		<!-- Search with entity list in select box -->
 	    <c:if test="${!popup}">
@@ -66,7 +58,7 @@
 		<!-- Search with single childEntity field -->
 	    <c:if test="${!popup and empty service}">
 	    	<c:set var="childEntity" value="#{entity[field]}" />
-	    	<hf:searchField label="#{label}" entity="childEntity" field="#{childField}" time="#{time}" rangeSearch="#{rangeSearch}" size="#{size}" />
+	    	<hf:searchField label="#{label}" entity="#{childEntity}" field="#{childField}" time="#{time}" rangeSearch="#{rangeSearch}" size="#{size}" />
 	    </c:if>
 	    
     </ui:composition>

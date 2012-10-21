@@ -180,8 +180,8 @@
 					<c:set var="fieldValue" value="#{entity[field]}" />
 					<h:outputText rendered="#{fieldValue != null and fieldValue.toString() == 'true' and !edit}" value="#{messages['commons.yes']}" style="font-weight:bold;" />
 					<h:outputText rendered="#{fieldValue != null and fieldValue.toString() == 'false' and !edit}" value="#{messages['commons.no']}" style="font-weight:bold;" />
-					<h:outputText rendered="#{fieldValue != null and fieldValue.toString() != 'true' and fieldValue.toString() != 'false' and !edit}"
-						value="#{messages[entity[field]]}" style="font-weight:bold;" />
+					<!-- toString was some workaround - todo: maybe works without toString  -->
+					<h:outputText rendered="#{fieldValue != null and fieldValue.toString() != 'true' and fieldValue.toString() != 'false' and !edit}" value="#{messages[entity[field]]}" style="font-weight:bold;" />
 				</c:if>
 
 				<c:if test="${!edit and !isMessage}">
@@ -259,7 +259,7 @@
 							<p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
 						</p:dataTable>
 						<c:if test="#{showButtonAddNew}">
-							<p:commandButton rendered="#{edit and entity.getId() != null}" value="#{messages['commons.addNew']}" action="addNew" />
+							<p:commandButton rendered="#{edit and entity.getId() != null}" value="#{messages['commons.addNew']}" onclick="alert('not implemented. formField.xhtml line 262')" />
 						</c:if>
 							<ui:insert />
 					</h:panelGrid>

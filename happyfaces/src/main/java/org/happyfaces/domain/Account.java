@@ -32,6 +32,9 @@ public class Account extends BaseEntity {
     @Column(name = "ACCOUNT_NUMBER", nullable = false)
     private String accountNumber;
     
+    @Column(name = "ACCOUNT_ACTIVE")
+    private Boolean active;
+    
     @OneToMany(mappedBy="account", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Operation> operations;
 
@@ -57,6 +60,14 @@ public class Account extends BaseEntity {
 
     public void setOperations(List<Operation> operations) {
         this.operations = operations;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
     
 }

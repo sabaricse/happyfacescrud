@@ -145,7 +145,7 @@
 		<!-- Themes PrimeFaces -->
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
-			<artifactId>sunny</artifactId>
+			<artifactId>start</artifactId>
 			<version>1.0.8</version>
 		</dependency>
 

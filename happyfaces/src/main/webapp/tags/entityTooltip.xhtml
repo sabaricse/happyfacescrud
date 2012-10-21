@@ -10,7 +10,7 @@
 
 	<ui:composition>
 		
-		<p:tooltip showEffect="slide" hideEffect="slide">
+		<p:tooltip for="#{forElement}" showEffect="slide" hideEffect="slide">
 			<ui:repeat value="#{popupFields.split(',')}" var="popupField">
                	<h:outputText style="white-space:nowrap" value="#{entity[popupField]}" /><br/>
             </ui:repeat>

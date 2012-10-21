@@ -11,3 +11,12 @@ Delete accountEdit.xhtml, accounts.xhtml, operationEdit.xhtml, operations.xhtml,
 Delete entries from demoDatabase.xml
 Change menu.xhtml
 Remove messages from messages.properties
+
+TODO: 
+1. search lists
+2. Multiselects and deletes
+3. disable sorting on unsortable fields (like messaged enums)
+
+Ideas:
+1. Remove *EntityField.xhtml and simply let fields be accessed through dot (e.g. <formField field="customer.name" />)
+2. Code generation lets create entities and windows very fast.

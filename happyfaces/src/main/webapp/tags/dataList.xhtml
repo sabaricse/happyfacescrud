@@ -30,15 +30,15 @@
 	<p:panel id="#{resultsId}_panel" width="100">
 
 		<h:form id="#{formId}" prependId="false" >
-
-			<ui:insert name="buttons" />
-
+			
+			<p:messages />
 			<e:sortableDataTable id="datatable" var="entity" value="#{backingBean.lazyDataModel}" draggableColumns="true" paginator="true" rows="10"
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5,10,15"
 				lazy="true">
 				<ui:insert />
 			</e:sortableDataTable>
 
+			<!-- 
 			<h:panelGrid width="100%" columns="2" border="0" style="padding:0px; margin:0px;text-align: left;">
 				<h:column width="10%">
 					<c:if test="${checkMany}">
@@ -47,10 +47,10 @@
 							onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}" />
 						<p:tooltip for="deleteEntitieslink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide" />
 					</c:if>
-					<ui:insert name="operations" />
 				</h:column>
 			</h:panelGrid>
-
+			 -->
+			 
 		</h:form>
 	</p:panel>
 

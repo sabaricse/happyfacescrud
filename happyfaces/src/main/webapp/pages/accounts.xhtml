@@ -2,18 +2,32 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://happyfaces.org/happyfaces"
 	template="../templates/template.xhtml">
 
-	<ui:param name="pageTitle" value="#{messages['account.page.title']}" />
+	<ui:param name="pageTitle" value="#{messages['account.search']}" />
 
 	<ui:define name="content">
-		<hf:listPanel label="#{messages['account.search']}" backingBean="#{accountBean}">
-			<hf:searchPanel columns="2">
-				<hf:searchField label="#{messages['account.accountNumber']}" field="accountNumber" />
-			</hf:searchPanel>
+		<hf:searchPanel columns="2" backingBean="#{accountBean}">
+			<hf:searchField label="#{messages['account.accountNumber']}" field="accountNumber" />
+			<hf:searchField label="#{messages['account.active']}" field="active" isMessage="true" />
+			<hf:searchEntityField label="#{messages['account.customer']}" field="customer" childField="name" popup="true" />
+		</hf:searchPanel>
 
-			<hf:dataList label="#{messages['account.search.results']}">
-				<hf:column label="#{messages['account.accountNumber']}" field="accountNumber" />
-				<hf:actionsColumn />
-			</hf:dataList>
-		</hf:listPanel>
+		<hf:dataList label="#{messages['account.search.results']}" backingBean="#{accountBean}">
+		
+			<!-- Simple fields like numbers, strings, dates etc only needs field name provided. -->
+			<hf:column label="#{messages['account.accountNumber']}" field="accountNumber" />
+			<hf:column label="#{messages['account.active']}" field="active" isMessage="true" />
+			
+			<!-- If field is another entity it needs childField parameter. We can also add optional parameters entityView for link to view page 
+				and popupFields to show popup with more detaiLed information. In this case if you remove entityView and popupFields - column will only show customer name. -->
+			<hf:column label="#{messages['account.customer']}" field="customer" childField="name" entityView="/pages/customerEdit.xhtml" popupFields="name,city,address" />
+			
+			<hf:actionsColumn />
+		</hf:dataList>
+		
+		<hf:entityPopup id="customersPopup" header="#{messages['customer.search']}" updateField=":searchForm:customer" selection="#{accountBean.filters['customer']}"
+			backingBean="#{customerBean}" searchField1Label="#{messages['customer.name']}" searchField1="name" column1Label="#{messages['customer.name']}" column1="name" 
+			searchField2Label="#{messages['customer.city']}" searchField2="city" column2Label="#{messages['customer.city']}" column2="city"
+			column3Label="#{messages['customer.email']}" column3="email" />
+			
 	</ui:define>
 </ui:composition>
