@@ -38,9 +38,15 @@
 	<c:if test="${empty isList}">
 		<c:set var="isList" value="false" />
 	</c:if>
-
-	<p:column sortBy="#{field}">
 	
+	<c:if test="${empty sort}">
+		<c:set var="sort" value="true" />
+	</c:if>
+
+	<p:column>
+		<c:if test="#{sort}">
+            <f:attribute name="sortBy" value="#{field}"/>
+        </c:if>
 		<f:facet name="header">
        		<h:outputText value="#{label}" />
         </f:facet>

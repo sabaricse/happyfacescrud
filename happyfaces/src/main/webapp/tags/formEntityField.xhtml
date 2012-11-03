@@ -61,23 +61,19 @@
 		<c:if test="${!popup}">
 
 			<!-- if service is set, then load list of all entities from db and show as drop down list -->
-			<c:if test="${!empty service}">
-				<c:if test="${edit}">
-					<c:set var="entityField" value="#{entity[field]}" />
-				</c:if>
+			<c:if test="${!empty listBean}">
 				<p:outputLabel for="#{id}_level" value="#{label}" />
-				<p:selectOneMenu rendered="#{edit and empty listElements}" id="#{id}_level" value="#{entityField}" required="${required}">
-					<f:selectItems value="${service.list()}" var="childEntity" itemLabel="#{childEntity[childField]}" />
-				</p:selectOneMenu>
-				<p:selectOneMenu rendered="#{edit and not empty listElements}" id="#{id}_levelListElements" value="#{entityField}" required="${required}">
-					<f:selectItems value="${listElements}" var="childEntity" itemLabel="#{childEntity[childField]}" />
+				<p:selectOneMenu rendered="#{edit}" id="#{id}_level" value="#{entity[field]}" required="${required}">
+					<f:selectItem itemLabel="" itemValue="" />
+					<f:selectItems value="${listBean.listAll()}" var="elem" itemLabel="#{elem[childField]}" itemValue="#{elem}" />
+					<f:converter binding="#{entityConverter}" />
 				</p:selectOneMenu>
 				<h:outputText rendered="#{!edit}" value="#{entity[field][childField]}" style="font-weight:bold;" />
 				<ui:insert />
 			</c:if>
 
 			<!-- if service is not set, then just render fields for embedded entity -->
-			<c:if test="${empty service}">
+			<c:if test="${empty listBean}">
 				<c:set var="childEntity" value="#{entity[field]}" />
 				<c:if test="${!empty childEntity}">
 					<hf:formField disabled="#{disabled}" label="#{label}" entity="#{childEntity}" field="#{childField}" textArea="#{textArea}" cols="#{cols}" rows="#{rows}"

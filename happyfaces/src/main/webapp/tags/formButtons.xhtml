@@ -19,7 +19,7 @@
 				<f:param name="edit" value="true"/>
 				<f:param name="objectId" value="#{backingBean.objectId}" />
 			</p:button>
-			<p:commandButton rendered="true" value="#{messages['action.save']}" action="#{backingBean.save}" ajax="#{ajaxSubmit}" />
+			<p:commandButton rendered="#{edit}" value="#{messages['action.save']}" action="#{backingBean.save}"  ajax="#{ajaxSubmit}" />
 			
 			<ui:insert />
 			

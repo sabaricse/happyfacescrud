@@ -1,6 +1,7 @@
 package org.happyfaces.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.happyfaces.domain.base.BaseEntity;
@@ -39,6 +42,10 @@ public class Operation extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ACCOUNT_ID")
     private Account account;
+    
+    @Temporal(TemporalType.TIME)
+    @Column(name = "OPERATION_DATE")
+    private Date operationDate;
 
     public String getOperationName() {
         return operationName;
@@ -70,6 +77,14 @@ public class Operation extends BaseEntity {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Date getOperationDate() {
+        return operationDate;
+    }
+
+    public void setOperationDate(Date operationDate) {
+        this.operationDate = operationDate;
     }
     
 }

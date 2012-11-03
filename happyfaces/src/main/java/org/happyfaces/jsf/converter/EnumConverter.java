@@ -18,17 +18,21 @@ public class EnumConverter implements javax.faces.convert.Converter {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        Class<Enum> enumType = (Class<Enum>) component.getAttributes().get(ATTRIBUTE_ENUM_TYPE);
-        try {
-            return Enum.valueOf(enumType, value);
-        } catch (IllegalArgumentException e) {
-            throw new ConverterException(new FacesMessage("Value is not an enum of type: " + enumType));
+        if (value != null && !"".equals(value)) {
+            Class<Enum> enumType = (Class<Enum>) component.getAttributes().get(ATTRIBUTE_ENUM_TYPE);
+            try {
+                return Enum.valueOf(enumType, value);
+            } catch (IllegalArgumentException e) {
+                throw new ConverterException(new FacesMessage("Value is not an enum of type: " + enumType));
+            }
+        } else {
+            return null;
         }
     }
     
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        if (value != null) {
+        if (value != null && !"".equals(value)) {
             if (value instanceof Enum) {
                 component.getAttributes().put(ATTRIBUTE_ENUM_TYPE, value.getClass());
                 return ((Enum<?>) value).name();

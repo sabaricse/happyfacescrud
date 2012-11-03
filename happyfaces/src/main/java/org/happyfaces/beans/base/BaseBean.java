@@ -49,6 +49,11 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * Request parameter.
      */
     private boolean edit = false;
+    
+    /**
+     * 
+     */
+    private LazyDataModel<T> dataModel;
 
     /**
      * Constructor.
@@ -144,6 +149,13 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
             FacesUtils.info("update.successful");
         }
     }
+    
+    /**
+     * Lists all entities.
+     */
+    public List<T> listAll() {
+        return getPersistenceService().list();
+    }
 
     /**
      * Returns view after save() operation. By default it goes back to list
@@ -190,10 +202,6 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
         return sb.toString();
     }
     
-    public void delete() {
-        log.info("aaa");
-    }
-
     /**
      * Delete Entity using it's ID. Add error message to {@link statusMessages}
      * if unsuccessful.
@@ -299,60 +307,89 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     }
 
     /**
-     * Override this method when pop up with additional entity information is
-     * needed.
-     */
-    protected String getPopupInfo() {
-        return "No popup information. Override BaseBean.getPopupInfo() method.";
-    }
-
-    /**
      * DataModel for primefaces lazy loading datatable component.
      * 
      * @return LazyDataModel implementation.
      */
     public LazyDataModel<T> getLazyDataModel() {
-        return new LazyDataModel<T>() {
-            private static final long serialVersionUID = 1L;
+        if (dataModel == null) {
+            dataModel = new LazyDataModel<T>() {
+                private static final long serialVersionUID = 1L;
 
-            private Integer rowCount;
+                private Integer rowCount;
+                
+                private Integer rowIndex;
 
-            @Override
-            public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> loadingFilters) {
-                PaginationConfiguration config = new PaginationConfiguration(first, pageSize, filters, getListFieldsToFetch(), sortField, sortOrder);
-                setRowCount(getPersistenceService().count());
-                if (getRowCount() > 0) {
-                    return getPersistenceService().list(config);
-                } else {
-                    return null; // no need to load then
+                @Override
+                public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> loadingFilters) {
+                    Map<String, Object> copyOfFilters = new HashMap<String, Object>();
+                    copyOfFilters.putAll(filters);
+                    setRowCount(getPersistenceService().count(new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder)));
+                    if (getRowCount() > 0) {
+                        copyOfFilters = new HashMap<String, Object>();
+                        copyOfFilters.putAll(filters);
+                        return getPersistenceService().list(new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder));
+                    } else {
+                        return null; // no need to load then
+                    }
                 }
-            }
 
-            public T getRowData(String rowKey) {
-                return getPersistenceService().getById(Integer.valueOf(rowKey));
-            }
-
-            public Object getRowKey(T object) {
-                return object.getId();
-            }
-
-            @Override
-            public void setRowIndex(int rowIndex) {
-                if (rowIndex == -1 || getPageSize() == 0) {
-                    super.setRowIndex(-1);
-                } else
-                    super.setRowIndex(rowIndex % getPageSize());
-            }
-
-            @Override
-            public int getRowCount() {
-                if (rowCount == null) {
-                    rowCount = getPersistenceService().count();
+                @Override
+                public T getRowData(String rowKey) {
+                    return getPersistenceService().getById(Integer.valueOf(rowKey));
                 }
-                return rowCount;
-            }
 
-        };
+                @Override
+                public Object getRowKey(T object) {
+                    return object.getId();
+                }
+
+                @Override
+                public void setRowIndex(int rowIndex) {
+                    if (rowIndex == -1 || getPageSize() == 0) {
+                        this.rowIndex = rowIndex;
+                    } else {
+                        this.rowIndex = rowIndex % getPageSize();
+                    }
+                }
+                
+                @SuppressWarnings("unchecked")
+                @Override
+                public T getRowData() {
+                    return ((List<T>)getWrappedData()).get(rowIndex);
+                }
+                
+                @SuppressWarnings({ "unchecked" })
+                @Override
+                public boolean isRowAvailable() {
+                    if(getWrappedData() == null) {
+                        return false;
+                    }
+
+                    return rowIndex >= 0 && rowIndex < ((List<T>)getWrappedData()).size();
+                }
+                
+                @Override
+                public int getRowIndex() {
+                    return this.rowIndex;
+                }
+
+                @Override
+                public void setRowCount(int rowCount) {
+                    this.rowCount = rowCount;
+                }
+                
+                @Override
+                public int getRowCount() {
+                    if (rowCount == null) {
+                        rowCount = getPersistenceService().count();
+                    }
+                    return rowCount;
+                }
+
+            };
+        }
+        return dataModel;
     }
 
     public Integer getObjectId() {

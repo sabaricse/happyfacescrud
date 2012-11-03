@@ -10,6 +10,10 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<context:annotation-config />
 
+	<!-- variableTypeService is used by entity converter so it should not be removed -->
+	<bean id="variableTypeService" class="org.happyfaces.services.base.VariableTypeService">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
 	<bean id="customerService" class="org.happyfaces.services.CustomerService">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
@@ -17,6 +21,9 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 	<bean id="operationService" class="org.happyfaces.services.OperationService">
+		<property name="sessionFactory" ref="SessionFactory" />
+	</bean>
+	<bean id="cityService" class="org.happyfaces.services.CityService">
 		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 

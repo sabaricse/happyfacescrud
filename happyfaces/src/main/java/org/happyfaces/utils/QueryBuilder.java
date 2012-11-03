@@ -50,7 +50,7 @@ public class QueryBuilder {
         StringBuilder query = new StringBuilder("from " + clazz.getName() + " " + alias);
         if (fetchFields != null && !fetchFields.isEmpty()) {
             for (String fetchField : fetchFields) {
-                query.append(" left join fetch " + alias + "." + fetchField);
+                query.append(" left join fetch " + alias + "." + fetchField  + " as " + fetchField);
             }
         }
         return query.toString();
@@ -280,7 +280,9 @@ public class QueryBuilder {
     public Query getCountQuery(Session session) {
         String from = "from ";
         String s = "select count(*) " + q.toString().substring(q.indexOf(from));
-
+        
+        s = s.replaceAll("left join fetch", "join");
+        
         Query result = session.createQuery(s);
         for (Map.Entry<String, Object> e : params.entrySet())
             result.setParameter(e.getKey(), e.getValue());

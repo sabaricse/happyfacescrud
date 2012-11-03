@@ -2,22 +2,20 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://happyfaces.org/happyfaces"
 	template="../templates/template.xhtml">
 
-	<ui:param name="pageTitle" value="#{messages['operation.page.title']}" />
+	<ui:param name="pageTitle" value="#{messages['operation.search']}" />
 
 	<ui:define name="content">
-		<hf:listPanel label="#{messages['operation.search']}" backingBean="#{operationBean}">
-			<hf:searchPanel columns="2">
-				<hf:searchField label="#{messages['operation.operationName']}" field="operationName" />
-				<hf:searchField label="#{messages['operation.amount']}" field="amount" />
-				<hf:searchField label="#{messages['operation.operationType']}" field="operationType" />
-			</hf:searchPanel>
+		<hf:searchPanel columns="2" backingBean="#{operationBean}">
+			<hf:searchField label="#{messages['operation.operationName']}" field="operationName" />
+			<hf:searchField label="#{messages['operation.amount']}" field="amount" />
+			<hf:searchField label="#{messages['operation.operationType']}" field="operationType" />
+		</hf:searchPanel>
 
-			<hf:dataList label="#{messages['customers.search.results']}">
-				<hf:column label="#{messages['operation.operationName']}" field="operationName" />
-				<hf:column label="#{messages['operation.amount']}" field="amount" />
-				<hf:column label="#{messages['operation.operationType']}" field="operationType" childField="label" isMessage="true" /> <!-- Enum label translation done this way -->
-				<hf:actionsColumn />
-			</hf:dataList>
-		</hf:listPanel>
+		<hf:dataList label="#{messages['customers.search.results']}" backingBean="#{operationBean}">
+			<hf:column label="#{messages['operation.operationName']}" field="operationName" />
+			<hf:column label="#{messages['operation.amount']}" field="amount" />
+			<hf:column label="#{messages['operation.operationType']}" field="operationType" childField="label" isMessage="true" /> <!-- Enum label translation done this way -->
+			<hf:actionsColumn />
+		</hf:dataList>
 	</ui:define>
 </ui:composition>

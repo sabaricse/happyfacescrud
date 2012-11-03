@@ -28,7 +28,7 @@
 	    <c:if test="${empty clearButton}">
 	        <c:set var="clearButton" value="false" />
 	    </c:if>
-
+		
 	    <!-- No popup is set. -->
 	    <c:if test="${empty popup}">
 	        <c:set var="popup" value="false" />
@@ -49,18 +49,18 @@
 
 		<!-- Search with entity list in select box -->
 	    <c:if test="${!popup}">
-	    	<p:outputLabel for="#{field}" value="#{label}" />
-	    	<p:selectOneMenu id="#{field}" value="#{filtersMap[field]}" >
-			       <f:selectItems value="#{service.list()}" var="childEntity" label="#{childEntity[childField]}" noSelectionLabel=""/>
-			</p:selectOneMenu>	
+	    	<c:if test="${!empty listBean}">
+				<p:outputLabel for="#{id}_level" value="#{label}" />
+				<p:selectOneMenu id="#{id}_level" value="#{filtersMap[field]}">
+					<f:selectItem itemLabel="" itemValue="" />
+					<f:selectItems value="${listBean.listAll()}" var="elem" itemLabel="#{elem[childField]}" itemValue="#{elem}" />
+					<f:converter binding="#{entityConverter}" />
+				</p:selectOneMenu>
+				<ui:insert />
+			</c:if>
+			
 	    </c:if>
 
-		<!-- Search with single childEntity field -->
-	    <c:if test="${!popup and empty service}">
-	    	<c:set var="childEntity" value="#{entity[field]}" />
-	    	<hf:searchField label="#{label}" entity="#{childEntity}" field="#{childField}" time="#{time}" rangeSearch="#{rangeSearch}" size="#{size}" />
-	    </c:if>
-	    
     </ui:composition>
 
 </html>

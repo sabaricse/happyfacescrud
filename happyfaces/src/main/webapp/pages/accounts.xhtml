@@ -19,7 +19,7 @@
 			
 			<!-- If field is another entity it needs childField parameter. We can also add optional parameters entityView for link to view page 
 				and popupFields to show popup with more detaiLed information. In this case if you remove entityView and popupFields - column will only show customer name. -->
-			<hf:column label="#{messages['account.customer']}" field="customer" childField="name" entityView="/pages/customerEdit.xhtml" popupFields="name,city,address" />
+			<hf:column label="#{messages['account.customer']}" field="customer" childField="name" entityView="/pages/customerEdit.xhtml" popupFields="email,phone,address" />
 			
 			<hf:actionsColumn />
 		</hf:dataList>

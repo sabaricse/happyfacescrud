@@ -35,35 +35,40 @@ public class EntityConverter implements javax.faces.convert.Converter, Serializa
     @SuppressWarnings("unchecked")
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) throws ConverterException {
         BaseEntity entity;
-        if (value == null) {
+        if (value == null || "".equals(value)) {
             entity = null;
         } else {
-            Integer id = new Integer(value);
-            entity = (BaseEntity) variableTypeService.getById(getClazz(facesContext, component), id);
+            String[] idAndClass = value.split("_");
+            
+            Integer id = Integer.valueOf(idAndClass[0]);
+            @SuppressWarnings("rawtypes")
+            Class clazz;
+            try {
+                clazz = Class.forName(idAndClass[1]);
+            } catch (ClassNotFoundException e) {
+                throw new ConverterException("Class with name " + idAndClass[1] + " was not found.");
+            }
+            
+            entity = (BaseEntity) variableTypeService.getById(clazz, id);
             if (entity == null) {
-                log.error("There is no entity with id:  " + id + " for class " + getClazz(facesContext, component));
+                log.error("There is no entity with id:  " + id + " for class " + clazz);
             }
         }
         return entity;
     }
 
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) throws ConverterException {
+        if (value == null || "".equals(value)) {
+            return "";
+        }
         if (value != null && !(value instanceof BaseEntity)) {
             throw new IllegalArgumentException("This converter only handles instances of BaseEntity");
-        }
-        if (value == null) {
-            return "";
         }
         if (value instanceof String) {
             return (String) value;
         }
         BaseEntity entity = (BaseEntity) value;
-        return entity.getId() == null ? "" : entity.getId().toString();
-    }
-
-    @SuppressWarnings("rawtypes")
-    private Class getClazz(FacesContext facesContext, UIComponent component) {
-        return component.getValueExpression("value").getType(facesContext.getELContext());
+        return entity.getId() == null ? "" : entity.getId().toString() + "_" + entity.getClass().getCanonicalName();
     }
 
 }

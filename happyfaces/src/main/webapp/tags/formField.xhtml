@@ -7,12 +7,6 @@
 
 <ui:composition>
 
-	<!-- The required attribute is optional, 
-         initialize it to false if not found. -->
-	<c:if test="${empty noSelectionLabel}">
-		<c:set var="noSelectionLabel" value="false" />
-	</c:if>
-
 	<c:if test="${empty required}">
 		<c:set var="required" value="false" />
 	</c:if>
@@ -121,10 +115,9 @@
 			<!--  If the value binding is a number, display an input number spinner. -->
 			<bind:isBigDecimal id="vb">
 				<p:outputLabel for="#{id}" value="#{label}" />
-				<p:inputText rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}" size="5" maxlength="#{maxlength}"
-					converter="bigDecimalConverter" />
+				<p:inputText rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}" size="5" maxlength="#{maxlength}" />
 				<c:if test="${empty converterParam}">
-					<h:outputText rendered="#{!edit}" value="#{entity[field]}" style="font-weight:bold;" converter="bigDecimalConverter" />
+					<h:outputText rendered="#{!edit}" value="#{entity[field]}" style="font-weight:bold;" />
 				</c:if>
 				<ui:insert />
 			</bind:isBigDecimal>
@@ -205,13 +198,8 @@
 			<bind:isEnum id="vb">
 				<p:outputLabel for="#{id}" value="#{label}" />  
 				<p:selectOneMenu rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}">
-					<c:if test="#{noSelectionLabel}">
-						<f:selectItem itemLabel="" noSelectionOption="true" />
+						<f:selectItem rendered="#{required}" itemLabel="" noSelectionOption="true" />
 						<f:selectItems value="#{vbType.getEnumConstants()}" var="enumElement" itemLabel="#{messages[enumElement.label]}" />
-					</c:if>
-					<c:if test="#{!noSelectionLabel}">
-						<f:selectItems value="#{vbType.getEnumConstants()}" var="enumElement" itemLabel="#{messages[enumElement.label]}"/>
-					</c:if>
 					<c:if test="${!empty event}">
 						<p:ajax event="onchange" reRender="#{reRender}" />
 					</c:if>
