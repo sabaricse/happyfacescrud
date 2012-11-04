@@ -1,4 +1,5 @@
-Rename build.sample.properties to build.properties and configure it for your database. Add application to tomcat, start and got to http://localhost:8080/happyfaces/login.jsf
+Rename build.sample.properties to build.properties and configure it for your database. Add application to tomcat (might need to right click -> maven -> update project configuration for exlipse maven plugin), 
+start and go to http://localhost:8080/happyfaces/login.jsf
 User/password: aaa/aaa (can change in applicationContext-security.xml
 
 To populate sample data run "mvn properties:read-project-properties dbunit:operation" command
