@@ -1,0 +1,15 @@
+#summary Quick startup guide
+
+= Start a project =
+
+  * Download archetype.rar from downloads section
+  * Unrar it.
+  * Enter archetype dir and run "mvn install".
+  * After archetype is in your local repository run "mvn archetype:generate -DarchetypeCatalog=local" to create your project from happyfaces archetype.
+  * Import it to eclipse (TODO not tested on other IDEs - feedback would be really appreciated). Use M2E plugin and add maven nature (NOT mvn eclipse:eclipse).
+  * Create build.properties from build.sample.properties and fill your information (need to setup some database, mysql reccomended).
+  * Add it to tomcat and start.
+  * Populate sample data run "mvn properties:read-project-properties dbunit:operation" command (run command in same dir as project's pom.xml)
+  * Go to http://localhost:8080/happyfaces/login.jsf and enter User/Passw aaa/aaa.
+  * Browse simple sample application and then check how it is implemented. Code is self explanatory and easy to understand, just play around.
+  * Go learn more (TODO more documentation).
