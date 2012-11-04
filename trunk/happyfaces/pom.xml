@@ -1,0 +1,508 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.happyfaces</groupId>
+	<artifactId>happyfaces</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
+	<name>HappyFaces</name>
+	<url>http://url.com</url>
+	<description>Description</description>
+
+	<organization>
+		<name>!!!!!Org name!!!!!</name>
+		<url>!!!!!Org url!!!!!</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>"!!!!!License information!!!"</name>
+		</license>
+	</licenses>
+
+	<properties>
+		<spring.version>3.1.2.RELEASE</spring.version>
+	</properties>
+
+	<developers>
+		<developer>
+			<name>Ignas Lelys</name>
+			<id>ignas</id>
+			<email>ignas.lelys@google.com</email>
+			<roles>
+				<role>Developer</role>
+			</roles>
+			<!-- <organization>Codehaus</organization> <organizationUrl>http://mojo.codehaus.org</organizationUrl> 
+				<roles> <role>architect</role> <role>developer</role> </roles> <timezone>-6</timezone> 
+				<properties> <picUrl>http://tinyurl.com/</picUrl> </properties> <url>http://url.com</url> -->
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:svn:http://svn.url</connection>
+		<developerConnection>scm:svn:http://svn.url</developerConnection>
+		<url>http://svn.url</url>
+	</scm>
+	<issueManagement>
+		<system>Jira</system>
+		<url>http://http://jira.url/</url>
+	</issueManagement>
+	<!-- <ciManagement> <system>continuum</system> <url>http://127.0.0.1:8080/continuum</url> 
+		<notifiers> <notifier> <type>mail</type> <sendOnError>true</sendOnError> 
+		<sendOnFailure>true</sendOnFailure> <sendOnSuccess>false</sendOnSuccess> 
+		<sendOnWarning>false</sendOnWarning> <configuration> <address>continuum@127.0.0.1</address> 
+		</configuration> </notifier> </notifiers> </ciManagement> -->
+
+	<dependencies>
+
+		<!-- Spring 3 dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- JSF dependencies -->
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>2.1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<version>2.1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>el-api</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>3.4</version>
+		</dependency>
+
+		<!-- Themes PrimeFaces -->
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>start</artifactId>
+			<version>1.0.8</version>
+		</dependency>
+
+		<!-- Hibernate dependencies -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>4.1.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.3.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.1.GA</version>
+		</dependency>
+
+		<!-- MySQL Java Connector dependency -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.17</version>
+		</dependency>
+
+		<!-- c3p0 dependency -->
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+
+		<!-- Apache commons -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+		<!-- Servlets -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>org.dbunit</groupId>
+			<artifactId>dbunit</artifactId>
+			<version>2.4.8</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<filters>
+			<filter>build.properties</filter>
+		</filters>
+		<resources>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<filtering>false</filtering>
+				<directory>src/test/resources</directory>
+			</testResource>
+			<testResource>
+				<filtering>false</filtering>
+				<directory>src/test/java</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</testResource>
+		</testResources>
+
+		<plugins>
+
+			<!-- Plugin that creates website with information and reports about project -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.1</version>
+			</plugin>
+
+			<plugin>
+				<inherited>true</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<optimize>true</optimize>
+					<debug>true</debug>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp/WEB-INF</directory>
+							<filtering>true</filtering>
+							<targetPath>WEB-INF</targetPath>
+							<includes>
+								<include>**/applicationContext.xml</include>
+								<include>**/applicationContext-security.xml</include>
+							</includes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+
+			<!-- Properties plugin so we could read in pom from build.properties file -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-2</version>
+
+						<configuration>
+							<files>
+								<file>${basedir}/build.properties</file>
+							</files>
+						</configuration>
+			</plugin>
+
+			<!-- DB unit plugin to populate demo database and database for integration 
+				tets -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>dbunit-maven-plugin</artifactId>
+				<version>1.0-beta-3</version>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.1.17</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<driver>${db.driver}</driver>
+					<url>${db.url}</url>
+					<username>${db.username}</username>
+					<password>${db.password}</password>
+					<format>flat</format>
+					<src>src/main/resources/demoDatabase.xml</src>
+					<type>CLEAN_INSERT</type>
+				</configuration>
+				<executions>
+					<execution>
+						<id>populate sample data</id>
+						<goals>
+							<goal>operation</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.5</version>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>index</report>
+							<report>dependencies</report>
+							<report>project-team</report>
+							<!-- <report>source-repository</report> <report>issue-tracking</report> 
+								<report>integration</report> -->
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.12.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>2.7.1</version>
+				<configuration>
+					<targetJdk>1.6</targetJdk>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.3</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>cobertura-maven-plugin</artifactId>
+				<version>2.5.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.9.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>2.5</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.8.1</version>
+				<configuration>
+					<links>
+						<link>http://commons.apache.org/lang/api</link>
+						<link>http://javaserverfaces.java.net/nonav/docs/2.0/javadocs/index.html</link>
+						<link>http://docs.oracle.com/javase/6/docs/api</link>
+					</links>
+					<additionnalDependencies>
+						<!-- For some reason javadoc plugin needs dependencies listed here - otherwise error -->
+						<dependency>
+							<groupId>com.sun.faces</groupId>
+							<artifactId>jsf-api</artifactId>
+							<version>2.1.6</version>
+						</dependency>
+						<dependency>
+							<groupId>log4j</groupId>
+							<artifactId>log4j</artifactId>
+							<version>1.2.17</version>
+						</dependency>
+						<dependency>
+							<groupId>org.primefaces</groupId>
+							<artifactId>primefaces</artifactId>
+							<version>3.4</version>
+						</dependency>
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-core</artifactId>
+							<version>4.1.0.Final</version>
+						</dependency>
+						<dependency>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-core</artifactId>
+							<version>${spring.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.hibernate</groupId>
+							<artifactId>hibernate-validator</artifactId>
+							<version>4.3.0.Final</version>
+						</dependency>
+						<dependency>
+							<groupId>com.sun.faces</groupId>
+							<artifactId>jsf-impl</artifactId>
+							<version>2.1.6</version>
+						</dependency>
+						<dependency>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-orm</artifactId>
+							<version>${spring.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>javax.servlet</groupId>
+							<artifactId>javax.servlet-api</artifactId>
+							<version>3.0.1</version>
+						</dependency>
+						<dependency>
+							<groupId>org.hibernate.javax.persistence</groupId>
+							<artifactId>hibernate-jpa-2.0-api</artifactId>
+							<version>1.0.1.Final</version>
+						</dependency>
+						<dependency>
+							<groupId>javax.validation</groupId>
+							<artifactId>validation-api</artifactId>
+							<version>1.0.0.GA</version>
+						</dependency>
+						<dependency>
+							<groupId>org.springframework</groupId>
+							<artifactId>spring-tx</artifactId>
+							<version>${spring.version}</version>
+						</dependency>
+					</additionnalDependencies>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<!-- Where to deploy maven generated project website (goal mvn site:deploy). -->
+	<distributionManagement>
+		<site>
+			<id>site.deployments</id>
+			<name>Site deployments</name>
+			<url>http://127.0.0.1:8080/sites/${project.artifactId}/</url>
+		</site>
+	</distributionManagement>
+
+</project>

@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+	    xmlns:p="http://primefaces.org/ui"
+		xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+	<ui:composition>
+		
+		<c:if test="${empty renderViewLink}">
+			<c:set var="renderViewLink" value="true" />
+		</c:if>
+		<c:if test="${empty renderEditLink}">
+			<c:set var="renderEditLink" value="true" />
+		</c:if>
+		<c:if test="${empty renderDeleteLink}">
+			<c:set var="renderDeleteLink" value="true" />
+		</c:if>
+	
+		<p:column style="width: 20px;">
+             <f:facet name="header">
+                    <h:outputText value="#{messages['commons.actions']}" />
+             </f:facet>
+             
+             <p:tooltip for="viewlink" value="#{messages['commons.view']}" showEffect="slide" hideEffect="slide"/>
+             <h:link id="viewlink" outcome="#{backingBean.getEditViewName()}" rendered="#{renderViewLink}">
+                <h:graphicImage value="/images/search.gif" style="border:0"/>
+             	<f:param name="objectId" value="#{entity.id}"/>
+             	<f:param name="edit" value="false"/>
+             </h:link>
+             <p:tooltip for="editlink" value="#{messages['commons.edit']}" showEffect="slide" hideEffect="slide"/>
+             <h:link id="editlink" outcome="#{backingBean.getEditViewName()}" rendered="#{renderEditLink}">
+                <h:graphicImage value="/images/edit.gif" style="border:0"/>
+             	<f:param name="objectId" value="#{entity.id}"/>
+             	<f:param name="edit" value="true"/>
+             </h:link>
+             <p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
+             <h:commandLink id="deletelink" action="#{backingBean.delete(entity.id)}" rendered="#{renderDeleteLink}">
+                 <h:graphicImage value="/images/delete.gif" style="border:0"/>
+             </h:commandLink>
+         </p:column>
+	    
+    </ui:composition>
+
+</html>
