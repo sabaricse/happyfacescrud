@@ -1,5 +1,6 @@
 package org.happyfaces.beans;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,8 +10,10 @@ import javax.faces.bean.ViewScoped;
 
 import org.happyfaces.beans.base.BaseBean;
 import org.happyfaces.domain.Customer;
+import org.happyfaces.domain.CustomerPerk;
 import org.happyfaces.services.ICustomerService;
 import org.happyfaces.services.base.IService;
+import org.primefaces.model.DualListModel;
 
 @ManagedBean(name = "customerBean")
 @ViewScoped
@@ -20,6 +23,8 @@ public class CustomerBean extends BaseBean<Customer> {
     
     @ManagedProperty(value = "#{customerService}")
     private ICustomerService customerService;
+
+    private DualListModel<CustomerPerk> perks;
     
     public CustomerBean() {
         super(Customer.class);
@@ -39,6 +44,26 @@ public class CustomerBean extends BaseBean<Customer> {
     }
     
     /**
+     * Standard method for custom component with listType="pickList".
+     */
+    public DualListModel<CustomerPerk> getDualListModel() {
+        if (perks == null) {
+            List<CustomerPerk> perksSource = customerService.getAllCustomerPerks();
+            List<CustomerPerk> perksTarget = new ArrayList<CustomerPerk>();
+            if (getEntity().getPerks() != null) {
+                perksTarget.addAll(getEntity().getPerks());
+            }
+            perksSource.removeAll(perksTarget);
+            perks = new DualListModel<CustomerPerk>(perksSource, perksTarget);
+        }
+        return perks;
+    }
+    
+    public void setDualListModel(DualListModel<CustomerPerk> perks) {
+        getEntity().setPerks(perks.getTarget());
+    }
+    
+    /**
      * Fetch city field so when not LazyInitialize exception is thrown when
      * we access it from account list view.
      * 
@@ -46,7 +71,7 @@ public class CustomerBean extends BaseBean<Customer> {
      */
     @Override
     protected List<String> getListFieldsToFetch() {
-        return Arrays.asList("city");
+        return Arrays.asList("city", "perks");
     }
 
     /**
@@ -57,7 +82,7 @@ public class CustomerBean extends BaseBean<Customer> {
      */
     @Override
     protected List<String> getFormFieldsToFetch() {
-        return Arrays.asList("city");
+        return Arrays.asList("city", "perks");
     }
 
 }

@@ -1,5 +1,6 @@
 package org.happyfaces.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.happyfaces.domain.base.BaseEntity;
@@ -37,7 +40,11 @@ public class Account extends BaseEntity {
     
     @OneToMany(mappedBy="account", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Operation> operations;
-
+    
+    @Temporal(TemporalType.DATE)
+    @Column(name = "OPENING_DATE")
+    private Date openingDate;
+    
     public Customer getCustomer() {
         return customer;
     }
@@ -68,6 +75,14 @@ public class Account extends BaseEntity {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Date getOpeningDate() {
+        return openingDate;
+    }
+
+    public void setOpeningDate(Date openingDate) {
+        this.openingDate = openingDate;
     }
     
 }

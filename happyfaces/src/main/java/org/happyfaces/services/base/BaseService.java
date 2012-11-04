@@ -100,7 +100,7 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
     @Override
     @Transactional(readOnly = false)
     public void delete(Integer id) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("delete from " + entityClass.getName() + " where id = id)");
+        Query query = getSessionFactory().getCurrentSession().createQuery("delete from " + entityClass.getName() + " where id = :id)");
         query.setParameter("id", id);
         query.executeUpdate();
     }

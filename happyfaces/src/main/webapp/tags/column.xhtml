@@ -26,7 +26,7 @@
 	</c:if>
 
 	<c:if test="${empty time}">
-		<c:set var="time" value="true" />
+		<c:set var="time" value="false" />
 	</c:if>
 	<c:if test="${time}">
 		<c:set var="datePattern" value="#{messages['happyfaces.dateTimeFormat']}" />

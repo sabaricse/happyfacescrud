@@ -112,7 +112,28 @@
 				<ui:insert />
 			</bind:isInteger>
 
-			<!--  If the value binding is a number, display an input number spinner. -->
+			<bind:isByte id="vb">
+				<p:outputLabel for="#{id}" value="#{label}" />
+				<p:spinner rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}"/>
+				<h:outputText rendered="#{!edit}" value="#{entity[field]}" style="font-weight:bold;" />
+				<ui:insert />
+			</bind:isByte>
+			
+			<bind:isLong id="vb">
+				<p:outputLabel for="#{id}" value="#{label}" />
+				<p:spinner rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}"/>
+				<h:outputText rendered="#{!edit}" value="#{entity[field]}" style="font-weight:bold;" />
+				<ui:insert />
+			</bind:isLong>
+
+			<bind:isShort id="vb">
+				<p:outputLabel for="#{id}" value="#{label}" />
+				<p:spinner rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}"/>
+				<h:outputText rendered="#{!edit}" value="#{entity[field]}" style="font-weight:bold;" />
+				<ui:insert />
+			</bind:isShort>
+
+			<!--  If the value binding is a rational number, display an input text field. -->
 			<bind:isBigDecimal id="vb">
 				<p:outputLabel for="#{id}" value="#{label}" />
 				<p:inputText rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}" size="5" maxlength="#{maxlength}" />
@@ -121,16 +142,7 @@
 				</c:if>
 				<ui:insert />
 			</bind:isBigDecimal>
-
-			<!--  If the value binding is a number, display an input number spinner. -->
-			<bind:isByte id="vb">
-				<p:outputLabel for="#{id}" value="#{label}" />
-				<p:spinner rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}"/>
-				<h:outputText rendered="#{!edit}" value="#{entity[field]}" style="font-weight:bold;" />
-				<ui:insert />
-			</bind:isByte>
-
-			<!--  If the value binding is a rational number, display an input text field. -->
+			
 			<bind:isDouble id="vb">
 				<p:outputLabel for="#{id}" value="#{label}" />
 				<p:inputText rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}" size="5"/>
@@ -144,20 +156,6 @@
 				<h:outputText rendered="#{!edit}" value="#{entity[field]}" style="font-weight:bold;" />
 				<ui:insert />
 			</bind:isFloat>
-
-			<bind:isLong id="vb">
-				<p:outputLabel for="#{id}" value="#{label}" />
-				<p:inputText rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}" size="5" maxlength="#{maxlength}"/>
-				<h:outputText rendered="#{!edit}" value="#{entity[field]}" style="font-weight:bold;" />
-				<ui:insert />
-			</bind:isLong>
-
-			<bind:isShort id="vb">
-				<p:outputLabel for="#{id}" value="#{label}" />
-				<p:inputText rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}" size="5"/>
-				<h:outputText rendered="#{!edit}" value="#{entity[field]}" style="font-weight:bold;" />
-				<ui:insert />
-			</bind:isShort>
 
 			<!--  If the value binding is a boolean, display a selectBooleanCheckbox field. -->
 			<bind:isBoolean id="vb">
@@ -198,7 +196,7 @@
 			<bind:isEnum id="vb">
 				<p:outputLabel for="#{id}" value="#{label}" />  
 				<p:selectOneMenu rendered="#{edit}" id="#{id}" disabled="#{disabled}" value="#{entity[field]}" required="${required}">
-						<f:selectItem rendered="#{required}" itemLabel="" noSelectionOption="true" />
+						<f:selectItem rendered="#{required}" itemLabel="" itemValue="" />
 						<f:selectItems value="#{vbType.getEnumConstants()}" var="enumElement" itemLabel="#{messages[enumElement.label]}" />
 					<c:if test="${!empty event}">
 						<p:ajax event="onchange" reRender="#{reRender}" />
@@ -238,16 +236,16 @@
 	
 							<c:if test="#{deleteButton}">
 								<p:column rendered="#{edit}">
+									<p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
 									<h:commandLink id="deletelink" action="#{backingBean.delete(listElement.id)}"
 										onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}">
 										<h:graphicImage value="/img/delete.gif" style="border:0" />
 									</h:commandLink>
 								</p:column>
 							</c:if>
-							<p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
 						</p:dataTable>
 						<c:if test="#{showButtonAddNew}">
-							<p:commandButton rendered="#{edit and entity.getId() != null}" value="#{messages['commons.addNew']}" onclick="alert('not implemented. formField.xhtml line 262')" />
+							<p:commandButton rendered="#{edit and entity.getId() != null}" value="#{messages['commons.addNew']}" onclick="alert('not implemented. formField.xhtml line 248')" />
 						</c:if>
 							<ui:insert />
 					</h:panelGrid>
@@ -256,43 +254,11 @@
 				<c:if test="#{listType=='pickUpList'}">
 					<p:outputLabel for="#{id}" value="#{label}" />  
 					<c:set var="entityField" value="#{entity[field]}" />
-					<p:pickList id="aPickList" value="#{entityField}" rendered="#{edit}" copyAllControlLabel="#{messages['pickList.copyAll']}"
-						copyControlLabel="#{messages['pickList.copy']}" removeAllControlLabel="#{messages['pickList.removeAll']}"
-						removeControlLabel="#{messages['pickList.remove']}">
-						<!-- List method that is used in when selecting list from listService -->
-						<c:if test="${empty listMethod}">
-							<c:if test="${empty childField2}">
-								<f:selectItems value="#{listService.list()}" var="childEntity" label="#{childEntity[childField]}" />
-							</c:if>
-							<c:if test="${not empty childField2}">
-								<f:selectItems value="#{listService.list()}" var="childEntity" label="#{childEntity[childField]} #{childEntity[childField2]}" />
-							</c:if>
-						</c:if>
-						<c:if test="${not empty listMethod}">
-							<c:if test="${empty childField2}">
-								<f:selectItems value="#{listService[listMethod]}" var="childEntity" label="#{childEntity[childField]}" />
-							</c:if>
-							<c:if test="${not empty childField2}">
-								<f:selectItems value="#{listService[listMethod]}" var="childEntity" label="#{childEntity[childField]} #{childEntity[childField2]}" />
-							</c:if>
-						</c:if>
-					</p:pickList>
-					<c:set var="child" value="#{entity[field]}" />
-					<c:if test="${empty childField2}">
-						<ui:repeat value="#{child}" var="c" rendered="#{!edit}">
-							<c:set var="fieldValue" value="#{c[childField]}" />
-							<h:outputText value="#{fieldValue}" />
-							<br />
-						</ui:repeat>
-					</c:if>
-					<c:if test="${not empty childField2}">
-						<ui:repeat value="#{child}" var="c" rendered="#{!edit}">
-							<c:set var="fieldValue" value="#{c[childField]}" />
-							<c:set var="fieldValue2" value="#{c[childField2]}" />
-							<h:outputText value="#{fieldValue}-#{fieldValue2}" />
-							<br />
-						</ui:repeat>
-					</c:if>
+					
+					<p:pickList id="#{id}" value="#{backingBean.dualListModel}" var="elem" itemLabel="#{elem[childField]}" itemValue="#{elem}" disabled="#{!edit}" >
+						<f:converter binding="#{entityConverter}" />
+					</p:pickList>  
+					
 				</c:if>
 			</bind:isList>
 

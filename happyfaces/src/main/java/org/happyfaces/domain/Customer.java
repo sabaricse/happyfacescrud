@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -15,6 +17,10 @@ import org.happyfaces.domain.base.BaseEntity;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
+/**
+ * @author Ignas
+ * 
+ */
 @Entity
 @Table(name = "CUSTOMER")
 public class Customer extends BaseEntity {
@@ -41,6 +47,13 @@ public class Customer extends BaseEntity {
     @Length(min = 7, max = 10)
     @Column(name = "PHONE")
     private String phone;
+
+    @Column(name = "AGE")
+    private Integer age;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "CUSTOMER_CUSTOMERPERK", joinColumns = @JoinColumn(name = "CUSTOMER_ID"), inverseJoinColumns = @JoinColumn(name = "PERK_ID"))
+    private List<CustomerPerk> perks;
 
     public City getCity() {
         return city;
@@ -90,4 +103,20 @@ public class Customer extends BaseEntity {
         this.accounts = accounts;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public List<CustomerPerk> getPerks() {
+        return perks;
+    }
+
+    public void setPerks(List<CustomerPerk> perks) {
+        this.perks = perks;
+    }
+    
 }

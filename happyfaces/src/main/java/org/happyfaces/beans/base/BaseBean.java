@@ -209,10 +209,10 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * @param id
      *            Entity id to delete
      */
-    public void delete(Long id) {
+    public void delete(Integer id) {
         try {
             log.info(String.format("Deleting entity %s with id = %s", clazz.getName(), id));
-            getPersistenceService().delete(id.intValue());
+            getPersistenceService().delete(id);
             FacesUtils.info("delete.successful");
         } catch (Throwable t) {
             if (t.getCause() instanceof EntityExistsException) {

@@ -13,6 +13,7 @@
 			<hf:searchField label="#{messages['customer.phone']}" field="phone" />
 			<!-- Search with drop down -->
 			<hf:searchEntityField label="#{messages['customer.city']}" field="city" childField="name" listBean="#{cityBean}" />
+			<hf:searchField label="#{messages['customer.age']}" field="age" />
 		</hf:searchPanel>
 
 		<hf:dataList label="#{messages['customers.search.results']}"  backingBean="#{customerBean}">
@@ -21,6 +22,7 @@
 			<hf:column label="#{messages['customer.address']}" field="address" />
 			<hf:column label="#{messages['customer.email']}" field="email" />
 			<hf:column label="#{messages['customer.phone']}" field="phone" />
+			<hf:column label="#{messages['customer.age']}" field="age" />
 			<hf:actionsColumn />
 		</hf:dataList>
 	</ui:define>

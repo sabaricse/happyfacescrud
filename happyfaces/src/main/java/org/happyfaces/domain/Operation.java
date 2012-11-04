@@ -43,9 +43,12 @@ public class Operation extends BaseEntity {
     @JoinColumn(name = "ACCOUNT_ID")
     private Account account;
     
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "OPERATION_DATE")
     private Date operationDate;
+    
+    @Column(name = "COMMENT")
+    private String comment;
 
     public String getOperationName() {
         return operationName;
@@ -86,5 +89,13 @@ public class Operation extends BaseEntity {
     public void setOperationDate(Date operationDate) {
         this.operationDate = operationDate;
     }
-    
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
 }

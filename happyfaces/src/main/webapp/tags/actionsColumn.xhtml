@@ -38,7 +38,7 @@
              	<f:param name="edit" value="true"/>
              </h:link>
              <p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
-             <h:commandLink id="deletelink" action="#{backingBean.delete}" rendered="#{renderDeleteLink}">
+             <h:commandLink id="deletelink" action="#{backingBean.delete(entity.id)}" rendered="#{renderDeleteLink}">
                  <h:graphicImage value="/images/delete.gif" style="border:0"/>
              </h:commandLink>
          </p:column>
