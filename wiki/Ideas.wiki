@@ -1,0 +1,11 @@
+#summary Ideas how to improve happyfaces crud
+
+= Introduction =
+
+The main goal for this project is to improve quality and productivity for our jsf applications. If you have any ideas add them here. Maybe somewhere less code is possible? Maybe some component could be removed? Added? Maybe new features? What would make it great?
+
+= Ideas =
+
+||*Idea* || *Votes* ||
+|| Code generation. It would really fit with current framework and would increase productivity even more. || 1 ||
+|| Choosing different kind of technologies (e.g. richfaces instead of primefaces). || 1 ||
