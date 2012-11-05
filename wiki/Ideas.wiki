@@ -6,6 +6,6 @@ The main goal for this project is to improve quality and productivity for our js
 
 = Ideas =
 
-||*Idea* || *Votes* ||
+||* Idea * || * Votes * ||
 || Code generation. It would really fit with current framework and would increase productivity even more. || 1 ||
 || Choosing different kind of technologies (e.g. richfaces instead of primefaces). || 1 ||
