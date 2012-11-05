@@ -12,4 +12,4 @@ The main goal for this project is to improve quality and productivity for our js
 
 = Votes =
 
-Add votes and new ideas in comments and I will incorporate them to wiki.
+Leave votes and new ideas in comments and I will add them to wiki.
