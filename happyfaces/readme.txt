@@ -2,7 +2,9 @@ Rename build.sample.properties to build.properties and configure it for your dat
 start and go to http://localhost:8080/happyfaces/login.jsf
 User/password: aaa/aaa (can change in applicationContext-security.xml
 
-To populate sample data run "mvn properties:read-project-properties dbunit:operation" command
+To populate sample data run "mvn properties:read-project-properties dbunit:operation" command (run command in same dir as project's pom.xml).
+
+To create project site with javadocs, source code, findbugs, checkstyle etc run mvn site:run (url: http://localhost:8080/)
 
 To remove current sample application:
 Delete Customer.java, Account.java, Contacts.java, Operation.java, OperationType.java from domain package
@@ -14,7 +16,7 @@ Change menu.xhtml
 Remove messages from messages.properties
 Remove faces-config.xml navigation rules.
 
-After those steps you are good to go further with your own application without any sight of demo. 
+After those steps you are good to go further with your own application without any sight of demo files. 
 
 TODO: 
 1. 
