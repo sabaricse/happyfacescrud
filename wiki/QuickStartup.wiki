@@ -13,3 +13,4 @@
   * Go to http://localhost:8080/happyfaces/login.jsf and enter User/Passw aaa/aaa.
   * Browse simple sample application and then check how it is implemented. Code is self explanatory and easy to understand, just play around.
   * Go learn more (TODO more documentation).
+  * Feedback is really welcome!
