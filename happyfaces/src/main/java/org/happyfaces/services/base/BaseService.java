@@ -266,6 +266,7 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
      * 
      * @return processed filters keys.
      */
+    @SuppressWarnings("unused")
     protected List<String> processNonStandardFilters(Map<String, Object> filters, QueryBuilder queryBuilder) {
         return Collections.emptyList();
     }

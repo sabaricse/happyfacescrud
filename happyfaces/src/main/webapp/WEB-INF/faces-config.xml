@@ -22,6 +22,10 @@
 			</el-resolver>
 	</application>
 	
+    <lifecycle>
+	    <phase-listener>org.happyfaces.utils.PhaseListenerImpl</phase-listener>
+	</lifecycle>
+	
 	<!-- configuration of navigation rules -->
 	<navigation-rule>
 		<from-view-id>/*</from-view-id>

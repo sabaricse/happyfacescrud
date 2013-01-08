@@ -12,11 +12,11 @@
 	<ui:param name="pageTitle" value="#{messages['account.page.title']}" />
 	<ui:define name="content">
 	
-		<hf:formPanel label="#{messages['account.page.panel']}" backingBean="#{accountBean}" edit="#{edit}" columns="2">
+		<hf:formPanel label="#{messages['account.page.panel']}" backingBean="#{accountBean}" edit="#{edit}" >
 			
 			<!-- Simple fields like numbers, strings, dates etc only needs field name provided. -->
 			<hf:formField label="#{messages['account.accountNumber']}" field="accountNumber" required="true" />
-			<hf:formField label="#{messages['account.active']}" field="active" />
+			<hf:formField label="#{messages['account.active']}" field="active" isMessage="true" />
 			
 			<!-- If field is another entity it needs childField. If we want popup selection - popup parameter must be set to true and popup component present out of this form. -->
 			<hf:formEntityField label="#{messages['account.customer']}" field="customer" childField="name" popup="true" />
@@ -30,8 +30,7 @@
 
 		<hf:entityPopup id="customersPopup" header="#{messages['customer.search']}" updateField=":mainForm:customer" selection="#{accountBean.entity.customer}"
 			backingBean="#{customerBean}" searchField1Label="#{messages['customer.name']}" searchField1="name" column1Label="#{messages['customer.name']}" column1="name" 
-			searchField2Label="#{messages['customer.city']}" searchField2="city" column2Label="#{messages['customer.city']}" column2="city"
-			column3Label="#{messages['customer.email']}" column3="email" />
+			column2Label="#{messages['customer.email']}" column2="email" />
 
 	</ui:define>
 </ui:composition>

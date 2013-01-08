@@ -279,7 +279,7 @@ public class QueryBuilder {
 
     public Query getCountQuery(Session session) {
         String from = "from ";
-        String s = "select count(*) " + q.toString().substring(q.indexOf(from));
+        String s = "select count(distinct a) " + q.toString().substring(q.indexOf(from));
         
         s = s.replaceAll("left join fetch", "join");
         

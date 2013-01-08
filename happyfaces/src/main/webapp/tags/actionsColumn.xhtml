@@ -20,27 +20,23 @@
 			<c:set var="renderDeleteLink" value="true" />
 		</c:if>
 	
-		<p:column style="width: 20px;">
+		<p:column style="width: 160px;">
              <f:facet name="header">
                     <h:outputText value="#{messages['commons.actions']}" />
              </f:facet>
              
              <p:tooltip for="viewlink" value="#{messages['commons.view']}" showEffect="slide" hideEffect="slide"/>
-             <h:link id="viewlink" outcome="#{backingBean.getEditViewName()}" rendered="#{renderViewLink}">
-                <h:graphicImage value="/images/search.gif" style="border:0"/>
+             <p:button id="viewlink" outcome="#{backingBean.getEditViewName()}" icon="ui-icon-search" rendered="#{renderViewLink}">
              	<f:param name="objectId" value="#{entity.id}"/>
              	<f:param name="edit" value="false"/>
-             </h:link>
+             </p:button>
              <p:tooltip for="editlink" value="#{messages['commons.edit']}" showEffect="slide" hideEffect="slide"/>
-             <h:link id="editlink" outcome="#{backingBean.getEditViewName()}" rendered="#{renderEditLink}">
-                <h:graphicImage value="/images/edit.gif" style="border:0"/>
+             <p:button id="editlink" outcome="#{backingBean.getEditViewName()}" icon="ui-icon-document" rendered="#{renderEditLink}">
              	<f:param name="objectId" value="#{entity.id}"/>
              	<f:param name="edit" value="true"/>
-             </h:link>
+             </p:button>
              <p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
-             <h:commandLink id="deletelink" action="#{backingBean.delete(entity.id)}" rendered="#{renderDeleteLink}">
-                 <h:graphicImage value="/images/delete.gif" style="border:0"/>
-             </h:commandLink>
+             <p:commandButton id="deletelink" action="#{backingBean.delete(entity.id)}" icon="ui-icon-trash" rendered="#{renderDeleteLink}" ajax="false" />
          </p:column>
 	    
     </ui:composition>

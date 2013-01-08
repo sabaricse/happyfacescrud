@@ -5,7 +5,7 @@ package org.happyfaces.domain;
  * @author Ignas
  *
  */
-public enum OperationType {
+public enum OperationType implements IdentifiableEnum {
     
     CREDIT(1, "operation.credit"), DEBIT(2, "operation.debit");
     
