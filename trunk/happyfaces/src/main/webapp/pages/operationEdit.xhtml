@@ -11,7 +11,7 @@
 
 	<ui:param name="pageTitle" value="#{messages['operation.page.title']}" />
 	<ui:define name="content">
-		<hf:formPanel label="#{messages['customer.page.panel']}" backingBean="#{operationBean}" edit="#{edit}" columns="2" >
+		<hf:formPanel label="#{messages['customer.page.panel']}" backingBean="#{operationBean}" edit="#{edit}" >
 			<hf:formField label="#{messages['operation.operationName']}" field="operationName" />
 			<hf:formField label="#{messages['operation.amount']}" field="amount" />
 			<hf:formField label="#{messages['operation.operationType']}" field="operationType" isMessage="true" /> <!-- isMessage parameter takes label from enum and translates it -->

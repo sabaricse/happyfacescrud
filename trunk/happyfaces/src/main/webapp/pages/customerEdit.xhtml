@@ -11,7 +11,7 @@
 
 	<ui:param name="pageTitle" value="#{messages['customer.page.title']}" />
 	<ui:define name="content">
-		<hf:formPanel label="#{messages['customer.page.panel']}" backingBean="#{customerBean}" edit="#{edit}" columns="2" >
+		<hf:formPanel label="#{messages['customer.page.panel']}" backingBean="#{customerBean}" edit="#{edit}" >
 			<hf:formField label="#{messages['customer.name']}" field="name" required="true" />
 			<!-- Entity support with list bean which generates drop down (there is popup exampple in accountEdit). -->
 			<hf:formEntityField label="#{messages['customer.city']}" field="city" childField="name" listBean="#{cityBean}" />

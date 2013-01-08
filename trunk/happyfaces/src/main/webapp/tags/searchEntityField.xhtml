@@ -40,9 +40,8 @@
 			<p:outputLabel for="#{field}_child" value="#{label}" />
 			<h:panelGrid id="#{field}" columns="3">
 				<p:inputText id="#{field}_child" value="#{filtersMap[field][childField]}" required="${required}" size="#{size}" disabled="true" />
-				<p:commandLink id="selectLink" onclick="dlg.show()">
-					<h:graphicImage value="/images/search.gif" style="border:0" />
-				</p:commandLink>
+				<p:commandButton id="selectLink" onclick="dlg.show()" icon="ui-icon-search">
+				</p:commandButton>
 				<p:tooltip for="selectLink" value="#{messages['commons.search']}" />
 			</h:panelGrid>
 		</c:if>

@@ -50,9 +50,8 @@
 			<h:panelGrid columns="3">
 				<p:inputText id="#{id}" rendered="#{edit and childEntity!=null}" value="#{childEntity[childField]}" required="${required}" size="#{size}" disabled="true" />
 				<p:inputText rendered="#{edit and childEntity==null}" value="" size="#{size}" required="${required}" disabled="true" />
-				<p:commandLink rendered="#{edit}" id="selectLink" onclick="dlg.show()">
-					<h:graphicImage value="/images/search.gif" style="border:0" />
-				</p:commandLink>
+				<p:commandButton rendered="#{edit}" id="selectLink" onclick="dlg.show()" icon="ui-icon-search">
+				</p:commandButton>
 				<p:tooltip for="selectLink" value="#{messages['commons.search']}" />
 				<h:outputText rendered="#{!edit}" value="#{childEntity[childField]}" style="font-weight:bold;" />
 			</h:panelGrid>

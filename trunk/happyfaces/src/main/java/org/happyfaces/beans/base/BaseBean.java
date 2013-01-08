@@ -15,6 +15,7 @@ import org.happyfaces.services.base.IService;
 import org.happyfaces.utils.FacesUtils;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
+import org.springframework.orm.hibernate4.HibernateOptimisticLockingFailureException;
 
 /**
  * Base bean class. Other jsf backing beans extends this class to get basic crud
@@ -145,8 +146,12 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
             getPersistenceService().add(entity);
             FacesUtils.info("save.successful");
         } else {
-            getPersistenceService().update(entity);
-            FacesUtils.info("update.successful");
+            try {
+                getPersistenceService().update(entity);
+                FacesUtils.info("update.successful");
+            } catch (HibernateOptimisticLockingFailureException e) {
+                FacesUtils.error("error.optimisticLocking");
+            }
         }
     }
     
