@@ -30,7 +30,7 @@
 				<ui:insert />
 			</h:panelGrid>
 			<h:panelGrid columns="3">
-				<p:commandButton id="buttonSearch" value="#{messages['commons.search']}" ajax="false" />
+				<p:commandButton id="buttonSearch" value="#{messages['commons.search']}" ajax="false" action="#{backingBean.search}" />
 				<p:commandButton id="buttonClear" action="#{backingBean.clean}" value="#{messages['commons.clean']}" ajax="false"/>
 				<p:button id="buttonNew" value="#{messages['commons.new']}" outcome="#{backingBean.getNewViewName()}" render="#{renderNewButton}"> 
 					<f:param name="edit" value="true"/>

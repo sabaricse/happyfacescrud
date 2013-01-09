@@ -32,9 +32,9 @@
 		<h:form id="#{formId}" prependId="false" >
 			
 			<p:messages />
-			<e:sortableDataTable id="datatable" var="entity" value="#{backingBean.lazyDataModel}" draggableColumns="true" paginator="true" rows="10"
-				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" rowsPerPageTemplate="5,10,15"
-				lazy="true">
+			<e:sortableDataTable id="datatable" var="entity" value="#{backingBean.lazyDataModel}" paginator="true" rows="10"
+				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+				rowsPerPageTemplate="5,10,15" lazy="true" binding="#{backingBean.dataTable}">
 				<ui:insert />
 			</e:sortableDataTable>
 
