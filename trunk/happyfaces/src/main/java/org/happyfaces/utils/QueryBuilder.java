@@ -281,7 +281,7 @@ public class QueryBuilder {
         String from = "from ";
         String s = "select count(distinct a) " + q.toString().substring(q.indexOf(from));
         
-        s = s.replaceAll("left join fetch", "join");
+        s = s.replaceAll("left join fetch", "left join");
         
         Query result = session.createQuery(s);
         for (Map.Entry<String, Object> e : params.entrySet())
