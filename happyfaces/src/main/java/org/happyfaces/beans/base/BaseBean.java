@@ -13,6 +13,7 @@ import org.happyfaces.domain.base.IEntity;
 import org.happyfaces.jsf.datatable.PaginationConfiguration;
 import org.happyfaces.services.base.IService;
 import org.happyfaces.utils.FacesUtils;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 import org.springframework.orm.hibernate4.HibernateOptimisticLockingFailureException;
@@ -52,9 +53,14 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     private boolean edit = false;
     
     /**
-     * 
+     * Datamodel for lazy dataloading in datatable.
      */
     private LazyDataModel<T> dataModel;
+    
+    /**
+     * Bind datatable for search results.
+     */
+    private DataTable dataTable;
 
     /**
      * Constructor.
@@ -395,6 +401,19 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
             };
         }
         return dataModel;
+    }
+    
+    public String search() {
+        dataTable.reset();
+        return null;
+    }
+    
+    public DataTable getDataTable() {
+        return dataTable;
+    }
+
+    public void setDataTable(DataTable dataTable) {
+        this.dataTable = dataTable;
     }
 
     public Integer getObjectId() {
