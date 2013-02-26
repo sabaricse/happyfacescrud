@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:bind="http://happyfaces.org/bind" xmlns:hf="http://happyfaces.org/happyfaces"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<ui:composition>
+
+	<c:set var="filtersMap" value="#{backingBean.filters}" />
+
+	<!-- Default size -->
+	<c:if test="${empty size}">
+		<c:set var="size" value="20" />
+	</c:if>
+
+	<!-- Default rangeSearch -->
+	<c:if test="${empty rangeSearch}">
+		<c:set var="rangeSearch" value="true" />
+	</c:if>
+
+	<!-- Default padding -->
+	<c:if test="${empty padding}">
+		<c:set var="padding" value="5px" />
+	</c:if>
+
+	<c:if test="${empty disabled}">
+		<c:set var="disabled" value="false" />
+	</c:if>
+
+	<!-- Default Data Pattern -->
+	<c:if test="${empty time}">
+		<c:set var="time" value="false" />
+	</c:if>
+	<c:if test="${time}">
+		<c:set var="datePattern" value="#{messages['happyfaces.dateTimeFormat']}" />
+	</c:if>
+	<c:if test="${!time}">
+		<c:set var="datePattern" value="#{messages['happyfaces.dateFormat']}" />
+	</c:if>
+
+	<!--  Initialize the value binding -->
+	<bind:setValueBinding var="vb" valueBinding="#{entity[field]}" />
+
+	<!--  If the value binding is a string display an inputText field. -->
+	<bind:isText id="vb">
+		<p:outputLabel for="#{field}" value="#{label}" />
+		<p:inputText id="#{field}" value="#{filtersMap[field]}" size="#{size}" disabled="#{disabled}" />
+	</bind:isText>
+
+	<!--  If the value binding is a number display number field. -->
+	<bind:isInteger id="vb">
+		<hf:numberField rangeSearch="#{rangeSearch}" label="#{label}" field="#{field}" filtersMap="#{filtersMap}" disabled="#{disabled}" converterId="javax.faces.Integer" />
+	</bind:isInteger>
+
+	<bind:isLong id="vb">
+		<hf:numberField rangeSearch="#{rangeSearch}" label="#{label}" field="#{field}" filtersMap="#{filtersMap}" disabled="#{disabled}" converterId="javax.faces.Long" />
+	</bind:isLong>
+
+	<bind:isByte id="vb">
+		<hf:numberField rangeSearch="#{rangeSearch}" label="#{label}" field="#{field}" filtersMap="#{filtersMap}" disabled="#{disabled}" converterId="javax.faces.Byte" />
+	</bind:isByte>
+
+	<bind:isShort id="vb">
+		<hf:numberField rangeSearch="#{rangeSearch}" label="#{label}" field="#{field}" filtersMap="#{filtersMap}" disabled="#{disabled}" converterId="javax.faces.Short" />
+	</bind:isShort>
+
+	<bind:isDouble id="vb">
+		<hf:numberField rangeSearch="#{rangeSearch}" label="#{label}" field="#{field}" filtersMap="#{filtersMap}" disabled="#{disabled}" converterId="javax.faces.Double" />
+	</bind:isDouble>
+
+	<bind:isFloat id="vb">
+		<hf:numberField rangeSearch="#{rangeSearch}" label="#{label}" field="#{field}" filtersMap="#{filtersMap}" disabled="#{disabled}" converterId="javax.faces.Float" />
+	</bind:isFloat>
+
+	<bind:isBigDecimal id="vb">
+		<hf:numberField rangeSearch="#{rangeSearch}" label="#{label}" field="#{field}" filtersMap="#{filtersMap}" disabled="#{disabled}" converterId="javax.faces.BigDecimal" />
+	</bind:isBigDecimal>
+
+	<!--  If the value binding is a boolean, display a
+	           display drop down with yes/no choices. -->
+	<bind:isBoolean id="vb">
+		<p:outputLabel for="#{field}" value="#{label}" />
+		<p:selectOneMenu id="#{field}" value="#{filtersMap[field]}" converter="javax.faces.Boolean" disabled="#{disabled}">
+			<f:selectItem itemValue="#{null}" itemLabel="" />
+			<f:selectItem itemValue="#{true}" itemLabel="#{messages['commons.yes']}" />
+			<f:selectItem itemValue="#{false}" itemLabel="#{messages['commons.no']}" />
+		</p:selectOneMenu>
+	</bind:isBoolean>
+
+	<!--  If the value binding is a date, 
+	          display a rich:calendar field. -->
+	<bind:isDate id="vb">
+		<c:if test="${!rangeSearch}">
+			<p:outputLabel for="#{field}" value="#{label}" />
+			<p:calendar id="#{field}" value="#{filtersMap[field]}" pattern="#{datePattern}" disabled="#{disabled}" />
+		</c:if>
+		<c:if test="${rangeSearch}">
+			<c:set var="fromRangeField" value="fromRange-#{field}" />
+			<c:set var="toRangeField" value="toRange-#{field}" />
+
+			<p:outputLabel for="#{fromRangeField}" value="#{label}" />
+			<h:panelGrid columns="4">
+				<h:outputText value="#{messages['commons.dateFrom']}" style="padding-right:5px" />
+				<p:calendar id="#{fromRangeField}" value="#{filtersMap[fromRangeField]}" pattern="#{datePattern}" disabled="#{disabled}" />
+
+				<h:outputText value="#{messages['commons.dateTill']}" style="padding:5px" />
+				<p:calendar id="#{toRangeField}" value="#{filtersMap[toRangeField]}" pattern="#{datePattern}" disabled="#{disabled}" />
+			</h:panelGrid>
+		</c:if>
+	</bind:isDate>
+
+	<!--  If the value binding is an enum, 
+	          display a drop down. -->
+	<bind:isEnum id="vb">
+		<c:set var="enumField" value="#{entity[field]}" />
+		<p:outputLabel for="#{field}" value="#{label}" />
+		<p:selectOneMenu id="#{field}" value="#{filtersMap[field]}" disabled="#{disabled}">
+			<f:selectItem itemLabel=""  />
+			<f:selectItems value="#{vbType.getEnumConstants()}" var="enumElement" itemValue="#{enumElement}" itemLabel="#{messages[enumElement.label]}"/>
+			<f:converter converterId="enumConverter" />
+		</p:selectOneMenu>
+	</bind:isEnum>
+
+</ui:composition>
+
+</html>

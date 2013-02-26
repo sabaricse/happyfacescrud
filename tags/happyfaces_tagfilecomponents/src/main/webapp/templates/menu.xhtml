@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:f="http://java.sun.com/jsf/core">
+	
+	<h:form>
+		<p:menu>  
+	        <p:submenu label="#{messages['menu.customers']}">  
+	            <p:menuitem value="#{messages['menu.customers']}" outcome="customers" />  
+	        </p:submenu>  
+	        <p:submenu label="#{messages['menu.accounts']}">  
+	            <p:menuitem value="#{messages['menu.accounts']}" outcome="accounts" />  
+	        </p:submenu>  
+	        <p:submenu label="#{messages['menu.operations']}">  
+	            <p:menuitem value="#{messages['menu.operations']}" outcome="operations" />  
+	        </p:submenu>  
+	    </p:menu>  
+	</h:form>
+</ui:composition>

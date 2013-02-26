@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+	
+<f:view locale="#{sessionPreferences.locale}">
+	<ui:insert name="metadata"></ui:insert>
+	<h:head>
+		<title>#{messages['application.title']}</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="pageTitle" content="${pageTitle}"/>
+		<link href="#{facesContext.externalContext.requestContextPath}/resources/style.css" rel="styleSheet" type="text/css"/>    
+		<ui:insert name="head"></ui:insert>
+	</h:head>
+	<h:body>
+		<p:layout fullPage="true" id="page">
+			<p:layoutUnit id="top" position="north">
+				<ui:include src="header.xhtml" />
+			</p:layoutUnit>
+			<p:layoutUnit position="west" scrollable="true">
+				<ui:include src="menu.xhtml" />
+			</p:layoutUnit>
+			<p:layoutUnit position="center" scrollable="true" header="#{pageTitle}">
+				<ui:insert name="content"></ui:insert>
+			</p:layoutUnit>
+			<p:layoutUnit id="bottom" position="south">
+				<ui:include src="footer.xhtml" />
+			</p:layoutUnit>
+		</p:layout>
+	</h:body>
+</f:view>
+</html>

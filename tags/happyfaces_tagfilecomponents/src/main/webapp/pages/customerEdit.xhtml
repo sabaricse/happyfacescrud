@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://happyfaces.org/happyfaces"
+	template="../templates/template.xhtml">
+	
+	<ui:define name="metadata">
+		<f:metadata>
+			<f:viewParam name="edit" rendered="#{customerBean.editAllowed}" value="#{customerBean.edit}" />
+			<f:viewParam name="objectId" value="#{customerBean.objectId}" />
+		</f:metadata>
+	</ui:define>
+
+	<ui:param name="pageTitle" value="#{messages['customer.page.title']}" />
+	<ui:define name="content">
+		<hf:formPanel label="#{messages['customer.page.panel']}" backingBean="#{customerBean}" edit="#{edit}" >
+			<hf:formField label="#{messages['customer.name']}" field="name" required="true" />
+			<!-- Entity support with list bean which generates drop down (there is popup exampple in accountEdit). -->
+			<hf:formEntityField label="#{messages['customer.city']}" field="city" childField="name" listBean="#{cityBean}" />
+			<hf:formField label="#{messages['customer.address']}"  field="address" />
+			<hf:formField label="#{messages['customer.email']}" field="email" />
+			<hf:formField label="#{messages['customer.phone']}" field="phone" />
+			<hf:formField label="#{messages['customer.age']}" field="age" />
+			<hf:formField label="#{messages['customer.perks']}" field="perks" childField="name" listType="pickUpList" />
+		</hf:formPanel>
+	</ui:define>
+</ui:composition>
