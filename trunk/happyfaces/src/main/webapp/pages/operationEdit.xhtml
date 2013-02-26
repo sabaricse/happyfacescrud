@@ -1,17 +1,17 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://happyfaces.org/happyfaces"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://java.sun.com/jsf/composite/tags"
 	template="../templates/template.xhtml">
 	
 	<ui:define name="metadata">
 		<f:metadata>
-			<f:viewParam name="edit" rendered="#{operationBean.editAllowed}" value="#{operationBean.edit}" />
+			<f:viewParam name="edit" rendered="#{sessionPreferences.editAllowed}" value="#{operationBean.edit}" />
 			<f:viewParam name="objectId" value="#{operationBean.objectId}" />
 		</f:metadata>
 	</ui:define>
 
 	<ui:param name="pageTitle" value="#{messages['operation.page.title']}" />
 	<ui:define name="content">
-		<hf:formPanel label="#{messages['customer.page.panel']}" backingBean="#{operationBean}" edit="#{edit}" >
+		<hf:formPanel label="#{messages['customer.page.panel']}" backingBean="#{operationBean}" >
 			<hf:formField label="#{messages['operation.operationName']}" field="operationName" />
 			<hf:formField label="#{messages['operation.amount']}" field="amount" />
 			<hf:formField label="#{messages['operation.operationType']}" field="operationType" isMessage="true" /> <!-- isMessage parameter takes label from enum and translates it -->

@@ -38,6 +38,10 @@
 			<to-view-id>/pages/accounts.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>accountEdit</from-outcome>
+			<to-view-id>/pages/accountEdit.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>operations</from-outcome>
 			<to-view-id>/pages/operations.xhtml</to-view-id>
 		</navigation-case>

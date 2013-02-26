@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.persistence.EntityExistsException;
 
 import org.apache.log4j.Logger;
-import org.happyfaces.beans.SessionPreferences;
 import org.happyfaces.domain.base.IEntity;
 import org.happyfaces.jsf.datatable.PaginationConfiguration;
 import org.happyfaces.services.base.IService;
@@ -430,16 +429,6 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
 
     public void setEdit(boolean edit) {
         this.edit = edit;
-    }
-
-    /**
-     * Check if user has authority (from spring security) to edit. Override if
-     * specific role is required for different pages.
-     * 
-     * @return true if edit is allowed
-     */
-    public boolean isEditAllowed() {
-        return SessionPreferences.hasRole("ROLE_USER");
     }
 
 }

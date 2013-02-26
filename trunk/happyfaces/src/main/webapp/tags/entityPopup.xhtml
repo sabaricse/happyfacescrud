@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:hf="http://happyfaces.org/happyfaces">
+	xmlns:hf="http://java.sun.com/jsf/composite/tags">
 
 <ui:composition>
 
@@ -18,13 +18,13 @@
 		<h:form id="popupForm">
 			<h:panelGrid id="#{id}searchFormPanel" columns="2">
 				<c:if test="${not empty searchField1}">
-					<hf:searchField label="#{searchField1Label}" field="#{searchField1}" />
+					<hf:searchField label="#{searchField1Label}" backingBean="#{backingBean}" field="#{searchField1}" />
 				</c:if>
 				<c:if test="${not empty searchField2}">
-					<hf:searchField label="#{searchField2Label}" field="#{searchField2}" />
+					<hf:searchField label="#{searchField2Label}" backingBean="#{backingBean}" field="#{searchField2}" />
 				</c:if>
 				<c:if test="${not empty searchField3}">
-					<hf:searchField label="#{searchField3Label}" field="#{searchField3}" />
+					<hf:searchField label="#{searchField3Label}" backingBean="#{backingBean}" field="#{searchField3}" />
 				</c:if>
 			</h:panelGrid>
 			<h:panelGrid columns="2">
