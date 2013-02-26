@@ -1,25 +1,25 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://happyfaces.org/happyfaces"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hftl="http://happyfaces.org/happyfaces" xmlns:hf="http://java.sun.com/jsf/composite/tags"
 	template="../templates/template.xhtml">
 
 	<ui:param name="pageTitle" value="#{messages['operation.search']}" />
 
 	<ui:define name="content">
-		<hf:searchPanel columns="4" backingBean="#{operationBean}">
+		<hf:searchPanel columns="2" backingBean="#{operationBean}">
 			<hf:searchField label="#{messages['operation.operationName']}" field="operationName" />
+			<hf:searchField label="#{messages['operation.operationDate']}" field="operationDate" />
 			<hf:searchField label="#{messages['operation.amount']}" field="amount" />
 			<hf:searchField label="#{messages['operation.operationType']}" field="operationType" />
-			<hf:searchField label="#{messages['operation.operationDate']}" field="operationDate" />
 		</hf:searchPanel>
 
-		<hf:dataList label="#{messages['customers.search.results']}" backingBean="#{operationBean}">
-			<hf:column label="#{messages['operation.operationName']}" field="operationName" />
-			<hf:column label="#{messages['operation.amount']}" field="amount" />
+		<hftl:dataList label="#{messages['customers.search.results']}" backingBean="#{operationBean}">
+			<hftl:column label="#{messages['operation.operationName']}" field="operationName" />
+			<hftl:column label="#{messages['operation.amount']}" field="amount" />
 			<!-- Enum label translation done this way, also enum is unsortable, because translation is unknonw -->
-			<hf:column label="#{messages['operation.operationType']}" field="operationType" childField="label" isMessage="true" sort="false" />
+			<hftl:column label="#{messages['operation.operationType']}" field="operationType" childField="label" isMessage="true" sort="false" />
 			<!-- Date with time format -->
-			<hf:column label="#{messages['operation.operationDate']}" field="operationDate" isDate="true" time="true" />
-			<hf:actionsColumn />
-		</hf:dataList>
+			<hftl:column label="#{messages['operation.operationDate']}" field="operationDate" isDate="true" time="true" />
+			<hftl:actionsColumn />
+		</hftl:dataList>
 	</ui:define>
 </ui:composition>

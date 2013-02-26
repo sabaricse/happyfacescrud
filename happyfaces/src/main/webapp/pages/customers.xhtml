@@ -1,29 +1,28 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hf="http://happyfaces.org/happyfaces"
+	xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:hftl="http://happyfaces.org/happyfaces" xmlns:hf="http://java.sun.com/jsf/composite/tags"
 	template="../templates/template.xhtml">
 
 	<ui:param name="pageTitle" value="#{messages['customer.search']}" />
 
 	<ui:define name="content">
-		<hf:searchPanel columns="4" backingBean="#{customerBean}">
+		<hf:searchPanel columns="3" backingBean="#{customerBean}">
 			<hf:searchField label="#{messages['customer.name']}" field="name" />
-			<hf:searchField label="#{messages['customer.city']}" field="city" />
 			<hf:searchField label="#{messages['customer.address']}" field="address" />
 			<hf:searchField label="#{messages['customer.email']}" field="email" />
 			<hf:searchField label="#{messages['customer.phone']}" field="phone" />
 			<!-- Search with drop down -->
-			<hf:searchEntityField label="#{messages['customer.city']}" field="city" childField="name" listBean="#{cityBean}" />
+			<hf:searchField label="#{messages['customer.city']}" field="city" childField="name" listBean="#{cityBean}" />
 			<hf:searchField label="#{messages['customer.age']}" field="age" />
 		</hf:searchPanel>
 
-		<hf:dataList label="#{messages['customers.search.results']}"  backingBean="#{customerBean}">
-			<hf:column label="#{messages['customer.name']}" field="name" />
-			<hf:column label="#{messages['customer.city']}" field="city" childField="name" />
-			<hf:column label="#{messages['customer.address']}" field="address" />
-			<hf:column label="#{messages['customer.email']}" field="email" />
-			<hf:column label="#{messages['customer.phone']}" field="phone" />
-			<hf:column label="#{messages['customer.age']}" field="age" />
-			<hf:actionsColumn />
-		</hf:dataList>
+		<hftl:dataList label="#{messages['customers.search.results']}"  backingBean="#{customerBean}">
+			<hftl:column label="#{messages['customer.name']}" field="name" />
+			<hftl:column label="#{messages['customer.city']}" field="city" childField="name" />
+			<hftl:column label="#{messages['customer.address']}" field="address" />
+			<hftl:column label="#{messages['customer.email']}" field="email" />
+			<hftl:column label="#{messages['customer.phone']}" field="phone" />
+			<hftl:column label="#{messages['customer.age']}" field="age" />
+			<hftl:actionsColumn />
+		</hftl:dataList>
 	</ui:define>
 </ui:composition>

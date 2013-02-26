@@ -5,6 +5,7 @@
 	"facelet-taglib_1_0.dtd">
 
 <facelet-taglib>
+
 	<namespace>http://happyfaces.org/happyfaces</namespace>
 
 	<tag>
@@ -23,73 +24,8 @@
 	</tag>
 
 	<tag>
-		<tag-name>listPanel</tag-name>
-		<source>listPanel.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>searchField</tag-name>
-		<source>searchField.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>searchPanel</tag-name>
-		<source>searchPanel.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>formPanel</tag-name>
-		<source>formPanel.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>formField</tag-name>
-		<source>formField.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>formEntityField</tag-name>
-		<source>formEntityField.xhtml</source>
-	</tag>
-
-	<tag>
 		<tag-name>entityPopup</tag-name>
 		<source>entityPopup.xhtml</source>
 	</tag>
 
-	<tag>
-		<tag-name>entityTooltip</tag-name>
-		<source>entityTooltip.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>linkToEntity</tag-name>
-		<source>linkToEntity.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>numberField</tag-name>
-		<source>numberField.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>searchEntityField</tag-name>
-		<source>searchEntityField.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>fieldset</tag-name>
-		<source>fieldset.xhtml</source>
-	</tag>
-
-	<tag>
-		<tag-name>formButtons</tag-name>
-		<source>formButtons.xhtml</source>
-	</tag>
-	
-	<tag>
-		<tag-name>emtyFormField</tag-name>
-		<source>emtyFormField.xhtml</source>
-	</tag>
-	
 </facelet-taglib>
