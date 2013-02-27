@@ -12,7 +12,6 @@
 
 	<cc:interface componentType="searchField">
 		<cc:attribute name="field" required="true" />
-		<cc:attribute name="id" default="searchField" />
 		<cc:attribute name="backingBean" required="false" />
 		<cc:attribute name="disabled" default="false" />
 		<cc:attribute name="size" default="20" />
@@ -33,12 +32,11 @@
 			</h:panelGrid>
 		</ui:fragment>
 		
-		<!--  If the value binding is a boolean, display a
-	           display drop down with yes/no choices. -->
+		<!--  If the value binding is a boolean, display a drop down with yes/no choices. -->
 		<ui:fragment rendered="#{cc.isBoolean(cc.attrs.field)}">
 			<h:panelGrid columns="2">
-				<p:outputLabel for="#{cc.attrs.id}_#{cc.attrs.field}_boolean" value="#{cc.attrs.label}" />
-				<p:selectOneMenu id="#{cc.attrs.id}_#{cc.attrs.field}_boolean" value="#{cc.filters[cc.attrs.field]}" converter="javax.faces.Boolean" disabled="#{cc.attrs.disabled}">
+				<p:outputLabel for="#{cc.attrs.field}_boolean" value="#{cc.attrs.label}" />
+				<p:selectOneMenu id="#{cc.attrs.field}_boolean" value="#{cc.filters[cc.attrs.field]}" converter="javax.faces.Boolean" disabled="#{cc.attrs.disabled}">
 					<f:selectItem itemValue="#{null}" itemLabel="" />
 					<f:selectItem itemValue="#{true}" itemLabel="#{messages['commons.yes']}" />
 					<f:selectItem itemValue="#{false}" itemLabel="#{messages['commons.no']}" />
@@ -46,31 +44,29 @@
 			</h:panelGrid>
 		</ui:fragment>
 		
-		<!--  If the value binding is a date, 
-	          display a p:calendar field. -->
+		<!--  If the value binding is a date, display a p:calendar field. -->
 		<ui:fragment rendered="#{cc.isDate(cc.attrs.field)}">
 			<ui:fragment rendered="#{not cc.attrs.rangeSearch}">
 				<h:panelGrid columns="2">
-					<p:outputLabel for="#{cc.attrs.id}_#{cc.attrs.field}_date" value="#{cc.attrs.label}" />
-					<p:calendar id="#{cc.attrs.id}_#{cc.attrs.field}_date" value="#{cc.filters[cc.attrs.field]}" pattern="#{cc.datePattern}" disabled="#{cc.attrs.disabled}" />
+					<p:outputLabel for="#{cc.attrs.field}_date" value="#{cc.attrs.label}" />
+					<p:calendar id="#{cc.attrs.field}_date" value="#{cc.filters[cc.attrs.field]}" pattern="#{cc.datePattern}" disabled="#{cc.attrs.disabled}" />
 				</h:panelGrid>
 			</ui:fragment>
 			<ui:fragment rendered="#{cc.attrs.rangeSearch}">
 				<h:panelGrid columns="2">
-					<p:outputLabel for="fromRange_#{cc.attrs.id}_#{cc.attrs.field}_date" value="#{cc.attrs.label}" />
+					<p:outputLabel for="fromRange_#{cc.attrs.field}_date" value="#{cc.attrs.label}" />
 					<h:panelGrid columns="4">
 						<h:outputText value="#{messages['commons.dateFrom']}" style="padding-right:5px" />
-						<p:calendar id="fromRange_#{cc.attrs.id}_#{cc.attrs.field}_date" value="#{cc.filters[cc.fromRangeSearchFilterName]}" pattern="#{cc.datePattern}" disabled="#{cc.attrs.disabled}" />
+						<p:calendar id="fromRange_#{cc.attrs.field}_date" value="#{cc.filters[cc.fromRangeSearchFilterName]}" pattern="#{cc.datePattern}" disabled="#{cc.attrs.disabled}" />
 		
 						<h:outputText value="#{messages['commons.dateTill']}" style="padding:5px" />
-						<p:calendar id="toRange_#{cc.attrs.id}_#{cc.attrs.field}_date" value="#{cc.filters[cc.toRangeSearchFilterName]}" pattern="#{cc.datePattern}" disabled="#{cc.attrs.disabled}" />
+						<p:calendar id="toRange_#{cc.attrs.field}_date" value="#{cc.filters[cc.toRangeSearchFilterName]}" pattern="#{cc.datePattern}" disabled="#{cc.attrs.disabled}" />
 					</h:panelGrid>
 				</h:panelGrid>
 			</ui:fragment>
 		</ui:fragment>
 		
-		<!--  If the value binding is an enum, 
-	          display a drop down. -->
+		<!--  If the value binding is an enum, display a drop down. -->
 		<ui:fragment rendered="#{cc.isEnum(cc.attrs.field)}">
 			<h:panelGrid columns="2">
 				<p:outputLabel for="#{cc.attrs.field}_enum" value="#{cc.attrs.label}" />

@@ -15,27 +15,27 @@
 	<p:dialog id="dialog" header="#{header}" widgetVar="dlg" dynamic="true">
 		<!-- Set entity variable. -->
 		<c:set var="entity" value="#{backingBean.instance}" />
-		<h:form id="popupForm">
+		<h:form id="#{id}popupForm">
 			<h:panelGrid id="#{id}searchFormPanel" columns="2">
-				<c:if test="${not empty searchField1}">
+				<c:if test="#{not empty searchField1}">
 					<hf:searchField label="#{searchField1Label}" backingBean="#{backingBean}" field="#{searchField1}" />
 				</c:if>
-				<c:if test="${not empty searchField2}">
+				<c:if test="#{not empty searchField2}">
 					<hf:searchField label="#{searchField2Label}" backingBean="#{backingBean}" field="#{searchField2}" />
 				</c:if>
-				<c:if test="${not empty searchField3}">
+				<c:if test="#{not empty searchField3}">
 					<hf:searchField label="#{searchField3Label}" backingBean="#{backingBean}" field="#{searchField3}" />
 				</c:if>
 			</h:panelGrid>
 			<h:panelGrid columns="2">
-				<p:commandButton id="buttonSearch" value="#{messages['commons.search']}" update="popupForm" />
-				<p:commandButton id="buttonClear" action="#{backingBean.clean}" reRender="#{formId}" value="#{messages['commons.clean']}" update="popupForm" />
+				<p:commandButton id="buttonSearch" value="#{messages['commons.search']}" update="#{id}popupForm" />
+				<p:commandButton id="buttonClear" action="#{backingBean.clean}" value="#{messages['commons.clean']}" update="#{id}popupForm" />
 			</h:panelGrid>
 			<p:dataTable id="datatable" var="e" value="#{backingBean.lazyDataModel}" rows="10" selection="#{selection}" selectionMode="single"
 				lazy="true">
 				<p:ajax event="rowSelect" oncomplete="dlg.hide()" update="#{updateField}" />
 
-				<c:if test="${not empty column1}">
+				<c:if test="#{not empty column1}">
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{column1Label}" />
@@ -43,7 +43,7 @@
 						<h:outputText value="#{e[column1]}" />
 					</p:column>
 				</c:if>
-				<c:if test="${not empty column2}">
+				<c:if test="#{not empty column2}">
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{column2Label}" />
@@ -51,7 +51,7 @@
 						<h:outputText value="#{e[column2]}" />
 					</p:column>
 				</c:if>
-				<c:if test="${not empty column3}">
+				<c:if test="#{not empty column3}">
 					<p:column>
 						<f:facet name="header">
 							<h:outputText value="#{column3Label}" />

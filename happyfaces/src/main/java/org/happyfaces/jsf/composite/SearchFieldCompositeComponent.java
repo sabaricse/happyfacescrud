@@ -27,4 +27,12 @@ public class SearchFieldCompositeComponent extends BackingBeanBasedCompositeComp
     public String getToRangeSearchFilterName() {
         return "toRange-" + getAttributes().get("field");
     }
+
+    public String getFromRangeSearchFilterNameFromParent() {
+        return "fromRange-" + getCompositeComponentParent(this).getAttributes().get("field");
+    }
+    
+    public String getToRangeSearchFilterNameFromParent() {
+        return "toRange-" + getCompositeComponentParent(this).getAttributes().get("field");
+    }
 }
