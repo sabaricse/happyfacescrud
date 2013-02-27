@@ -119,9 +119,8 @@
 							</ui:fragment>
 							<!-- If entityView provided then show link to childField entity page. -->
 							<ui:fragment rendered="#{not empty entityView}">
-								<c:set var="fieldId" value="#{c[childFieldId]}" />
-								<hf:linkToEntity linkId="#{field}_#{childField}_message_link" rendered="#{isMessage}" entityId="#{fieldId}" entity="#{c}" popupFields="#{popupFields}" value="#{fieldValue}" view="#{entityView}"/>
-								<hf:linkToEntity linkId="#{field}_#{childField}_link" rendered="#{!isMessage}" entity="#{c}" popupFields="#{popupFields}" entityId="#{fieldId}" value="#{fieldValue}" view="#{entityView}"/>
+								<hf:linkToEntity linkId="#{field}_#{childField}_message_link" rendered="#{isMessage}" entityId="#{c[childFieldId]}" entity="#{c}" popupFields="#{popupFields}" value="#{fieldValue}" view="#{entityView}"/>
+								<hf:linkToEntity linkId="#{field}_#{childField}_link" rendered="#{!isMessage}" entity="#{c}" popupFields="#{popupFields}" entityId="#{c[childFieldId]}" value="#{fieldValue}" view="#{entityView}"/>
 							</ui:fragment>
 							<br />
 						</ui:repeat>

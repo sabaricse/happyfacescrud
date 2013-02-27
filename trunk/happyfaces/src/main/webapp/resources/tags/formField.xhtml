@@ -175,15 +175,13 @@
 								</p:column>
 							</c:forEach>
 	
-							<c:if test="#{cc.attrs.deleteButton}">
-								<p:column rendered="#{cc.backingBeanFromParentOrCurrent.edit}">
-									<p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
-									<h:commandLink id="deletelink" action="#{cc.backingBeanFromParentOrCurrent.delete(listElement.id)}"
-										onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}">
-										<h:graphicImage value="/img/delete.gif" style="border:0" />
-									</h:commandLink>
-								</p:column>
-							</c:if>
+							<p:column rendered="#{cc.attrs.deleteButton and cc.backingBeanFromParentOrCurrent.edit}">
+								<p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
+								<h:commandLink id="deletelink" action="#{cc.backingBeanFromParentOrCurrent.delete(listElement.id)}"
+									onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}">
+									<h:graphicImage value="/img/delete.gif" style="border:0" />
+								</h:commandLink>
+							</p:column>
 						</p:dataTable>
 						<p:commandButton rendered="#{cc.attrs.showButtonAddNew and cc.backingBeanFromParentOrCurrent.edit and cc.entityFromBackingBeanOrAttribute.getId() != null}" value="#{messages['commons.addNew']}" onclick="alert('not implemented. formField.xhtml line 248')" />
 						<cc:insertChildren />
