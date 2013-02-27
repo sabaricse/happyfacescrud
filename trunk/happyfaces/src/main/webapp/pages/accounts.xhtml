@@ -30,7 +30,8 @@
 			<hftl:actionsColumn />
 		</hftl:dataList>
 		
-		<hftl:entityPopup id="customersPopup" header="#{messages['customer.search']}" updateField=":searchPanel:searchForm:customerField:customer_child" selection="#{accountBean.entity.customer}"
+		<!-- Same popup as in accountEdit.xhtml the only difference is that selection set to filters and updateField is obviously another one. -->
+		<hftl:entityPopup id="customersPopup" header="#{messages['customer.search']}" updateField=":searchPanel:searchForm:customerField:customer_child" selection="#{accountBean.filters['customer']}"
 			backingBean="#{customerBean}" searchField1Label="#{messages['customer.name']}" searchField1="name" column1Label="#{messages['customer.name']}" column1="name" 
 			column2Label="#{messages['customer.email']}" column2="email" />
 			
