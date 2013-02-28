@@ -35,7 +35,7 @@ public class AccountBean extends BaseBean<Account> {
     }
 
     /**
-     * Fetch customer field so when not LazyInitialize exception is thrown when
+     * Fetch customer field so no LazyInitialize exception is thrown when
      * we access it from account list view.
      * 
      * @see org.happyfaces.beans.base.BaseBean#getListFieldsToFetch()
@@ -46,7 +46,7 @@ public class AccountBean extends BaseBean<Account> {
     }
 
     /**
-     * Fetch customer field so when not LazyInitialize exception is thrown when
+     * Fetch customer field so no LazyInitialize exception is thrown when
      * we access it from account edit view.
      * 
      * @see org.happyfaces.beans.base.BaseBean#getFormFieldsToFetch()

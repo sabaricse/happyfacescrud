@@ -13,7 +13,7 @@ public class CustomerService extends BaseService<Customer> implements ICustomerS
     @SuppressWarnings("unchecked")
     @Override
     public List<CustomerPerk> getAllCustomerPerks() {
-        return getSessionFactory().getCurrentSession().createQuery("from CustomerPerk").list();
+        return em.createQuery("from CustomerPerk").getResultList();
     }
 
 }

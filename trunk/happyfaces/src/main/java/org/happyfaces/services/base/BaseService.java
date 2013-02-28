@@ -10,14 +10,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.apache.log4j.Logger;
 import org.happyfaces.domain.IdentifiableEnum;
 import org.happyfaces.domain.base.BaseEntity;
 import org.happyfaces.domain.base.IEntity;
 import org.happyfaces.jsf.datatable.PaginationConfiguration;
 import org.happyfaces.utils.QueryBuilder;
-import org.hibernate.Query;
-import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -35,7 +37,8 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
 
     protected final Class<? extends IEntity> entityClass;
 
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    protected EntityManager em;
 
     private static Logger log = Logger.getLogger(BaseService.class.getName());
 
@@ -54,53 +57,34 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         }
     }
     
-    public BaseService(Class<? extends IEntity> entityClass, SessionFactory sessionFactory) {
+    public BaseService(Class<? extends IEntity> entityClass, EntityManager em) {
         this.entityClass = entityClass;
-        this.sessionFactory = sessionFactory;
+        this.em = em;
     }   
-
-    /**
-     * Get Hibernate Session Factory
-     * 
-     * @return SessionFactory - Hibernate Session Factory
-     */
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    /**
-     * Set Hibernate Session Factory
-     * 
-     * @param SessionFactory
-     *            - Hibernate Session Factory
-     */
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     @Transactional(readOnly = false)
     public void add(T entity) {
-        getSessionFactory().getCurrentSession().save(entity);
+        em.persist(entity);
         log.info("Entity saved"); // TODO add
     }
 
     @Override
     @Transactional(readOnly = false)
     public void update(T entity) {
-        getSessionFactory().getCurrentSession().update(entity);
+        em.merge(entity);
     }
 
     @Override
     @Transactional(readOnly = false)
     public void delete(T entity) {
-        getSessionFactory().getCurrentSession().delete(entity);
+        em.remove(entity);
     }
     
     @Override
     @Transactional(readOnly = false)
     public void delete(Integer id) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("delete from " + entityClass.getName() + " where id = :id)");
+        Query query = em.createQuery("delete from " + entityClass.getName() + " where id = :id)");
         query.setParameter("id", id);
         query.executeUpdate();
     }
@@ -109,7 +93,7 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
     @Override
     @Transactional(readOnly = false)
     public void deleteMany(Set<Integer> ids) {
-        Query query = getSessionFactory().getCurrentSession().createQuery("delete from " + entityClass.getName() + " where id in (:ids)");
+        Query query = em.createQuery("delete from " + entityClass.getName() + " where id in (:ids)");
         query.setParameter("ids", ids);
         query.executeUpdate();
     }
@@ -117,7 +101,7 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
     @Override
     public T getById(int id) {
         @SuppressWarnings("unchecked")
-        List<T> list = getSessionFactory().getCurrentSession().createQuery("from " + entityClass.getName() + " where id=?").setParameter(0, id).list();
+        List<T> list = em.createQuery("from " + entityClass.getName() + " where id=?").setParameter(1, id).getResultList();
         return list.size() > 0 ? (T) list.get(0) : null;
     }
 
@@ -131,11 +115,11 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
             }
         }
         queryString.append(" where a.id = :id");
-        Query query = getSessionFactory().getCurrentSession().createQuery(queryString.toString());
+        Query query = em.createQuery(queryString.toString());
         query.setParameter("id", id);
 
         @SuppressWarnings("unchecked")
-        List<T> list = query.list();
+        List<T> list = query.getResultList();
 
         return list.size() > 0 ? (T) list.get(0) : null;
     }
@@ -143,7 +127,7 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
     @SuppressWarnings("unchecked")
     @Override
     public List<T> list() {
-        List<T> list = getSessionFactory().getCurrentSession().createQuery("from " + entityClass.getName()).list();
+        List<T> list = em.createQuery("from " + entityClass.getName()).getResultList();
         return list;
     }
 
@@ -151,21 +135,21 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
     @SuppressWarnings({ "unchecked" })
     public List<T> list(PaginationConfiguration config) {
         QueryBuilder queryBuilder = getQuery(config);
-        Query query = queryBuilder.getQuery(getSessionFactory().getCurrentSession());
-        return query.list();
+        Query query = queryBuilder.getQuery(em);
+        return query.getResultList();
     }
 
     @Override
     public int count(PaginationConfiguration config) {
 
         QueryBuilder queryBuilder = getQuery(config);
-        return queryBuilder.count(getSessionFactory().getCurrentSession());
+        return queryBuilder.count(em);
     }
 
     @Override
     public int count() {
         QueryBuilder queryBuilder = new QueryBuilder(entityClass, "a", null);
-        return queryBuilder.count(getSessionFactory().getCurrentSession());
+        return queryBuilder.count(em);
     }
 
     /**

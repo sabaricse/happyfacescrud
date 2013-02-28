@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
 
 /**
@@ -22,6 +23,9 @@ public class BaseEntity implements IEntity, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Integer id;
+    
+    @Version
+    private Long version;
 
     @Override
     public Integer getId() {
@@ -30,6 +34,14 @@ public class BaseEntity implements IEntity, Serializable {
     
     public void setId(Integer id) {
         this.id = id;
+    }
+    
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override

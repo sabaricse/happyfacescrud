@@ -17,6 +17,7 @@
 			<!-- Simple fields like numbers, strings, dates etc only needs field name provided. -->
 			<hf:formField label="#{messages['account.accountNumber']}" field="accountNumber" required="true" />
 			<hf:formField label="#{messages['account.active']}" field="active" isMessage="true" />
+			<hf:formField label="#{messages['account.openingDate']}" field="openingDate" />
 			
 			<!-- If field is another entity it needs childField. If we want popup selection - popup parameter must be set to true and popup component present out of this form. -->
 			<hf:formEntityField id="customer" label="#{messages['account.customer']}" field="customer" childField="name" popup="true" />

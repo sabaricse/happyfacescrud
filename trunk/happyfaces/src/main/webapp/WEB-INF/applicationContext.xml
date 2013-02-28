@@ -12,19 +12,14 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
 	<!-- variableTypeService is used by entity converter so it should not be removed -->
 	<bean id="variableTypeService" class="org.happyfaces.services.base.VariableTypeService">
-		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 	<bean id="customerService" class="org.happyfaces.services.CustomerService">
-		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 	<bean id="accountService" class="org.happyfaces.services.AccountService">
-		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 	<bean id="operationService" class="org.happyfaces.services.OperationService">
-		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 	<bean id="cityService" class="org.happyfaces.services.CityService">
-		<property name="sessionFactory" ref="SessionFactory" />
 	</bean>
 
 	<!-- Data Source Declaration -->
@@ -39,27 +34,25 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 		<property name="minPoolSize" value="5" />
 	</bean>
 
-	<!-- Session Factory Declaration -->
-	<bean id="SessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="DataSource" />
-		<property name="packagesToScan" value="org.happyfaces.domain" />
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-			</props>
-		</property>
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	    <property name="persistenceUnitName" value="persistenceUnit" />
+	    <property name="packagesToScan" value="org.happyfaces.domain" /> <!-- TODO change in archetype -->
+	    <property name="dataSource" ref="DataSource"/>
+	    <property name="jpaVendorAdapter">
+	      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+	         <property name="showSql" value="true" />
+	         <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
+	         <property name="generateDdl" value="true" />
+	      </bean>
+	   </property>
 	</bean>
 
 	<!-- Enable the configuration of transactional behavior based on annotations -->
 	<tx:annotation-driven transaction-manager="txManager" />
 
 	<!-- Transaction Manager is defined -->
-	<bean id="txManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-		<property name="sessionFactory" ref="SessionFactory" />
+	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		 <property name="entityManagerFactory" ref="entityManagerFactory"/>
 	</bean>
-
+	
 </beans>
