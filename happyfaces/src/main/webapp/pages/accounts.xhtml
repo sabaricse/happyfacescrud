@@ -26,6 +26,8 @@
 			
 			<!-- Date without time format (by default, if time is needed set time="true" like in operation) -->
 			<hftl:column label="#{messages['account.openingDate']}" field="openingDate" isDate="true" />
+
+			<hftl:column label="#{messages['account.operations']}" field="operations" childField="operationName" isList="true" entityView="/pages/operationEdit.xhtml" />
 			
 			<hftl:actionsColumn />
 		</hftl:dataList>

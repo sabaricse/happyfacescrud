@@ -17,8 +17,8 @@
 			<hf:formEntityField label="#{messages['customer.city']}" field="city" childField="name" listBean="#{cityBean}" />
 			<hf:formField label="#{messages['customer.address']}"  field="address" />
 			<hf:formField label="#{messages['customer.email']}" field="email" />
-			<hf:formField label="#{messages['customer.phone']}" field="phone" />
-			<hf:formField label="#{messages['customer.age']}" field="age" />
+			<hf:formField label="#{messages['customer.phone']}" field="phone" required="true" />
+			<hf:formField label="#{messages['customer.age']}" field="age" required="true" />
 			<hf:formField label="#{messages['customer.perks']}" field="perks" childField="name" listType="pickUpList" />
 		</hf:formPanel>
 	</ui:define>

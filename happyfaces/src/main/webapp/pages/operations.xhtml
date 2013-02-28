@@ -5,14 +5,16 @@
 	<ui:param name="pageTitle" value="#{messages['operation.search']}" />
 
 	<ui:define name="content">
-		<hf:searchPanel columns="2" backingBean="#{operationBean}">
+		<hf:searchPanel id="searchPanel" columns="2" backingBean="#{operationBean}">
 			<hf:searchField label="#{messages['operation.operationName']}" field="operationName" />
 			<hf:searchField label="#{messages['operation.operationDate']}" field="operationDate" />
 			<hf:searchField label="#{messages['operation.amount']}" field="amount" />
 			<hf:searchField label="#{messages['operation.operationType']}" field="operationType" />
+			<hf:searchField id="accountField" label="#{messages['operation.account']}" field="account" childField="accountNumber" popup="true" />
 		</hf:searchPanel>
 
 		<hftl:dataList label="#{messages['customers.search.results']}" backingBean="#{operationBean}">
+			<hftl:column label="#{messages['operation.account']}" field="account" childField="accountNumber" />
 			<hftl:column label="#{messages['operation.operationName']}" field="operationName" />
 			<hftl:column label="#{messages['operation.amount']}" field="amount" />
 			<!-- Enum label translation done this way, also enum is unsortable, because translation is unknonw -->
@@ -21,5 +23,11 @@
 			<hftl:column label="#{messages['operation.operationDate']}" field="operationDate" isDate="true" time="true" />
 			<hftl:actionsColumn />
 		</hftl:dataList>
+		
+		<hftl:entityPopup id="accountsPopup" header="#{messages['account.search']}" updateField=":searchPanel:searchForm:accountField:account_child" selection="#{operationBean.filters['account']}"
+			backingBean="#{accountBean}" searchField1Label="#{messages['account.accountNumber']}" searchField1="accountNumber"
+			column1Label="#{messages['account.accountNumber']}" column1="accountNumber" />
+		
+		
 	</ui:define>
 </ui:composition>

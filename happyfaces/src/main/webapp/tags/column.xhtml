@@ -106,8 +106,8 @@
 
 					<!-- If its list then run through it and show results. -->
 					<ui:fragment rendered="#{isList}">
-						<h:outputText value="" rendered="#{child.size == 0}" />
-						<ui:repeat value="#{entity[field]}" var="c" rendered="#{entity[field].size > 0}">
+						<c:set var="list" value="#{entity[field]}" />
+						<ui:repeat value="#{entity[field]}" var="c">
 							<!-- If childField ID is not provided then we dont need link to entity page. -->
 							<ui:fragment rendered="#{empty entityView}">
 								<ui:fragment rendered="#{isMessage}">
@@ -115,12 +115,12 @@
 									<h:outputText rendered="#{c[childField] != null and c[childField].toString() == 'false'}" value="#{messages['commons.no']}" />
 									<h:outputText rendered="#{c[childField] != null and c[childField].toString() != 'true' and c[childField].toString() != 'false'}" value="#{messages[c[childField]]}" />
 								</ui:fragment>
-								<h:outputText rendered="#{!isMessage}" value="#{fieldValue}" />
+								<h:outputText rendered="#{not isMessage}" value="#{c[childField]}" />
 							</ui:fragment>
 							<!-- If entityView provided then show link to childField entity page. -->
 							<ui:fragment rendered="#{not empty entityView}">
-								<hf:linkToEntity linkId="#{field}_#{childField}_message_link" rendered="#{isMessage}" entityId="#{c[childFieldId]}" entity="#{c}" popupFields="#{popupFields}" value="#{fieldValue}" view="#{entityView}"/>
-								<hf:linkToEntity linkId="#{field}_#{childField}_link" rendered="#{!isMessage}" entity="#{c}" popupFields="#{popupFields}" entityId="#{c[childFieldId]}" value="#{fieldValue}" view="#{entityView}"/>
+								<hf:linkToEntity linkId="#{field}_#{childField}_message_link" rendered="#{isMessage}" entityId="#{c[childFieldId]}" entity="#{c}" popupFields="#{popupFields}" value="#{c[childField]}" view="#{entityView}"/>
+								<hf:linkToEntity linkId="#{field}_#{childField}_link" rendered="#{not isMessage}" entity="#{c}" popupFields="#{popupFields}" entityId="#{c[childFieldId]}" value="#{c[childField]}" view="#{entityView}"/>
 							</ui:fragment>
 							<br />
 						</ui:repeat>

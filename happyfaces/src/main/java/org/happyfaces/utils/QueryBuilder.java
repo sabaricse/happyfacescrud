@@ -8,9 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import org.happyfaces.jsf.datatable.PaginationConfiguration;
-import org.hibernate.Query;
-import org.hibernate.Session;
 
 
 
@@ -266,10 +267,10 @@ public class QueryBuilder {
         return this;
     }
 
-    public Query getQuery(Session session) {
+    public Query getQuery(EntityManager em) {
         applyPagination(paginationSortAlias);
 
-        Query result = session.createQuery(q.toString());
+        Query result = em.createQuery(q.toString());
         applyPagination(result);
 
         for (Map.Entry<String, Object> e : params.entrySet())
@@ -277,27 +278,27 @@ public class QueryBuilder {
         return result;
     }
 
-    public Query getCountQuery(Session session) {
+    public Query getCountQuery(EntityManager em) {
         String from = "from ";
         String s = "select count(distinct a) " + q.toString().substring(q.indexOf(from));
         
         s = s.replaceAll("left join fetch", "left join");
         
-        Query result = session.createQuery(s);
+        Query result = em.createQuery(s);
         for (Map.Entry<String, Object> e : params.entrySet())
             result.setParameter(e.getKey(), e.getValue());
         return result;
     }
 
-    public Integer count(Session session) {
-        Query query = getCountQuery(session);
-        return ((Long) query.uniqueResult()).intValue();
+    public Integer count(EntityManager em) {
+        Query query = getCountQuery(em);
+        return ((Long) query.getSingleResult()).intValue();
     }
 
     @SuppressWarnings("rawtypes")
-    public List find(Session session) {
-        Query query = getQuery(session);
-        return query.list();
+    public List find(EntityManager em) {
+        Query query = getQuery(em);
+        return query.getResultList();
     }
 
     private String convertFieldToParam(String field) {
