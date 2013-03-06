@@ -13,8 +13,6 @@
 	</c:if>
 
 	<p:dialog id="dialog" header="#{header}" widgetVar="dlg" dynamic="true">
-		<!-- Set entity variable. -->
-		<c:set var="entity" value="#{backingBean.instance}" />
 		<h:form id="#{id}popupForm">
 			<h:panelGrid id="#{id}searchFormPanel" columns="2">
 				<c:if test="#{not empty searchField1}">

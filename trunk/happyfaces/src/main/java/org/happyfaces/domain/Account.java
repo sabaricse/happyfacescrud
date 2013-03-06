@@ -38,7 +38,7 @@ public class Account extends BaseEntity {
     @Column(name = "ACCOUNT_ACTIVE")
     private Boolean active;
     
-    @OneToMany(mappedBy="account", cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="account", cascade = CascadeType.ALL)
     private List<Operation> operations;
     
     @Temporal(TemporalType.DATE)
