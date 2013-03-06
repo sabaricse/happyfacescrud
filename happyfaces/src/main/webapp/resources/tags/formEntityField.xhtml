@@ -25,8 +25,7 @@
 			<h:panelGrid columns="2">
 				<p:outputLabel for="#{cc.attrs.id}" value="#{cc.attrs.label}" />
 				<h:panelGrid columns="3">
-					<p:inputText id="#{cc.attrs.id}" rendered="#{cc.backingBeanFromParentOrCurrent.edit and cc.entityFromBackingBeanOrAttribute[cc.attrs.field]!=null}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field][cc.attrs.childField]}" required="#{cc.attrs.required}" size="#{cc.attrs.size}" disabled="true" />
-					<p:inputText rendered="#{cc.backingBeanFromParentOrCurrent.edit and cc.entityFromBackingBeanOrAttribute[cc.attrs.field]==null}" value="" size="#{cc.attrs.size}" required="#{cc.attrs.required}" disabled="true" />
+					<p:inputText id="#{cc.attrs.id}" rendered="#{cc.backingBeanFromParentOrCurrent.edit}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field][cc.attrs.childField]}" required="#{cc.attrs.required}" size="#{cc.attrs.size}" disabled="true" />
 					<p:commandButton rendered="#{cc.backingBeanFromParentOrCurrent.edit}" id="selectLink" onclick="dlg.show()" icon="ui-icon-search"/>
 					<p:tooltip for="selectLink" value="#{messages['commons.search']}" />
 					<h:outputText rendered="#{!cc.backingBeanFromParentOrCurrent.edit}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field][cc.attrs.childField]}" style="font-weight:bold;" />

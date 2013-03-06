@@ -30,7 +30,7 @@ public class Customer extends BaseEntity {
     @Column(name = "CUSTOMER_NAME", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Account> accounts;
 
     @ManyToOne(fetch = FetchType.LAZY)

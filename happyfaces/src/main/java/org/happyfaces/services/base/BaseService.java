@@ -236,7 +236,7 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
                     queryBuilder.addCriterionEnum("a." + key, (Enum) filter);
                 }
             } else if (BaseEntity.class.isAssignableFrom(filter.getClass())) {
-                queryBuilder.addCriterion("a." + key + ".id", " = ", ((BaseEntity) filter).getId(), true);
+                queryBuilder.addCriterionEntity("a." + key, filter);
             }
         }
     }
