@@ -11,8 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.log4j.Logger;
-import org.happyfaces.utils.FacesUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 /**
@@ -24,9 +23,8 @@ import org.happyfaces.utils.FacesUtils;
 @ManagedBean(name = "loginBean")
 @RequestScoped
 public class LoginBean {
-
-    /** Logger. */
-    private static Logger log = Logger.getLogger(LoginBean.class.getName());
+    
+    private boolean rememberMe;
 
     /**
      * This method delegates login check to spring security filters.
@@ -44,17 +42,27 @@ public class LoginBean {
     }
 
     /**
-     * Spring security is configured to logout on /logout.jsf url so this method
-     * redirects user to that url and other logout logic is performed by spring.
+     * Check if user is logged in.
      */
-    public void logout() {
-        try {
-            String realPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/logout.jsf");
-            FacesContext.getCurrentInstance().getExternalContext().redirect(realPath);
-        } catch (IOException e) {
-            log.warn("Error while redirecting to logout page", e);
-            FacesUtils.error("logout.failed");
-        }
+    public boolean isLoggedIn() {
+        return SecurityContextHolder.getContext().getAuthentication() != null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
+    }
+    
+    /**
+     * Redirect to spring security logout page.
+     */
+    public void logout() throws IOException {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        externalContext.redirect(externalContext.getRequestContextPath() + "/logout.jsf");
+        FacesContext.getCurrentInstance().renderResponse();
     }
 
+    public boolean isRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(boolean rememberMe) {
+        this.rememberMe = rememberMe;
+    }
+    
 }

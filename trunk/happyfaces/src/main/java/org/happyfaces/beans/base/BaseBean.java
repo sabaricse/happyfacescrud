@@ -2,16 +2,17 @@ package org.happyfaces.beans.base;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import javax.persistence.EntityExistsException;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.happyfaces.domain.base.IEntity;
 import org.happyfaces.jsf.datatable.PaginationConfiguration;
 import org.happyfaces.services.base.IService;
 import org.happyfaces.utils.FacesUtils;
+import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -44,22 +45,27 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     /**
      * Request parameter. Used for loading in object by its id.
      */
-    private Integer objectId;
+    private Long objectId;
 
     /**
      * Request parameter.
      */
     private boolean edit = false;
-    
+
     /**
      * Datamodel for lazy dataloading in datatable.
      */
     private LazyDataModel<T> dataModel;
-    
+
     /**
      * Bind datatable for search results.
      */
     private DataTable dataTable;
+    
+    /**
+     * Selected Entities in multiselect datatable.
+     */
+    private IEntity[] selectedEntities;  
 
     /**
      * Constructor.
@@ -159,7 +165,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
             }
         }
     }
-    
+
     /**
      * Lists all entities.
      */
@@ -211,7 +217,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
         sb.append("s");
         return sb.toString();
     }
-    
+
     /**
      * Delete Entity using it's ID. Add error message to {@link statusMessages}
      * if unsuccessful.
@@ -219,13 +225,13 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * @param id
      *            Entity id to delete
      */
-    public void delete(Integer id) {
+    public void delete(Long id) {
         try {
             log.info(String.format("Deleting entity %s with id = %s", clazz.getName(), id));
             getPersistenceService().delete(id);
             FacesUtils.info("delete.successful");
         } catch (Throwable t) {
-            if (t.getCause() instanceof EntityExistsException) {
+            if (t.getCause() instanceof ConstraintViolationException) {
                 log.info("delete was unsuccessful because entity is used in the system", t);
                 FacesUtils.error("delete.entityUsed");
             } else {
@@ -241,23 +247,29 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * unsuccessful.
      */
     public void deleteMany() {
-        /*
-         * try { log.info(String.format("Deleting entities %s with id = %s",
-         * clazz.getName(), id)); Set<Long> idsToDelete = new HashSet<Long>();
-         * for (Long id : checked.keySet()) { if (checked.get(id)) {
-         * idsToDelete.add(id); } }
-         * getPersistenceService().deleteMany(idsToDelete);
-         * FacesContext.getCurrentInstance().addMessage(null, new
-         * FacesMessage(bundle.getString("delete.entitities.successful"))); }
-         * catch (Throwable t) { if (t.getCause() instanceof
-         * EntityExistsException) {
-         * log.info("delete was unsuccessful because entity is used in the system"
-         * , t); FacesContext.getCurrentInstance().addMessage(null, new
-         * FacesMessage(bundle.getString("error.delete.entityUsed"))); } else {
-         * log.info("unexpected exception when deleting!", t);
-         * FacesContext.getCurrentInstance().addMessage(null, new
-         * FacesMessage(bundle.getString("error.delete.unexpected"))); } }
-         */
+        try {
+            if (selectedEntities != null && selectedEntities.length > 0) {
+                Set<Long> idsToDelete = new HashSet<Long>();
+                StringBuilder idsString = new StringBuilder();
+                for (IEntity entity : selectedEntities) {
+                    idsToDelete.add((Long)entity.getId());
+                    idsString.append(entity.getId()).append(" ");
+                }
+                log.info(String.format("Deleting multiple entities %s with ids = %s", clazz.getName(), idsString.toString()));
+                getPersistenceService().deleteMany(idsToDelete);
+                FacesUtils.info("delete.successful");
+            } else {
+                FacesUtils.warn("delete.noSelection");
+            }
+        } catch (Throwable t) {
+            if (t.getCause() instanceof ConstraintViolationException) {
+                log.info("delete was unsuccessful because entity is used in the system", t);
+                FacesUtils.error("delete.entityUsed");
+            } else {
+                log.info("unexpected exception when deleting!", t);
+                FacesUtils.error("delete.unexpected");
+            }
+        }
     }
 
     /**
@@ -315,7 +327,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     protected List<String> getFormFieldsToFetch() {
         return null;
     }
-
+    
     /**
      * DataModel for primefaces lazy loading datatable component.
      * 
@@ -327,18 +339,20 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
                 private static final long serialVersionUID = 1L;
 
                 private Integer rowCount;
-                
+
                 private Integer rowIndex;
 
                 @Override
                 public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> loadingFilters) {
                     Map<String, Object> copyOfFilters = new HashMap<String, Object>();
                     copyOfFilters.putAll(filters);
-                    setRowCount(getPersistenceService().count(new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder)));
+                    setRowCount(getPersistenceService().count(
+                            new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder)));
                     if (getRowCount() > 0) {
                         copyOfFilters = new HashMap<String, Object>();
                         copyOfFilters.putAll(filters);
-                        return getPersistenceService().list(new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder));
+                        return getPersistenceService().list(
+                                new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder));
                     } else {
                         return null; // no need to load then
                     }
@@ -346,7 +360,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
 
                 @Override
                 public T getRowData(String rowKey) {
-                    return getPersistenceService().getById(Integer.valueOf(rowKey));
+                    return getPersistenceService().getById(Long.valueOf(rowKey));
                 }
 
                 @Override
@@ -362,23 +376,23 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
                         this.rowIndex = rowIndex % getPageSize();
                     }
                 }
-                
+
                 @SuppressWarnings("unchecked")
                 @Override
                 public T getRowData() {
-                    return ((List<T>)getWrappedData()).get(rowIndex);
+                    return ((List<T>) getWrappedData()).get(rowIndex);
                 }
-                
+
                 @SuppressWarnings({ "unchecked" })
                 @Override
                 public boolean isRowAvailable() {
-                    if(getWrappedData() == null) {
+                    if (getWrappedData() == null) {
                         return false;
                     }
 
-                    return rowIndex >= 0 && rowIndex < ((List<T>)getWrappedData()).size();
+                    return rowIndex >= 0 && rowIndex < ((List<T>) getWrappedData()).size();
                 }
-                
+
                 @Override
                 public int getRowIndex() {
                     return this.rowIndex;
@@ -388,7 +402,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
                 public void setRowCount(int rowCount) {
                     this.rowCount = rowCount;
                 }
-                
+
                 @Override
                 public int getRowCount() {
                     if (rowCount == null) {
@@ -401,12 +415,12 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
         }
         return dataModel;
     }
-    
+
     public String search() {
         dataTable.reset();
         return null;
     }
-    
+
     public DataTable getDataTable() {
         return dataTable;
     }
@@ -414,12 +428,20 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     public void setDataTable(DataTable dataTable) {
         this.dataTable = dataTable;
     }
+    
+    public IEntity[] getSelectedEntities() {
+        return selectedEntities;
+    }
+    
+    public void setSelectedEntities(IEntity[] selectedEntities) {
+        this.selectedEntities = selectedEntities;
+    }
 
-    public Integer getObjectId() {
+    public Long getObjectId() {
         return objectId;
     }
 
-    public void setObjectId(Integer objectId) {
+    public void setObjectId(Long objectId) {
         this.objectId = objectId;
     }
 

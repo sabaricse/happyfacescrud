@@ -55,78 +55,109 @@
 		<c:set var="childFieldId" value="id" />
 	</c:if>
 
-	<p:column>
+	<c:if test="${empty exportable}">
+		<c:set var="exportable" value="true" />
+		<c:if test="${isList}">
+			<!-- List columns are not exportable, because its ui:reapeat component. -->
+			<c:set var="exportable" value="false" />
+		</c:if>
+	</c:if>
+
+	<p:column exportable="#{exportable}">
         <f:attribute rendered="#{sort}" name="sortBy" value="#{field}"/>
 		<f:facet name="header">
        		<h:outputText value="#{label}" />
         </f:facet>
 
-		<ui:fragment rendered="#{not empty field}">
-				<!-- If there is no child field, just show fieldValue. However if fieldValue can be message check if it is not boolean first
-		        	if so use standard yes and no messages. If its not boolean just translate fieldValue message. 
-		        	Also if childField is not set then it basically means it can't be isList=true even if it is set, so we don't check isList here.-->
-				<ui:fragment rendered="#{empty childField}">
-					<ui:fragment rendered="#{isMessage}">
-						<h:outputText rendered="#{entity[field] != null and entity[field].toString() == 'true'}" value="#{messages['commons.yes']}" />
-						<h:outputText rendered="#{entity[field] != null and entity[field].toString() == 'false'}" value="#{messages['commons.no']}" />
-						<h:outputText rendered="#{entity[field] != null and entity[field].toString() != 'true' and entity[field].toString() != 'false'}" value="#{messages[entity[field]]}" />
-					</ui:fragment>
-					<ui:fragment rendered="#{!isMessage}">
-						<!-- If there is date field, show date in specified pattern 
-				    	 If isDate is not set then it basically means it is not a date. Also if time is not set it basically means that time=true
-				    	 -->
-						<h:outputText value="#{entity[field]}" rendered="#{!isDate and show}" converter="#{getConverter.forType(entity[field], converterParam)}" />
+		<!-- If there is no child field, just show fieldValue. However if fieldValue can be message check if it is not boolean first
+        	if so use standard yes and no messages. If its not boolean just translate fieldValue message. 
+        	Also if childField is not set then it basically means it can't be isList=true even if it is set, so we don't check isList here.-->
+		<c:if test="#{empty childField}">
+			<c:if test="#{isMessage}">
+				<h:outputText rendered="#{entity[field] != null and entity[field].toString() == 'true'}" value="#{messages['commons.yes']}" />
+				<h:outputText rendered="#{entity[field] != null and entity[field].toString() == 'false'}" value="#{messages['commons.no']}" />
+				<h:outputText rendered="#{entity[field] != null and entity[field].toString() != 'true' and entity[field].toString() != 'false'}" value="#{messages[entity[field]]}" />
+			</c:if>
+			<c:if test="#{not isMessage}">
+				<!-- If there is date field, show date in specified pattern 
+		    	 If isDate is not set then it basically means it is not a date. Also if time is not set it basically means that time=true
+		    	 -->
+				<h:outputText value="#{entity[field]}" rendered="#{!isDate and show}" converter="#{getConverter.forType(entity[field], converterParam)}" />
 
-						<h:outputText value="#{entity[field]}" rendered="#{isDate}">
-							<f:convertDateTime pattern="#{datePattern}" />
-						</h:outputText>
+				<h:outputText value="#{entity[field]}" rendered="#{isDate}">
+					<f:convertDateTime pattern="#{datePattern}" />
+				</h:outputText>
 
-					</ui:fragment>
-				</ui:fragment>
+			</c:if>
+		</c:if>
+		
+		<!-- If childField parameter is provided that means fieldValue is entity, enum or list. -->
+		<c:if test="#{not empty childField}">
+			<!-- If field is not list, then it means it is either another entity or enum. -->
+			<c:if test="#{not isList}">
+				<!-- If childField ID is not provided then we dont need link to entity page. -->
+				<c:if test="#{empty entityView}">
+					<c:if test="#{isMessage}">
+						<h:outputText rendered="#{entity[field][childField] != null and entity[field][childField].toString() == 'true'}" value="#{messages['commons.yes']}" />
+						<h:outputText rendered="#{entity[field][childField] != null and entity[field][childField].toString() == 'false'}" value="#{messages['commons.no']}" />
+						<h:outputText rendered="#{entity[field][childField] != null and entity[field][childField].toString() != 'true' and entity[field][childField].toString() != 'false'}" value="#{messages[entity[field][childField]]}" />
+					</c:if>
+					<h:outputText rendered="#{!isMessage}" value="#{entity[field][childField]}" />
+				</c:if>
+				<!-- If entityView provided then show link to childField entity page. -->
+				<c:if test="#{not empty entityView and not exportable}">
+					<hf:linkToEntity linkId="#{field}_#{childField}_message_link" rendered="#{isMessage}" entity="#{entity[field]}" popupFields="#{popupFields}" entityId="#{entity[field][childFieldId]}" value="#{messages[entity[field][childField]]}" view="#{entityView}"/>
+					<hf:linkToEntity linkId="#{field}_#{childField}_link" rendered="#{not isMessage}" entity="#{entity[field]}" popupFields="#{popupFields}" entityId="#{entity[field][childFieldId]}" value="#{entity[field][childField]}" view="#{entityView}"/>
+				</c:if>
+				<!-- Special case workaround for exportable entity column. It needs to be copied from hf:linkToEntity, because Exporter does not recognize 
+					composite component (http://code.google.com/p/primefaces/issues/detail?id=1797) 
+					If in the future this could be fixed somehow, this part could be removed and only normal hf:linkToEntity component could be left-->
+				<c:if test="#{not empty entityView and exportable}">
+					<c:if test="#{isMessage}">
+						<h:link id="#{field}_#{childField}_message_link" value="#{messages[entity[field][childField]]}" outcome="#{entityView}" >
+				    		<f:param name="objectId" value="#{entity[field][childFieldId]}" />
+				    	</h:link>
+				    	<p:tooltip rendered="#{not empty popupFields}" for="#{field}_#{childField}_message_link" showEffect="slide" hideEffect="slide">
+							<ui:repeat value="#{popupFields.split(',')}" var="entityFields">
+				               	<h:outputText style="white-space:nowrap" value="#{entity[field][entityFields]}" /><br/>
+				            </ui:repeat>
+				        </p:tooltip>
+				     </c:if>
+					<c:if test="#{not isMessage}">
+						<h:link id="#{field}_#{childField}_message_link" value="#{entity[field][childField]}" outcome="#{entityView}" >
+				    		<f:param name="objectId" value="#{entity[field][childFieldId]}" />
+				    	</h:link>
+				    	<p:tooltip rendered="#{not empty popupFields}" for="#{field}_#{childField}_message_link" showEffect="slide" hideEffect="slide">
+							<ui:repeat value="#{popupFields.split(',')}" var="entityFields">
+				               	<h:outputText style="white-space:nowrap" value="#{entity[field][entityFields]}" /><br/>
+				            </ui:repeat>
+				        </p:tooltip>
+				     </c:if>
+				</c:if>
+			</c:if>
 
-				<!-- If childField parameter is provided that means fieldValue is entity, enum or list. -->
-				<ui:fragment rendered="#{not empty childField}">
-					<!-- If field is not list, then it means it is either another entity or enum. -->
-					<ui:fragment rendered="#{not isList}">
-						<!-- If childField ID is not provided then we dont need link to entity page. -->
-						<ui:fragment rendered="#{empty entityView}">
-							<ui:fragment rendered="#{isMessage}">
-								<h:outputText rendered="#{entity[field][childField] != null and entity[field][childField].toString() == 'true'}" value="#{messages['commons.yes']}" />
-								<h:outputText rendered="#{entity[field][childField] != null and entity[field][childField].toString() == 'false'}" value="#{messages['commons.no']}" />
-								<h:outputText rendered="#{entity[field][childField] != null and entity[field][childField].toString() != 'true' and entity[field][childField].toString() != 'false'}" value="#{messages[entity[field][childField]]}" />
-							</ui:fragment>
-							<h:outputText rendered="#{!isMessage}" value="#{entity[field][childField]}" />
-						</ui:fragment>
-						<!-- If entityView provided then show link to childField entity page. -->
-						<ui:fragment rendered="#{not empty entityView}">
-							<hf:linkToEntity linkId="#{field}_#{childField}_message_link" rendered="#{isMessage}" entity="#{entity[field]}" popupFields="#{popupFields}" entityId="#{entity[field][childFieldId]}" value="#{messages[entity[field][childField]]}" view="#{entityView}"/>
-							<hf:linkToEntity linkId="#{field}_#{childField}_link" rendered="#{!isMessage}" entity="#{entity[field]}" popupFields="#{popupFields}" entityId="#{entity[field][childFieldId]}" value="#{entity[field][childField]}" view="#{entityView}"/>
-						</ui:fragment>
-					</ui:fragment>
-
-					<!-- If its list then run through it and show results. -->
-					<ui:fragment rendered="#{isList}">
-						<c:set var="list" value="#{entity[field]}" />
-						<ui:repeat value="#{entity[field]}" var="c">
-							<!-- If childField ID is not provided then we dont need link to entity page. -->
-							<ui:fragment rendered="#{empty entityView}">
-								<ui:fragment rendered="#{isMessage}">
-									<h:outputText rendered="#{c[childField] != null and c[childField].toString() == 'true'}" value="#{messages['commons.yes']}" />
-									<h:outputText rendered="#{c[childField] != null and c[childField].toString() == 'false'}" value="#{messages['commons.no']}" />
-									<h:outputText rendered="#{c[childField] != null and c[childField].toString() != 'true' and c[childField].toString() != 'false'}" value="#{messages[c[childField]]}" />
-								</ui:fragment>
-								<h:outputText rendered="#{not isMessage}" value="#{c[childField]}" />
-							</ui:fragment>
-							<!-- If entityView provided then show link to childField entity page. -->
-							<ui:fragment rendered="#{not empty entityView}">
-								<hf:linkToEntity linkId="#{field}_#{childField}_message_link" rendered="#{isMessage}" entityId="#{c[childFieldId]}" entity="#{c}" popupFields="#{popupFields}" value="#{c[childField]}" view="#{entityView}"/>
-								<hf:linkToEntity linkId="#{field}_#{childField}_link" rendered="#{not isMessage}" entity="#{c}" popupFields="#{popupFields}" entityId="#{c[childFieldId]}" value="#{c[childField]}" view="#{entityView}"/>
-							</ui:fragment>
-							<br />
-						</ui:repeat>
-					</ui:fragment>
-				</ui:fragment>
-		</ui:fragment>
+			<!-- If its list then run through it and show results. -->
+			<c:if test="#{isList}">
+				<c:set var="list" value="#{entity[field]}" />
+				<ui:repeat value="#{entity[field]}" var="c">
+					<!-- If childField ID is not provided then we dont need link to entity page. -->
+					<c:if test="#{empty entityView}">
+						<c:if test="#{isMessage}">
+							<h:outputText rendered="#{c[childField] != null and c[childField].toString() == 'true'}" value="#{messages['commons.yes']}" />
+							<h:outputText rendered="#{c[childField] != null and c[childField].toString() == 'false'}" value="#{messages['commons.no']}" />
+							<h:outputText rendered="#{c[childField] != null and c[childField].toString() != 'true' and c[childField].toString() != 'false'}" value="#{messages[c[childField]]}" />
+						</c:if>
+						<h:outputText rendered="#{not isMessage}" value="#{c[childField]}" />
+					</c:if>
+					<!-- If entityView provided then show link to childField entity page. -->
+					<c:if test="#{not empty entityView}">
+						<hf:linkToEntity linkId="#{field}_#{childField}_message_link" rendered="#{isMessage}" entityId="#{c[childFieldId]}" entity="#{c}" popupFields="#{popupFields}" value="#{c[childField]}" view="#{entityView}"/>
+						<hf:linkToEntity linkId="#{field}_#{childField}_link" rendered="#{not isMessage}" entity="#{c}" popupFields="#{popupFields}" entityId="#{c[childFieldId]}" value="#{c[childField]}" view="#{entityView}"/>
+					</c:if>
+					<br />
+				</ui:repeat>
+			</c:if>
+		</c:if>
 		<ui:insert />
 	</p:column>
 

@@ -9,6 +9,6 @@ import org.happyfaces.domain.base.IEntity;
  */
 public interface IVariableTypeService {
     
-    public BaseEntity getById(Class<? extends IEntity> entityClass, int id);
+    public BaseEntity getById(Class<? extends IEntity> entityClass, Long id);
 
 }

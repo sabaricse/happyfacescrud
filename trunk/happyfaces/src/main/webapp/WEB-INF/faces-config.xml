@@ -10,8 +10,12 @@
 
 	<!-- JSF and Spring are integrated -->
 	<application>
+			<message-bundle>
+                messages
+            </message-bundle>
 			<locale-config>
 				<supported-locale>en</supported-locale>
+				<supported-locale>lt</supported-locale>
 			</locale-config>
 			<resource-bundle>
 				<base-name>messages</base-name>
@@ -26,6 +30,12 @@
 	    <phase-listener>org.happyfaces.utils.PhaseListenerImpl</phase-listener>
 	</lifecycle>
 	
+	<factory>
+        <exception-handler-factory>
+            org.happyfaces.jsf.exceptionhandler.HappyFacesExceptionHandlerFactory
+        </exception-handler-factory>
+	</factory>
+	
 	<!-- configuration of navigation rules -->
 	<navigation-rule>
 		<from-view-id>/*</from-view-id>
@@ -36,10 +46,6 @@
 		<navigation-case>
 			<from-outcome>accounts</from-outcome>
 			<to-view-id>/pages/accounts.xhtml</to-view-id>
-		</navigation-case>
-		<navigation-case>
-			<from-outcome>accountEdit</from-outcome>
-			<to-view-id>/pages/accountEdit.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>operations</from-outcome>

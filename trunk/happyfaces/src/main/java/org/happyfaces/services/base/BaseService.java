@@ -83,7 +83,7 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
     
     @Override
     @Transactional(readOnly = false)
-    public void delete(Integer id) {
+    public void delete(Long id) {
         Query query = em.createQuery("delete from " + entityClass.getName() + " where id = :id)");
         query.setParameter("id", id);
         query.executeUpdate();
@@ -92,21 +92,21 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
 
     @Override
     @Transactional(readOnly = false)
-    public void deleteMany(Set<Integer> ids) {
+    public void deleteMany(Set<Long> ids) {
         Query query = em.createQuery("delete from " + entityClass.getName() + " where id in (:ids)");
         query.setParameter("ids", ids);
         query.executeUpdate();
     }
 
     @Override
-    public T getById(int id) {
+    public T getById(Long id) {
         @SuppressWarnings("unchecked")
         List<T> list = em.createQuery("from " + entityClass.getName() + " where id=?").setParameter(1, id).getResultList();
         return list.size() > 0 ? (T) list.get(0) : null;
     }
 
     @Override
-    public T getById(int id, List<String> fetchFields) {
+    public T getById(Long id, List<String> fetchFields) {
         log.debug(String.format("start of find %s by id (id=%s) ..", entityClass.getSimpleName(), id));
         StringBuilder queryString = new StringBuilder("from " + entityClass.getName() + " a");
         if (fetchFields != null && !fetchFields.isEmpty()) {
@@ -141,7 +141,6 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
 
     @Override
     public int count(PaginationConfiguration config) {
-
         QueryBuilder queryBuilder = getQuery(config);
         return queryBuilder.count(em);
     }
@@ -237,7 +236,7 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
                     queryBuilder.addCriterionEnum("a." + key, (Enum) filter);
                 }
             } else if (BaseEntity.class.isAssignableFrom(filter.getClass())) {
-                queryBuilder.addCriterionEntity("a." + key, filter);
+                queryBuilder.addCriterion("a." + key + ".id", " = ", ((BaseEntity) filter).getId(), true);
             }
         }
     }

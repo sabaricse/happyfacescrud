@@ -40,7 +40,7 @@ public class EntityConverter implements javax.faces.convert.Converter, Serializa
         } else {
             String[] idAndClass = value.split("_");
             
-            Integer id = Integer.valueOf(idAndClass[0]);
+            Long id = Long.valueOf(idAndClass[0]);
             @SuppressWarnings("rawtypes")
             Class clazz;
             try {
