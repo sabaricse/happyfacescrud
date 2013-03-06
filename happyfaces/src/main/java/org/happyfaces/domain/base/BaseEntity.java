@@ -22,22 +22,22 @@ public class BaseEntity implements IEntity, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
-    private Integer id;
+    private Long id;
     
     @Version
     private Long version;
 
-    @Override
-    public Integer getId() {
-        return id;
-    }
-    
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    
     public Long getVersion() {
         return version;
+    }
+
+    @Override
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setVersion(Long version) {

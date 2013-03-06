@@ -43,7 +43,7 @@ public interface IService<T extends IEntity> {
      * @param id
      *            entity id to delete
      */
-    public void delete(Integer id);
+    public void delete(Long id);
 
     /**
      * Delete many entities provided with list of ids
@@ -51,7 +51,7 @@ public interface IService<T extends IEntity> {
      * @param ids
      *            to delete
      */
-    public void deleteMany(Set<Integer> ids);
+    public void deleteMany(Set<Long> ids);
 
     /**
      * Get entity by ID
@@ -59,7 +59,7 @@ public interface IService<T extends IEntity> {
      * @param entity
      *            Id
      */
-    public T getById(int id);
+    public T getById(Long id);
 
     /**
      * Load entity and eager fetch its fields.
@@ -69,7 +69,7 @@ public interface IService<T extends IEntity> {
      * @param fetchFields
      *            String list of field names that needs to be eager fetched
      */
-    public T getById(int id, List<String> fetchFields);
+    public T getById(Long id, List<String> fetchFields);
 
     /**
      * @return count of all entities in db.

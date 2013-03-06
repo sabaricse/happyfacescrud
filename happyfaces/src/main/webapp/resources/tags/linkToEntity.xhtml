@@ -20,9 +20,9 @@
 	
 	<cc:implementation>
 		<h:link id="#{cc.attrs.linkId}" value="#{cc.attrs.value}" outcome="#{cc.attrs.view}" >
-			<cc:insertChildren />
     		<f:param name="objectId" value="#{cc.attrs.entityId}" />
     	</h:link>
+		<cc:insertChildren />
     	
     	<p:tooltip rendered="#{not empty cc.attrs.popupFields}" for="#{cc.attrs.linkId}" showEffect="slide" hideEffect="slide">
 			<ui:repeat value="#{cc.attrs.popupFields.split(',')}" var="entityFields">

@@ -22,6 +22,10 @@
             /WEB-INF/applicationContext*.xml
          </param-value>
       </context-param>
+      
+      <session-config>
+	    <session-timeout>10</session-timeout>
+	</session-config>
  
       <!-- The Bootstrap listener to start up and shut down Spring's root WebApplicationContext. It is registered to Servlet Container -->
       <listener>

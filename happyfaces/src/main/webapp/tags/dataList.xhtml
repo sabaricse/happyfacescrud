@@ -15,7 +15,7 @@
 	</c:if>
 
 	<c:if test="${empty checkMany}">
-		<c:set var="checkMany" value="false" />
+		<c:set var="checkMany" value="true" />
 	</c:if>
 
 	<c:if test="${empty resultsId}">
@@ -32,24 +32,21 @@
 		<h:form id="#{formId}" prependId="false" >
 			
 			<p:messages />
-			<e:sortableDataTable id="datatable" var="entity" value="#{backingBean.lazyDataModel}" paginator="true" rows="10"
+			<e:sortableDataTable id="datatable" var="entity" value="#{backingBean.lazyDataModel}" paginator="true" rows="10"  selection="#{backingBean.selectedEntities}"
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 				rowsPerPageTemplate="5,10,15" lazy="true" binding="#{backingBean.dataTable}">
+				<p:column selectionMode="multiple" style="width:2%" rendered="#{checkMany}" exportable="false"  />  
 				<ui:insert />
 			</e:sortableDataTable>
 
-			<!-- 
-			<h:panelGrid width="100%" columns="2" border="0" style="padding:0px; margin:0px;text-align: left;">
-				<h:column width="10%">
-					<c:if test="${checkMany}">
-						<h:graphicImage value="/img/delete.gif" style="border:0" rendered="#{edit}" />
-						<h:commandLink id="deleteEntitieslink" action="#{backingBean.deleteMany()}" value="#{messages['commons.delete']}" rendered="#{edit}"
-							onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}" />
-						<p:tooltip for="deleteEntitieslink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide" />
-					</c:if>
-				</h:column>
+			<h:panelGrid columns="2" rendered="#{checkMany}">
+				 <p:commandButton id="deleteEntitieslink" value="#{messages['commons.multipleDelete']}" action="#{backingBean.deleteMany()}" icon="ui-icon-trash"
+					 	onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}" ajax="false" />
+				 
+				 <p:commandButton id="buttonExport" value="#{messages['commons.excelExport']}" ajax="false">
+						<p:dataExporter type="xls" target="datatable" fileName="data" pageOnly="false"/>
+				 </p:commandButton>
 			</h:panelGrid>
-			 -->
 			 
 		</h:form>
 	</p:panel>

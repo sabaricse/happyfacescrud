@@ -17,7 +17,7 @@
              </h:panelGrid>
              <h:panelGrid columns="2">
                  <p:outputLabel for="_spring_security_remember_me" value="#{messages['login.rememberMe']}: "/>
-                 <p:selectBooleanCheckbox id="_spring_security_remember_me" name="_spring_security_remember_me" />
+                 <p:selectBooleanCheckbox id="_spring_security_remember_me" name="_spring_security_remember_me" value="#{loginBean.rememberMe}" />
              </h:panelGrid>
          </h:form>
     </ui:define>

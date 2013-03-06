@@ -22,7 +22,7 @@ public class VariableTypeService implements IVariableTypeService {
     @PersistenceContext
     private EntityManager em;
 
-    public BaseEntity getById(Class<? extends IEntity> entityClass, int id) {
+    public BaseEntity getById(Class<? extends IEntity> entityClass, Long id) {
         return new BaseService<BaseEntity>(entityClass, em).getById(id);
     }
 

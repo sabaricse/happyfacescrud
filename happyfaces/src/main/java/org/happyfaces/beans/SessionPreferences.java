@@ -1,4 +1,4 @@
-package org.happyfaces.beans;
+ package org.happyfaces.beans;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -7,7 +7,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 
 /**
@@ -46,6 +50,27 @@ public class SessionPreferences implements Serializable {
     }
     
     /**
+     * Get session duration.
+     */
+    public int getSessionDuration() {
+        return ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getMaxInactiveInterval();
+    }
+    
+    /**
+     * When 60 sec left, show session expiration popup.
+     */
+    public int getSessionTimeoutAlertDuration() {
+        return 60;
+    }
+    
+    /**
+     * Maintain session.
+     */
+    public void keepSessionAlive() {
+       FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+    }
+    
+    /**
      * Check if user has authority to edit. Override if specific role is
      * required for different pages.
      * 
@@ -66,14 +91,14 @@ public class SessionPreferences implements Serializable {
 
     /**
     * Return authenticated user name.
-//    */
-//   public static String getUserName() {
-//       try {
-//           UserDetails authenticatedUser = (UserDetails) ((SecurityContext) SecurityContextHolder.getContext()).getAuthentication().getPrincipal();
-//           return authenticatedUser.getUsername();
-//       } catch (Throwable e) {
-//           return "authentication error";
-//       }
-//   }
+    */
+   public static String getUserName() {
+       try {
+           UserDetails authenticatedUser = (UserDetails) ((SecurityContext) SecurityContextHolder.getContext()).getAuthentication().getPrincipal();
+           return authenticatedUser.getUsername();
+       } catch (Throwable e) {
+           return "authentication error";
+       }
+   }
     
 }
