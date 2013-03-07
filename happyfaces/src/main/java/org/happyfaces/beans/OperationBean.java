@@ -44,4 +44,15 @@ public class OperationBean extends BaseBean<Operation> {
     protected List<String> getListFieldsToFetch() {
         return Arrays.asList("account");
     }
+    
+    /**
+     * Fetch customer field so no LazyInitialize exception is thrown when
+     * we access it from account edit view.
+     * 
+     * @see org.happyfaces.beans.base.BaseBean#getFormFieldsToFetch()
+     */
+    @Override
+    protected List<String> getFormFieldsToFetch() {
+        return Arrays.asList("account");
+    }
 }
