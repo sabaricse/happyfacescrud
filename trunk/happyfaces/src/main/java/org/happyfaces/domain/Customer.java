@@ -51,7 +51,7 @@ public class Customer extends BaseEntity {
     @Column(name = "AGE")
     private Integer age;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "CUSTOMER_CUSTOMERPERK", joinColumns = @JoinColumn(name = "CUSTOMER_ID"), inverseJoinColumns = @JoinColumn(name = "PERK_ID"))
     private List<CustomerPerk> perks;
 
