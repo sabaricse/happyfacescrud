@@ -66,7 +66,6 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
     @Transactional(readOnly = false)
     public void add(T entity) {
         em.persist(entity);
-        log.info("Entity saved"); // TODO add
     }
 
     @Override
@@ -180,7 +179,6 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         return queryBuilder;
     }
 
-    //TODO rewrite in Criteria API
     /**
      * Add filter to QueryBuilder. If some non standard filter is needed - this
      * method can be overridden, however better approach is to add filter in
@@ -249,8 +247,7 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
      * 
      * @return processed filters keys.
      */
-    @SuppressWarnings("unused")
-    protected List<String> processNonStandardFilters(Map<String, Object> filters, QueryBuilder queryBuilder) {
+    protected List<String> processNonStandardFilters(@SuppressWarnings("unused") Map<String, Object> filters, @SuppressWarnings("unused") QueryBuilder queryBuilder) {
         return Collections.emptyList();
     }
 

@@ -50,11 +50,4 @@ public final class PasswordUtils {
         return null;
     }
 
-    /**
-     * @return
-     */
-    // TODO implement
-    public static String generateRandomPassword() {
-        return "123456";
-    }
 }
