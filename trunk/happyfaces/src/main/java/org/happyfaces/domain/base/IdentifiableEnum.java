@@ -1,4 +1,4 @@
-package org.happyfaces.domain;
+package org.happyfaces.domain.base;
 
 /**
  * Interface for identifiableEnum. This is used when enum is mapped in model as
