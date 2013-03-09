@@ -6,7 +6,7 @@
 
 <facelet-taglib>
 
-	<namespace>http://happyfaces.org/happyfaces</namespace>
+	<namespace>http://hftl.org</namespace>
 
 	<tag>
 		<tag-name>dataList</tag-name>
