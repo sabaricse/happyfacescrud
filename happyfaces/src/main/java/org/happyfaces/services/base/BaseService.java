@@ -15,9 +15,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
-import org.happyfaces.domain.IdentifiableEnum;
 import org.happyfaces.domain.base.BaseEntity;
 import org.happyfaces.domain.base.IEntity;
+import org.happyfaces.domain.base.IdentifiableEnum;
 import org.happyfaces.jsf.datatable.PaginationConfiguration;
 import org.happyfaces.utils.QueryBuilder;
 import org.springframework.transaction.annotation.Transactional;
