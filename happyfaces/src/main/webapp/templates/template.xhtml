@@ -78,9 +78,7 @@
 				<h:form>
 					<p>
 						<span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 50px 0;"></span>
-						<div>
 							#{messages['session.loggedOutIn']} <span id="dialog-countdown" style="font-weight: bold"></span> #{messages['session.seconds']}.
-						</div>
 					</p>
 					<p>#{messages['session.continue']}</p>
 					<p:commandButton value="#{messages['session.keepWorking']}" action="#{sessionPreferences.keepSessionAlive}" oncomplete="resetPageTimer()" />
