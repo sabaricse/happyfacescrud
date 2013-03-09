@@ -1,12 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:hf="http://java.sun.com/jsf/composite/tags" xmlns:cc="http://java.sun.com/jsf/composite">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"  
+	xmlns:cc="http://java.sun.com/jsf/composite">
 
 	<cc:interface componentType="formEntityField">
 		<cc:attribute name="label" required="true" />
 		<cc:attribute name="field" required="true" />
+		<cc:attribute name="backingBean" required="false" />
+		<cc:attribute name="entity" required="false" />
 		<cc:attribute name="childField" required="true" />
 		<cc:attribute name="required" default="false" />
 		<cc:attribute name="size" default="20" />
@@ -48,11 +54,6 @@
 				</h:panelGrid>
 			</ui:fragment>
 
-			<!-- if service is not set, then just render fields for embedded entity -->
-			<ui:fragment rendered="#{empty cc.attrs.listBean}">
-				<hf:formField disabled="#{cc.attrs.disabled}" label="#{cc.attrs.label}" entity="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field]}" field="#{cc.attrs.childField}" textArea="#{cc.attrs.textArea}" cols="#{cc.attrs.cols}" rows="#{cc.attrs.rows}"
-					maxlength="#{cc.attrs.maxlength}" />
-			</ui:fragment>
 		</ui:fragment>
 	</cc:implementation>
 

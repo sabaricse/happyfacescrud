@@ -7,6 +7,7 @@
 		xmlns:h="http://java.sun.com/jsf/html"
 		xmlns:f="http://java.sun.com/jsf/core"
 	    xmlns:p="http://primefaces.org/ui"
+	    xmlns:hf="http://java.sun.com/jsf/composite/tags"
 		xmlns:cc="http://java.sun.com/jsf/composite">
 
 		<cc:interface>
@@ -22,12 +23,13 @@
 			</f:facet>
 			
 			<h:form id="searchForm" styleClass="mainForm" >
+				<p:messages />
 				<h:panelGrid columns="#{cc.attrs.columns}">
 					<cc:insertChildren />
 				</h:panelGrid>
 				<h:panelGrid columns="3">
 					<p:commandButton id="buttonSearch" value="#{messages['commons.search']}" ajax="false" action="#{cc.attrs.backingBean.search}" />
-					<p:commandButton id="buttonClear" value="#{messages['commons.clean']}" ajax="false" action="#{cc.attrs.backingBean.clean}" />
+					<hf:clearButton label="#{messages['commons.clean']}" resetAction="#{cc.attrs.backingBean.clean}" />
 					<p:button id="buttonNew" value="#{messages['commons.new']}" outcome="#{cc.attrs.backingBean.getNewViewName()}" render="#{cc.attrs.renderNewButton}"> 
 						<f:param name="edit" value="true"/>
 					</p:button>

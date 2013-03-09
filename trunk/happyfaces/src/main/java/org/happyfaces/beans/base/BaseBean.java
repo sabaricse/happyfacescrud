@@ -289,6 +289,14 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     public void clean() {
         filters = new HashMap<String, Object>();
     }
+    
+    /**
+     * Reset values to the last state.
+     */
+    public void resetFormEntity() {
+        entity = null;
+        entity = getEntity();
+    }
 
     /**
      * Get new instance for backing bean class.

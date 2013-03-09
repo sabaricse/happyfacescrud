@@ -31,7 +31,6 @@
 
 		<h:form id="#{formId}" prependId="false" >
 			
-			<p:messages />
 			<e:sortableDataTable id="datatable" var="entity" value="#{backingBean.lazyDataModel}" paginator="true" rows="10"  selection="#{backingBean.selectedEntities}"
 				paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 				rowsPerPageTemplate="5,10,15" lazy="true" binding="#{backingBean.dataTable}">
