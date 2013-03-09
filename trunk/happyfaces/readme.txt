@@ -22,11 +22,9 @@ TODO:
 1. 
 
 Something more to add:
-1. More list types: selectMany, also maybe list of checkboxes etc.
+1. More list types: Maybe list of checkboxes etc.
 2. Search in entity fields that are lists also.
-3. Add addition of list elements in simpleList type.
-4. Multiselects and deletes of multiple entities in datalist view.
+3. Add list elements in simpleList type.
 
 Ideas:
-1. Remove *EntityField.xhtml and simply let fields be accessed through dot (e.g. <formField field="customer.name" />)
-2. Code generation lets create entities and windows very fast.
+1. Code generation lets create entities and windows very fast.

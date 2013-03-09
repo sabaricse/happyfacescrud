@@ -241,7 +241,6 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
         }
     }
 
-    // TODO implement
     /**
      * Delete checked entities. Add error message to {@link statusMessages} if
      * unsuccessful.
