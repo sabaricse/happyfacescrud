@@ -18,6 +18,10 @@
 		<c:set var="checkMany" value="true" />
 	</c:if>
 
+	<c:if test="${empty renderExport}">
+		<c:set var="renderExport" value="true" />
+	</c:if>
+
 	<c:if test="${empty resultsId}">
 		<c:set var="resultsId" value="results" />
 	</c:if>
@@ -38,11 +42,11 @@
 				<ui:insert />
 			</e:sortableDataTable>
 
-			<h:panelGrid columns="2" rendered="#{checkMany}">
+			<h:panelGrid columns="2">
 				 <p:commandButton id="deleteEntitieslink" value="#{messages['commons.multipleDelete']}" action="#{backingBean.deleteMany()}" icon="ui-icon-trash"
-					 	onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}" ajax="false" />
+					 	onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}" ajax="false" rendered="#{checkMany}" />
 				 
-				 <p:commandButton id="buttonExport" value="#{messages['commons.excelExport']}" ajax="false">
+				 <p:commandButton id="buttonExport" value="#{messages['commons.excelExport']}" ajax="false" rendered="#{renderExport}">
 						<p:dataExporter type="xls" target="datatable" fileName="data" pageOnly="false"/>
 				 </p:commandButton>
 			</h:panelGrid>
