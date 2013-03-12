@@ -14,7 +14,7 @@
 		<cc:attribute name="backingBean" required="true" />
 		<cc:attribute name="ajaxSubmit" required="true" />
 		<cc:attribute name="columns" required="true" />
-		<cc:attribute name="edit" required="true" />
+		<cc:attribute name="edit" required="#{edit}" />
 	</cc:interface>
 	
 	<cc:implementation>
@@ -28,7 +28,7 @@
 			
 			<cc:insertChildren />
 			
-			<hf:clearButton label="#{messages['action.reset']}" resetAction="#{cc.attrs.backingBean.resetFormEntity()}" />
+			<hf:clearButton label="#{messages['action.reset']}" resetAction="#{cc.attrs.backingBean.resetFormEntity()}" rendered="#{cc.attrs.edit}" />
 			
 			<p:commandButton value="#{messages['action.back']}" action="#{cc.attrs.backingBean.getListViewName()}" immediate="true" />
 			
