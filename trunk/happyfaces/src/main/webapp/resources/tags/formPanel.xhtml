@@ -7,7 +7,6 @@
 
 	<cc:interface>
 		<cc:attribute name="backingBean" required="true" />
-		<cc:attribute name="edit" default="#{edit}" />
 		<cc:attribute name="formId" default="formId" />
 		<cc:attribute name="columns" default="2" />
 		<cc:attribute name="showFormButtons" default="true" />
@@ -23,7 +22,7 @@
 				<cc:insertChildren />
 			</h:panelGrid>
 			<h:panelGrid>
-				<hf:formButtons rendered="#{cc.attrs.showFormButtons}" backingBean="#{cc.attrs.backingBean}" edit="#{cc.attrs.edit}" columns="#{cc.attrs.formButtonsColumns}" ajaxSubmit="#{cc.attrs.ajaxSubmi}" />
+				<hf:formButtons rendered="#{cc.attrs.showFormButtons}" backingBean="#{cc.attrs.backingBean}" columns="#{cc.attrs.formButtonsColumns}" ajaxSubmit="#{cc.attrs.ajaxSubmi}" />
 			</h:panelGrid>
 		</h:form>
 
