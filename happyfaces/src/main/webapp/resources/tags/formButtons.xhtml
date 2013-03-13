@@ -14,17 +14,16 @@
 		<cc:attribute name="backingBean" required="true" />
 		<cc:attribute name="ajaxSubmit" required="true" />
 		<cc:attribute name="columns" required="true" />
-		<cc:attribute name="edit" required="#{edit}" />
 	</cc:interface>
 	
 	<cc:implementation>
 		
 		<h:panelGrid columns="#{cc.attrs.columns}">
-			<p:button value="#{messages['commons.edit']}" rendered="#{!cc.attrs.edit}">
+			<p:button value="#{messages['commons.edit']}" rendered="#{not cc.attrs.backingBean.edit}">
 				<f:param name="edit" value="true"/>
 				<f:param name="objectId" value="#{cc.attrs.backingBean.objectId}" />
 			</p:button>
-			<p:commandButton rendered="#{cc.attrs.edit}" value="#{messages['action.save']}" action="#{cc.attrs.backingBean.save}" icon="ui-icon-check" ajax="#{cc.attrs.ajaxSubmit}" />
+			<p:commandButton rendered="#{cc.attrs.backingBean.edit}" value="#{messages['action.save']}" action="#{cc.attrs.backingBean.save}" icon="ui-icon-check" ajax="#{cc.attrs.ajaxSubmit}" />
 			
 			<cc:insertChildren />
 			
