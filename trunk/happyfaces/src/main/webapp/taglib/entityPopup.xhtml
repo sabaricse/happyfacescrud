@@ -11,8 +11,11 @@
 	<c:if test="${empty id}">
 		<c:set var="id" value="popupId" />
 	</c:if>
+	<c:if test="${empty widgetWar}">
+		<c:set var="widgetWar" value="dlg" />
+	</c:if>
 
-	<p:dialog id="dialog" header="#{header}" widgetVar="dlg" dynamic="true">
+	<p:dialog id="#{id}dialog" header="#{header}" widgetVar="#{widgetWar}" dynamic="true">
 		<h:form id="#{id}popupForm">
 			<h:panelGrid id="#{id}searchFormPanel" columns="2">
 				<c:if test="#{not empty searchField1}">
@@ -31,7 +34,7 @@
 			</h:panelGrid>
 			<p:dataTable id="datatable" var="e" value="#{backingBean.lazyDataModel}" rows="10" selection="#{selection}" selectionMode="single"
 				lazy="true">
-				<p:ajax event="rowSelect" oncomplete="dlg.hide()" update="#{updateField}" />
+				<p:ajax event="rowSelect" oncomplete="#{widgetWar}.hide()" update="#{updateField}" />
 
 				<c:if test="#{not empty column1}">
 					<p:column>
