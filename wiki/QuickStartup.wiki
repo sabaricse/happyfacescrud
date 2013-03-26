@@ -5,7 +5,7 @@
   * Download archetype-1.0.0-beta.rar from downloads section
   * Unrar it.
   * Enter archetype dir and run "mvn install".
-  * After archetype is in your local repository go to project workspace and run "mvn archetype:generate -DarchetypeCatalog=local" to create your project from happyfaces archetype.
+  * After archetype is in your local repository go to project workspace (must leave archetype dir where pom is) and run "mvn archetype:generate -DarchetypeCatalog=local" to create your project from happyfaces archetype.
   * Import it to eclipse (TODO not tested on other IDEs - feedback would be really appreciated). Use M2E plugin and add maven nature (NOT mvn eclipse:eclipse).
   * Edit build.properties file and fill information about your database. Mysql is recommended and its connector is included in maven pom, but of course any other database can be used.
   * Add project to tomcat and start.
