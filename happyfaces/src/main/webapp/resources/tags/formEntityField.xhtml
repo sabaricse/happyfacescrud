@@ -23,6 +23,7 @@
 		<cc:attribute name="textArea" default="false" />
 		<cc:attribute name="cols" default="20" />
 		<cc:attribute name="rows" default="5" />
+		<cc:attribute name="popupWidget" default="dlg" />
 	</cc:interface>
 
 
@@ -32,7 +33,7 @@
 				<p:outputLabel for="#{cc.attrs.id}" value="#{cc.attrs.label}" />
 				<h:panelGrid columns="3">
 					<p:inputText id="#{cc.attrs.id}" rendered="#{cc.backingBeanFromParentOrCurrent.edit}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field][cc.attrs.childField]}" required="#{cc.attrs.required}" size="#{cc.attrs.size}" disabled="true" />
-					<p:commandButton rendered="#{cc.backingBeanFromParentOrCurrent.edit}" id="selectLink" onclick="dlg.show()" icon="ui-icon-search"/>
+					<p:commandButton rendered="#{cc.backingBeanFromParentOrCurrent.edit}" id="selectLink" onclick="#{cc.attrs.popupWidget}.show()" icon="ui-icon-search"/>
 					<p:tooltip for="selectLink" value="#{messages['commons.search']}" />
 					<h:outputText rendered="#{!cc.backingBeanFromParentOrCurrent.edit}" value="#{cc.entityFromBackingBeanOrAttribute[cc.attrs.field][cc.attrs.childField]}" style="font-weight:bold;" />
 				</h:panelGrid>
