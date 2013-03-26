@@ -367,7 +367,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
 
                 @Override
                 public T getRowData(String rowKey) {
-                    return getPersistenceService().getById(Long.valueOf(rowKey));
+                    return getPersistenceService().getById(Long.valueOf(rowKey), getListFieldsToFetch());
                 }
 
                 @Override
