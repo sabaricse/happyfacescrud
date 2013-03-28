@@ -167,11 +167,17 @@
 									<f:facet name="header">
 										<h:outputText value="#{messages[headerAndValue[0]]}" />
 									</f:facet>
-									<c:set var="value" value="#{listElement[headerAndValue[1]]}"></c:set>
+									<c:if test="#{headerAndValue[1].contains('.')}">
+										<c:set var="entityAndField" value="#{headerAndValue[1].split('\\.')}" />
+										<c:set var="value" value="#{listElement[entityAndField[0]][entityAndField[1]]}" />
+									</c:if>
+									<c:if test="#{not headerAndValue[1].contains('.')}">
+										<c:set var="value" value="#{listElement[headerAndValue[1]]}"></c:set>
+									</c:if>
 									<c:if test="#{'msg'.equals(headerAndValue[2])}">
 										<c:set var="value" value="#{messages[listElement[headerAndValue[1]].label]}" />
 									</c:if>
-									<h:outputText style="text-align:right;" value="#{value}" converter="#{getConverter.forType(listElement[headerAndValue[1]])}" />
+									<h:outputText style="text-align:right;" value="#{value}" />
 								</p:column>
 							</c:forEach>
 	
