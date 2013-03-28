@@ -51,7 +51,13 @@ public class QueryBuilder {
         StringBuilder query = new StringBuilder("from " + clazz.getName() + " " + alias);
         if (fetchFields != null && !fetchFields.isEmpty()) {
             for (String fetchField : fetchFields) {
-                query.append(" left join fetch " + alias + "." + fetchField  + " as " + fetchField);
+                if (fetchField.contains(".")) {
+                    String[] fields = fetchField.split("\\.");
+                    query.append(" left join fetch " + alias + "." + fields[0] + " as " + fields[0]);
+                    query.append(" left join fetch " + fields[0] + "." + fields[1] + " as " + fields[1]);
+                } else {
+                    query.append(" left join fetch " + alias + "." + fetchField + " as " + fetchField);
+                }
             }
         }
         return query.toString();
