@@ -110,7 +110,13 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         StringBuilder queryString = new StringBuilder("from " + entityClass.getName() + " a");
         if (fetchFields != null && !fetchFields.isEmpty()) {
             for (String fetchField : fetchFields) {
-                queryString.append(" left join fetch a." + fetchField);
+                if (fetchField.contains(".")) {
+                    String[] fields = fetchField.split("\\.");
+                    queryString.append(" left join fetch a." + fields[0] + " as " + fields[0]);
+                    queryString.append(" left join fetch " + fields[0] + "." + fields[1] + " as " + fields[1]);
+                } else {
+                    queryString.append(" left join fetch a." + fetchField + " as " + fetchField);
+                }
             }
         }
         queryString.append(" where a.id = :id");
