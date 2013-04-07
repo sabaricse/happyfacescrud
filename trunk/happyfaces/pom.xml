@@ -10,6 +10,15 @@
 	<url>http://url.com</url>
 	<description>Description</description>
 
+	<repositories>
+		<repository>
+	        <id>prime-repo</id>  
+	        <name>PrimeFaces Maven Repository</name>  
+	        <url>http://repository.primefaces.org</url>  
+	        <layout>default</layout>  
+	    </repository>
+	</repositories>  
+	
 	<organization>
 		<name>!!!!!Org name!!!!!</name>
 		<url>!!!!!Org url!!!!!</url>
