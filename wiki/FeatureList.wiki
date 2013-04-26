@@ -5,7 +5,7 @@
 This is complete list of what you get when starting new project with happyfaces maven archetype.
 
 
-= Details =
+= Features =
 
   * Setuped Spring and JSF project with all configuration. Saves a lot of work for the project startup.
   * Quite some jsf composite components which works well with standard backing beans and allows to create crud pages in very fast and easy way without loosing flexibility and ability to customize to your requirements (which is often a trade off with code generation tools).
