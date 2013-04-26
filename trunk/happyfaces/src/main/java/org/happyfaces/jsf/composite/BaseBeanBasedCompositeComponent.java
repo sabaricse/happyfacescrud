@@ -14,10 +14,12 @@ import org.happyfaces.domain.base.IEntity;
 import org.happyfaces.utils.FacesUtils;
 
 /**
+ * Backing component for {@link BaseBean} based composite components.
+ * 
  * @author Ignas
  * 
  */
-public class BackingBeanBasedCompositeComponent extends UINamingContainer {
+public class BaseBeanBasedCompositeComponent extends UINamingContainer {
 
     private static final String BOOLEAN_TRUE_STRING = "true";
 
@@ -73,6 +75,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         }
     }
 
+    /**
+     * Returns if field is of text type.
+     */
     public boolean isText(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -81,6 +86,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of boolean type.
+     */
     public boolean isBoolean(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -90,6 +98,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of date type.
+     */
     public boolean isDate(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -98,6 +109,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of enum type.
+     */
     public boolean isEnum(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -106,6 +120,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of integer type.
+     */
     public boolean isInteger(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -115,6 +132,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of long type.
+     */
     public boolean isLong(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -124,6 +144,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of byte type.
+     */
     public boolean isByte(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -133,6 +156,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of short type.
+     */
     public boolean isShort(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -142,6 +168,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of double type.
+     */
     public boolean isDouble(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -151,6 +180,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of float type.
+     */
     public boolean isFloat(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -160,6 +192,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of BigDecimal type.
+     */
     public boolean isBigDecimal(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -168,6 +203,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is subclass of IEntity.
+     */
     public boolean isEntity(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -176,6 +214,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns if field is of List type.
+     */
     public boolean isList(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null) {
@@ -185,6 +226,9 @@ public class BackingBeanBasedCompositeComponent extends UINamingContainer {
         throw new IllegalStateException("No field with name '" + fieldName + "' was found");
     }
 
+    /**
+     * Returns array of enum fields if field is of enum type.
+     */
     public Object[] getEnumConstants(String fieldName) throws SecurityException, NoSuchFieldException {
         Field field = getEntityFromBackingBeanOrAttribute().getClass().getDeclaredField(fieldName);
         if (field != null && field.getType().isEnum()) {

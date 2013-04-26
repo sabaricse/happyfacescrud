@@ -42,6 +42,10 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
 
     private static Logger log = Logger.getLogger(BaseService.class.getName());
 
+    /**
+     * Default constructor. Loads entity class from super service information.
+     * It is used
+     */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public BaseService() {
         Class clazz = getClass();
@@ -56,30 +60,46 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
             this.entityClass = (Class<T>) o;
         }
     }
-    
+
+    /**
+     * Constructor when entityClass is passed together with entity maneger. Used
+     * in {@link VariableTypeService}.
+     */
     public BaseService(Class<? extends IEntity> entityClass, EntityManager em) {
         this.entityClass = entityClass;
         this.em = em;
-    }   
+    }
 
+    /* (non-Javadoc)
+     * @see org.happyfaces.services.base.IService#add(org.happyfaces.domain.base.IEntity)
+     */
     @Override
     @Transactional(readOnly = false)
     public void add(T entity) {
         em.persist(entity);
     }
 
+    /* (non-Javadoc)
+     * @see org.happyfaces.services.base.IService#update(org.happyfaces.domain.base.IEntity)
+     */
     @Override
     @Transactional(readOnly = false)
     public void update(T entity) {
         em.merge(entity);
     }
 
+    /* (non-Javadoc)
+     * @see org.happyfaces.services.base.IService#delete(org.happyfaces.domain.base.IEntity)
+     */
     @Override
     @Transactional(readOnly = false)
     public void delete(T entity) {
         em.remove(entity);
     }
-    
+
+    /**
+     * @see org.happyfaces.services.base.IService#delete(java.lang.Long)
+     */
     @Override
     @Transactional(readOnly = false)
     public void delete(Long id) {
@@ -87,8 +107,10 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         query.setParameter("id", id);
         query.executeUpdate();
     }
-        
 
+    /**
+     * @see org.happyfaces.services.base.IService#deleteMany(java.util.Set)
+     */
     @Override
     @Transactional(readOnly = false)
     public void deleteMany(Set<Long> ids) {
@@ -97,6 +119,9 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         query.executeUpdate();
     }
 
+    /**
+     * @see org.happyfaces.services.base.IService#getById(java.lang.Long)
+     */
     @Override
     public T getById(Long id) {
         @SuppressWarnings("unchecked")
@@ -104,6 +129,9 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         return list.size() > 0 ? (T) list.get(0) : null;
     }
 
+    /**
+     * @see org.happyfaces.services.base.IService#getById(java.lang.Long, java.util.List)
+     */
     @Override
     public T getById(Long id, List<String> fetchFields) {
         log.debug(String.format("start of find %s by id (id=%s) ..", entityClass.getSimpleName(), id));
@@ -129,6 +157,9 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         return list.size() > 0 ? (T) list.get(0) : null;
     }
 
+    /**
+     * @see org.happyfaces.services.base.IService#list()
+     */
     @SuppressWarnings("unchecked")
     @Override
     public List<T> list() {
@@ -136,6 +167,9 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         return list;
     }
 
+    /**
+     * @see org.happyfaces.services.base.IService#list(org.happyfaces.jsf.datatable.PaginationConfiguration)
+     */
     @Override
     @SuppressWarnings({ "unchecked" })
     public List<T> list(PaginationConfiguration config) {
@@ -144,12 +178,18 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         return query.getResultList();
     }
 
+    /**
+     * @see org.happyfaces.services.base.IService#count(org.happyfaces.jsf.datatable.PaginationConfiguration)
+     */
     @Override
     public int count(PaginationConfiguration config) {
         QueryBuilder queryBuilder = getQuery(config);
         return queryBuilder.count(em);
     }
 
+    /**
+     * @see org.happyfaces.services.base.IService#count()
+     */
     @Override
     public int count() {
         QueryBuilder queryBuilder = new QueryBuilder(entityClass, "a", null);
@@ -253,7 +293,8 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
      * 
      * @return processed filters keys.
      */
-    protected List<String> processNonStandardFilters(@SuppressWarnings("unused") Map<String, Object> filters, @SuppressWarnings("unused") QueryBuilder queryBuilder) {
+    protected List<String> processNonStandardFilters(@SuppressWarnings("unused") Map<String, Object> filters,
+            @SuppressWarnings("unused") QueryBuilder queryBuilder) {
         return Collections.emptyList();
     }
 

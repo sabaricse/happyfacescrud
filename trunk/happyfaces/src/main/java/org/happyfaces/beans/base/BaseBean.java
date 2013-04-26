@@ -343,38 +343,54 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     public LazyDataModel<T> getLazyDataModel() {
         if (dataModel == null) {
             dataModel = new LazyDataModel<T>() {
+                
                 private static final long serialVersionUID = 1L;
 
                 private Integer rowCount;
 
                 private Integer rowIndex;
 
+                /**
+                 * @see org.primefaces.model.LazyDataModel#load(int, int, java.lang.String, org.primefaces.model.SortOrder, java.util.Map)
+                 */
                 @Override
-                public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> loadingFilters) {
+                public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+                        Map<String, String> loadingFilters) {
                     Map<String, Object> copyOfFilters = new HashMap<String, Object>();
-                    copyOfFilters.putAll(filters);
-                    setRowCount(getPersistenceService().count(
-                            new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder)));
+                    copyOfFilters.putAll(getFilters());
+                    setRowCount((int) getPersistenceService().count(
+                            new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(),
+                                    sortField, sortOrder)));
                     if (getRowCount() > 0) {
                         copyOfFilters = new HashMap<String, Object>();
-                        copyOfFilters.putAll(filters);
+                        copyOfFilters.putAll(getFilters());
                         return getPersistenceService().list(
-                                new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder));
+                                new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(),
+                                        sortField, sortOrder));
                     } else {
                         return null; // no need to load then
                     }
                 }
 
+                /**
+                 * @see org.primefaces.model.LazyDataModel#getRowData(java.lang.String)
+                 */
                 @Override
                 public T getRowData(String rowKey) {
-                    return getPersistenceService().getById(Long.valueOf(rowKey), getListFieldsToFetch());
+                    return getPersistenceService().getById(Long.valueOf(rowKey));
                 }
 
+                /**
+                 * @see org.primefaces.model.LazyDataModel#getRowKey(java.lang.Object)
+                 */
                 @Override
                 public Object getRowKey(T object) {
                     return object.getId();
                 }
 
+                /**
+                 * @see org.primefaces.model.LazyDataModel#setRowIndex(int)
+                 */
                 @Override
                 public void setRowIndex(int rowIndex) {
                     if (rowIndex == -1 || getPageSize() == 0) {
@@ -384,12 +400,18 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
                     }
                 }
 
+                /**
+                 * @see org.primefaces.model.LazyDataModel#getRowData()
+                 */
                 @SuppressWarnings("unchecked")
                 @Override
                 public T getRowData() {
                     return ((List<T>) getWrappedData()).get(rowIndex);
                 }
 
+                /**
+                 * @see org.primefaces.model.LazyDataModel#isRowAvailable()
+                 */
                 @SuppressWarnings({ "unchecked" })
                 @Override
                 public boolean isRowAvailable() {
@@ -400,20 +422,29 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
                     return rowIndex >= 0 && rowIndex < ((List<T>) getWrappedData()).size();
                 }
 
+                /**
+                 * @see org.primefaces.model.LazyDataModel#getRowIndex()
+                 */
                 @Override
                 public int getRowIndex() {
                     return this.rowIndex;
                 }
 
+                /**
+                 * @see org.primefaces.model.LazyDataModel#setRowCount(int)
+                 */
                 @Override
                 public void setRowCount(int rowCount) {
                     this.rowCount = rowCount;
                 }
 
+                /**
+                 * @see org.primefaces.model.LazyDataModel#getRowCount()
+                 */
                 @Override
                 public int getRowCount() {
                     if (rowCount == null) {
-                        rowCount = getPersistenceService().count();
+                        rowCount = (int) getPersistenceService().count();
                     }
                     return rowCount;
                 }
@@ -423,39 +454,70 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
         return dataModel;
     }
 
+    /**
+     * Invoked when search button is pressed. Primefaces datatable is reset on
+     * that action.
+     */
     public String search() {
         dataTable.reset();
         return null;
     }
 
+    /**
+     * Return binded primefaces datatable.
+     */
     public DataTable getDataTable() {
         return dataTable;
     }
 
+    /**
+     * Set primefaces datatable.
+     */
     public void setDataTable(DataTable dataTable) {
         this.dataTable = dataTable;
     }
-    
+
+    /**
+     * Selected entities getter. (selected with checkoboxes in first datatable
+     * column).
+     */
     public IEntity[] getSelectedEntities() {
         return selectedEntities;
     }
-    
+
+    /**
+     * Selected entities setter.
+     */
     public void setSelectedEntities(IEntity[] selectedEntities) {
         this.selectedEntities = selectedEntities;
     }
 
+    /**
+     * Object id set from url param in edit form. If not set then form is used
+     * for new entity creation.
+     */
     public Long getObjectId() {
         return objectId;
     }
 
+    /**
+     * ObjectId setter.
+     */
     public void setObjectId(Long objectId) {
         this.objectId = objectId;
     }
 
+    /**
+     * Object id set from url param in edit form. If not set then form is used
+     * for new entity creation.
+     */
     public boolean isEdit() {
         return edit;
     }
 
+    /**
+     * ObjectId setter.
+     */
     public void setEdit(boolean edit) {
         this.edit = edit;
     }

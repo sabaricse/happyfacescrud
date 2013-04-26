@@ -9,8 +9,14 @@ package org.happyfaces.domain.base;
  */
 public interface IdentifiableEnum {
 
+    /**
+     * Enum id that is saved in database.
+     */
     public Integer getId();
     
+    /**
+     * Enum label.
+     */
     public String getLabel();
 
 }

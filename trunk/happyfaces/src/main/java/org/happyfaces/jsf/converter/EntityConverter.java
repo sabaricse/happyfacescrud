@@ -14,17 +14,20 @@ import org.happyfaces.domain.base.BaseEntity;
 import org.happyfaces.services.base.IVariableTypeService;
 
 /**
- * Generic Entity Converter for any Entity that extends BaseIdentityEntity
+ * Custom generic entity converter. Fits for all subclasses of
+ * {@link BaseEntity}, no need to create new converter for each entity.
+ * 
+ * @author Ignas
  * 
  */
 @RequestScoped
 @ManagedBean(name = "entityConverter")
 public class EntityConverter implements javax.faces.convert.Converter, Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     private static Logger log = Logger.getLogger(EntityConverter.class);
-    
+
     @ManagedProperty(value = "#{variableTypeService}")
     private IVariableTypeService variableTypeService;
 
@@ -32,6 +35,10 @@ public class EntityConverter implements javax.faces.convert.Converter, Serializa
         this.variableTypeService = variableTypeService;
     }
 
+    /**
+     * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext,
+     *      javax.faces.component.UIComponent, java.lang.String)
+     */
     @SuppressWarnings("unchecked")
     public Object getAsObject(FacesContext facesContext, UIComponent component, String value) throws ConverterException {
         BaseEntity entity;
@@ -39,7 +46,7 @@ public class EntityConverter implements javax.faces.convert.Converter, Serializa
             entity = null;
         } else {
             String[] idAndClass = value.split("_");
-            
+
             Long id = Long.valueOf(idAndClass[0]);
             @SuppressWarnings("rawtypes")
             Class clazz;
@@ -48,7 +55,7 @@ public class EntityConverter implements javax.faces.convert.Converter, Serializa
             } catch (ClassNotFoundException e) {
                 throw new ConverterException("Class with name " + idAndClass[1] + " was not found.");
             }
-            
+
             entity = (BaseEntity) variableTypeService.getById(clazz, id);
             if (entity == null) {
                 log.error("There is no entity with id:  " + id + " for class " + clazz);
@@ -57,6 +64,10 @@ public class EntityConverter implements javax.faces.convert.Converter, Serializa
         return entity;
     }
 
+    /**
+     * @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext,
+     *      javax.faces.component.UIComponent, java.lang.Object)
+     */
     public String getAsString(FacesContext facesContext, UIComponent component, Object value) throws ConverterException {
         if (value == null || "".equals(value)) {
             return "";

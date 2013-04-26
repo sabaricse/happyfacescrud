@@ -6,8 +6,10 @@ import javax.persistence.Table;
 import org.happyfaces.domain.base.BaseEntity;
 
 /**
+ * City domain model.
+ * 
  * @author Ignas
- *
+ * 
  */
 @Entity
 @Table(name = "CITY")

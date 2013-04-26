@@ -7,44 +7,48 @@ import java.util.Map;
 import org.primefaces.model.SortOrder;
 
 /**
+ * This is helper class to keep all information about lazy datatable pagination,
+ * sorting, filtering etc.
+ * 
  * @author Ignas
- *
+ * 
  */
 public class PaginationConfiguration implements Serializable {
 
-	private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 1l;
 
-	private int firstRow, numberOfRows;
-	
-	/** Search filters (key = field name, value = search pattern or value). */
-	private Map<String, Object> filters;
-	
-	/** Fields that needs to be fetched when selecting (like lists or other entities). */
-	private List<String> fetchFields;
-	
-	private String sortField;
-	
-	private SortOrder ordering;
+    private int firstRow, numberOfRows;
+
+    /** Search filters (key = field name, value = search pattern or value). */
+    private Map<String, Object> filters;
+
+    /**
+     * Fields that needs to be fetched when selecting (like lists or other
+     * entities).
+     */
+    private List<String> fetchFields;
+
+    /** Field name to sort by. */
+    private String sortField;
+
+    /** Sorting direction. Ascending or descending. */
+    private SortOrder ordering;
+
+    /**
+     * Constructor with all fields.
+     */
+    public PaginationConfiguration(int firstRow, int numberOfRows, Map<String, Object> filters,
+            List<String> fetchFields, String sortField, SortOrder ordering) {
+        this.firstRow = firstRow;
+        this.numberOfRows = numberOfRows;
+        this.filters = filters;
+        this.sortField = sortField;
+        this.ordering = ordering;
+        this.fetchFields = fetchFields;
+    }
 	
 	/**
-	 * @param firstRow
-	 * @param numberOfRows
-	 * @param filters
-	 * @param fetchFields
-	 * @param sortField
-	 * @param ordering
-	 */
-	public PaginationConfiguration(int firstRow, int numberOfRows, Map<String, Object> filters, List<String> fetchFields, String sortField, SortOrder ordering) {
-		this.firstRow = firstRow;
-		this.numberOfRows = numberOfRows;
-		this.filters = filters;
-		this.sortField = sortField;
-		this.ordering = ordering;
-		this.fetchFields = fetchFields;
-	}
-	
-	/**
-	 * @param filters
+	 * Constructor with filters field only.
 	 */
 	public PaginationConfiguration(Map<String, Object> filters) {
 		this.filters = filters;

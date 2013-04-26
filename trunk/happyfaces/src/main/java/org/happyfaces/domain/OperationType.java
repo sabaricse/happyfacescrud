@@ -1,9 +1,10 @@
 package org.happyfaces.domain;
 
 /**
+ * Enum for all operation types.
  * 
  * @author Ignas
- *
+ * 
  */
 public enum OperationType {
     

@@ -12,6 +12,12 @@ import org.happyfaces.domain.Account;
 import org.happyfaces.services.IAccountService;
 import org.happyfaces.services.base.IService;
 
+/**
+ * Backing bean for account UI.
+ * 
+ * @author Ignas
+ *
+ */
 @ManagedBean(name = "accountBean")
 @ViewScoped
 public class AccountBean extends BaseBean<Account> {

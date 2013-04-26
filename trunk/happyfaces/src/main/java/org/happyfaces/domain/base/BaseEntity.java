@@ -9,37 +9,52 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
-
 /**
+ * Base entity class that can be extended for concrete domain models. It already
+ * contains implementation of {@link IEntity} interface and Version field for
+ * JPAs optimistic locking.
+ * 
  * @author Ignas
- *
+ * 
  */
 @MappedSuperclass
 public class BaseEntity implements IEntity, Serializable {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
-    
+
     @Version
     private Long version;
-
-    public Long getVersion() {
-        return version;
-    }
-
+    
+    /**
+     * @see org.happyfaces.domain.base.IEntity#getId()
+     */
     @Override
     public Long getId() {
         return id;
     }
 
+    /**
+     * ID setter.
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Version getter.
+     */
+    public Long getVersion() {
+        return version;
+    }
+    
+    /**
+     * Version setter.
+     */
     public void setVersion(Long version) {
         this.version = version;
     }
@@ -50,7 +65,8 @@ public class BaseEntity implements IEntity, Serializable {
     }
 
     /**
-     * Better to override this method in concrete domain class, because for transient entities ID is null.
+     * Better to override this method in concrete domain class, because for
+     * transient entities ID is null.
      * 
      * @see java.lang.Object#hashCode()
      */
@@ -63,7 +79,8 @@ public class BaseEntity implements IEntity, Serializable {
     }
 
     /**
-     * Better to override this method in concrete domain class, because for transient entities ID is null.
+     * Better to override this method in concrete domain class, because for
+     * transient entities ID is null.
      * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -83,6 +100,5 @@ public class BaseEntity implements IEntity, Serializable {
             return false;
         return true;
     }
-    
 
 }
