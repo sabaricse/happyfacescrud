@@ -14,9 +14,9 @@ This is complete list of what you get when starting new project with happyfaces 
   * Dynamic query for search which means no need to write your own query for each different set of search fields.
   * Spring security setup and simple JPA login/logout implementation.
   * Unit/integration tests setup and some tests created.
-  * Lazy Primefaces datatable with pagination and sorting setup with solved issues about working with columns that are in taglibs. (http://code.google.com/p/primefaces/issues/detail?id=2930)
+  * Lazy Primefaces datatable with pagination and sorting setup with solved issues about working with columns that are in taglibs[http://code.google.com/p/primefaces/issues/detail?id=2930].
   * Spring REST WS setup.
   * File upload setup.
   * Generic converters for all enums and all entities so no need to create a new ones.
   * Maven site and plugins configuration. Reports like findbugs, checkstyle etc.
-  * Other small things like clear button component with [Omnifaces http://balusc.blogspot.com/2012/03/reset-non-processed-input-components-on.html], easy fetching by passing only string with field name you need to fetch to BaseService etc..
+  * Other small things like clear button component with Omnifaces[http://balusc.blogspot.com/2012/03/reset-non-processed-input-components-on.html], easy fetching by passing only string with field name you need to fetch to BaseService etc..
