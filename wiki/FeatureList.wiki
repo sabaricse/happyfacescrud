@@ -1,5 +1,3 @@
-#Feature list
-
 = Introduction =
 
 This is complete list of what you get when starting new project with happyfaces maven archetype.
