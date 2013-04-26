@@ -12,6 +12,12 @@ import org.happyfaces.domain.Operation;
 import org.happyfaces.services.IOperationService;
 import org.happyfaces.services.base.IService;
 
+/**
+ * Backing bean for operations UI.
+ * 
+ * @author Ignas
+ *
+ */
 @ManagedBean(name = "operationBean")
 @ViewScoped
 public class OperationBean extends BaseBean<Operation> {

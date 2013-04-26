@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,17 +27,29 @@ public class SessionPreferences implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
+    /** Logger. */
+    private static Logger log = Logger.getLogger(SessionPreferences.class.getName());
+    
     private Locale locale;
     
+    /**
+     * Default constructor. 
+     */
     public SessionPreferences() {
-    	this.locale = new Locale("ru");
-    	FacesContext.getCurrentInstance().getViewRoot().setLocale(this.locale);
+        this.locale = new Locale("en");
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(this.locale);
     }
 
+    /**
+     * Static method to get current locale from FacesContext.
+     */
     public static Locale getCurrentLocale() {
         return FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
     
+    /**
+     * Non-static locale of SessionPreferences getter.
+     */
     public Locale getLocale() {
         if (locale == null) {
             changeLocale(SessionPreferences.getCurrentLocale().getLanguage());
@@ -44,6 +57,9 @@ public class SessionPreferences implements Serializable {
         return locale;
     }
 
+    /**
+     * Change locale to different language.
+     */
     public void changeLocale(String language) {
         locale = new Locale(language);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
@@ -89,7 +105,7 @@ public class SessionPreferences implements Serializable {
         return sc.isUserInRole(role);
     }
 
-    /**
+   /**
     * Return authenticated user name.
     */
    public static String getUserName() {
@@ -97,8 +113,22 @@ public class SessionPreferences implements Serializable {
            UserDetails authenticatedUser = (UserDetails) ((SecurityContext) SecurityContextHolder.getContext()).getAuthentication().getPrincipal();
            return authenticatedUser.getUsername();
        } catch (Throwable e) {
+           log.error("Error getting logged in user", e);
            return "authentication error";
        }
    }
+
+//    /**
+//     * Return currently logged in user.
+//     */
+//    public static User getLoggedInUser() {
+//       try {
+//           JediUserDetails authenticatedUser = (JediUserDetails) ((SecurityContext) SecurityContextHolder.getContext()).getAuthentication().getPrincipal();
+//           return authenticatedUser.getUser();
+//       } catch (Throwable e) {
+//           log.error("Error getting logged in user", e);
+//           return null;
+//       }
+//   }
     
 }

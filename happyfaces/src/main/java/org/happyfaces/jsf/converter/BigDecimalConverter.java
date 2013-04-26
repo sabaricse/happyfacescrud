@@ -10,9 +10,20 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
+/**
+ * Custom converter for BigDecimal numbers in jsf.
+ * 
+ * @author Ignas
+ *
+ */
 @FacesConverter("bigDecimalConverter")
+@Deprecated
 public class BigDecimalConverter implements Converter {
 
+    /**
+     * @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
+     */
+    @Override
     public String getAsString(FacesContext facesContext, UIComponent uIComponent, Object obj) {
         if (obj == null) {
             return "";
@@ -23,6 +34,10 @@ public class BigDecimalConverter implements Converter {
         return value;
     }
 
+    /**
+     * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.String)
+     */
+    @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uIComponent, String str) {
         if (str == null || str.equals("")) {
             return null;

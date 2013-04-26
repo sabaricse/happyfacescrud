@@ -8,12 +8,14 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.happyfaces.beans.SessionPreferences;
 
 /**
- * Helper class to deal with JSF messages.
+ * Helper class to deal with JSF.
  * 
  * @author Ignas
  * 
@@ -135,5 +137,27 @@ public class FacesUtils {
 
         javax.el.ValueExpression valueExpression = expressionFactory.createValueExpression(elContext, el, clazz);
         return valueExpression.getValue(elContext);
+    }
+    
+    /**
+     * Get servlet request from Faces context.
+     * 
+     * @return HttpServletRequest object.
+     */
+    public static HttpServletRequest getRequest() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) facesContext.getExternalContext().getRequest();
+        return request;
+    }
+
+    /**
+     * Get servlet response from Faces context.
+     * 
+     * @return HttpServletResponse object.
+     */
+    public static HttpServletResponse getResponse() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpServletResponse response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+        return response;
     }
 }

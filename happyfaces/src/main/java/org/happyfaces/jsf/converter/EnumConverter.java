@@ -7,16 +7,22 @@ import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
 /**
- * Custom enum converter.
+ * Custom generic enum converter. Fits for all enums, no need to create new
+ * converter for each enum.
+ * 
+ * @author Ignas
  * 
  */
 @FacesConverter("enumConverter")
 public class EnumConverter implements javax.faces.convert.Converter {
-    
+
     private static final String ATTRIBUTE_ENUM_TYPE = "GenericEnumConverter.enumType";
 
+    /**
+     * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.String)
+     */
     @Override
-    @SuppressWarnings({"rawtypes", "unchecked"})
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
         if (value != null && !"".equals(value)) {
             Class<Enum> enumType = (Class<Enum>) component.getAttributes().get(ATTRIBUTE_ENUM_TYPE);
@@ -29,7 +35,10 @@ public class EnumConverter implements javax.faces.convert.Converter {
             return null;
         }
     }
-    
+
+    /* (non-Javadoc)
+     * @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
+     */
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         if (value != null && !"".equals(value)) {

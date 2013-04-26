@@ -7,8 +7,10 @@ import javax.persistence.Table;
 import org.happyfaces.domain.base.BaseEntity;
 
 /**
+ * CustomerPerk domain model.
+ * 
  * @author Ignas
- *
+ * 
  */
 @Entity
 @Table(name = "CUSTOMER_PERK")

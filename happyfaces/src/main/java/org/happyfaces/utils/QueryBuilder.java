@@ -13,8 +13,12 @@ import javax.persistence.Query;
 
 import org.happyfaces.jsf.datatable.PaginationConfiguration;
 
-
-
+/**
+ * Will be replaced by queryDSL or crteria api.
+ * 
+ * @author Ignas
+ *
+ */
 public class QueryBuilder {
 
     private StringBuffer q;
@@ -82,7 +86,8 @@ public class QueryBuilder {
     }
 
     public QueryBuilder addSqlCriterion(String sql, String param, Object value) {
-        if (param != null && isValueBlank(value)) return this;
+        if (param != null && isValueBlank(value))
+            return this;
 
         if (hasOneOrMoreCriteria) {
             if (inOrClause && nbCriteriaInOrClause != 0)
@@ -92,27 +97,32 @@ public class QueryBuilder {
         } else
             q.append(" where ");
 
-        if (inOrClause && nbCriteriaInOrClause == 0) q.append("(");
+        if (inOrClause && nbCriteriaInOrClause == 0)
+            q.append("(");
 
         q.append(sql);
 
-        if (param != null) params.put(param, value);
+        if (param != null)
+            params.put(param, value);
 
         hasOneOrMoreCriteria = true;
-        if (inOrClause) nbCriteriaInOrClause++;
+        if (inOrClause)
+            nbCriteriaInOrClause++;
 
         return this;
     }
 
     public QueryBuilder addBooleanCriterion(String field, Boolean value) {
-        if (isValueBlank(value)) return this;
+        if (isValueBlank(value))
+            return this;
 
         addSql(field + (value.booleanValue() ? " is true " : " is false "));
         return this;
     }
 
     public QueryBuilder addCriterion(String field, String operator, Object value, boolean caseInsensitive) {
-        if (isValueBlank(value)) return this;
+        if (isValueBlank(value))
+            return this;
 
         StringBuffer sql = new StringBuffer();
         String param = convertFieldToParam(field);
@@ -125,13 +135,15 @@ public class QueryBuilder {
 
         sql.append(operator + ":" + param);
 
-        if (caseInsensitive && (value instanceof String)) nvalue = ((String) value).toLowerCase();
+        if (caseInsensitive && (value instanceof String))
+            nvalue = ((String) value).toLowerCase();
 
         return addSqlCriterion(sql.toString(), param, nvalue);
     }
 
     public QueryBuilder addCriterionEntity(String field, Object entity) {
-        if (entity == null) return this;
+        if (entity == null)
+            return this;
 
         String param = convertFieldToParam(field);
 
@@ -140,7 +152,8 @@ public class QueryBuilder {
 
     @SuppressWarnings("rawtypes")
     public QueryBuilder addCriterionEnum(String field, Enum enumValue) {
-        if (enumValue == null) return this;
+        if (enumValue == null)
+            return this;
 
         String param = convertFieldToParam(field);
 
@@ -148,20 +161,24 @@ public class QueryBuilder {
     }
 
     public QueryBuilder like(String field, String value, int style, boolean caseInsensitive) {
-        if (isValueBlank(value)) return this;
+        if (isValueBlank(value))
+            return this;
 
         String v = value;
 
         if (style != 0) {
-            if (style == 1 || style == 2) v = v + "%";
-            if (style == 2) v = "%" + v;
+            if (style == 1 || style == 2)
+                v = v + "%";
+            if (style == 2)
+                v = "%" + v;
         }
 
         return addCriterion(field, " like ", v, caseInsensitive);
     }
 
     public QueryBuilder addCriterionWildcard(String field, String value, boolean caseInsensitive) {
-        if (isValueBlank(value)) return this;
+        if (isValueBlank(value))
+            return this;
         boolean wildcard = (value.indexOf("*") != -1);
 
         if (wildcard)
@@ -171,13 +188,15 @@ public class QueryBuilder {
     }
 
     public QueryBuilder addCriterionDate(String field, Date value) {
-        if (isValueBlank(value)) return this;
+        if (isValueBlank(value))
+            return this;
         return addCriterion(field, "=", value, false);
 
     }
 
     public QueryBuilder addCriterionDateTruncatedToDay(String field, Date value) {
-        if (isValueBlank(value)) return this;
+        if (isValueBlank(value))
+            return this;
         Calendar c = Calendar.getInstance();
         c.setTime(value);
         int year = c.get(Calendar.YEAR);
@@ -190,12 +209,13 @@ public class QueryBuilder {
 
         String startDateParameterName = "start" + field.replace(".", "");
         String endDateParameterName = "end" + field.replace(".", "");
-        return addSqlCriterion(field + ">=:" + startDateParameterName, startDateParameterName, start).addSqlCriterion(
-                field + "<=:" + endDateParameterName, endDateParameterName, end);
+        return addSqlCriterion(field + ">=:" + startDateParameterName, startDateParameterName, start).addSqlCriterion(field + "<=:" + endDateParameterName,
+                endDateParameterName, end);
     }
 
     public QueryBuilder addCriterionDateRangeFromTruncatedToDay(String field, Date valueFrom) {
-        if (isValueBlank(valueFrom)) return this;
+        if (isValueBlank(valueFrom))
+            return this;
         Calendar calFrom = Calendar.getInstance();
         calFrom.setTime(valueFrom);
         int yearFrom = calFrom.get(Calendar.YEAR);
@@ -209,7 +229,8 @@ public class QueryBuilder {
     }
 
     public QueryBuilder addCriterionDateRangeToTruncatedToDay(String field, Date valueTo) {
-        if (isValueBlank(valueTo)) return this;
+        if (isValueBlank(valueTo))
+            return this;
         Calendar calTo = Calendar.getInstance();
         calTo.setTime(valueTo);
         int yearTo = calTo.get(Calendar.YEAR);
@@ -232,8 +253,7 @@ public class QueryBuilder {
 
     }
 
-    public QueryBuilder addOrderDoubleCriterion(String orderColumn, boolean ascending, String orderColumn2,
-            boolean ascending2) {
+    public QueryBuilder addOrderDoubleCriterion(String orderColumn, boolean ascending, String orderColumn2, boolean ascending2) {
         q.append(" ORDER BY " + orderColumn);
         if (ascending) {
             q.append(" ASC ");
@@ -266,7 +286,8 @@ public class QueryBuilder {
     }
 
     public QueryBuilder endOrClause() {
-        if (nbCriteriaInOrClause != 0) q.append(")");
+        if (nbCriteriaInOrClause != 0)
+            q.append(")");
 
         inOrClause = false;
         nbCriteriaInOrClause = 0;
@@ -287,9 +308,9 @@ public class QueryBuilder {
     public Query getCountQuery(EntityManager em) {
         String from = "from ";
         String s = "select count(distinct a) " + q.toString().substring(q.indexOf(from));
-        
+
         s = s.replaceAll("left join fetch", "left join");
-        
+
         Query result = em.createQuery(s);
         for (Map.Entry<String, Object> e : params.entrySet())
             result.setParameter(e.getKey(), e.getValue());
@@ -316,16 +337,17 @@ public class QueryBuilder {
     }
 
     private void applyPagination(String alias) {
-        if (paginationConfiguration == null) return;
+        if (paginationConfiguration == null)
+            return;
 
         if (paginationConfiguration.isSorted())
-            addOrderCriterion(((alias != null) ? (alias + ".") : "") + paginationConfiguration.getSortField(),
-                    paginationConfiguration.isAscendingSorting());
+            addOrderCriterion(((alias != null) ? (alias + ".") : "") + paginationConfiguration.getSortField(), paginationConfiguration.isAscendingSorting());
 
     }
 
     private void applyPagination(Query query) {
-        if (paginationConfiguration == null) return;
+        if (paginationConfiguration == null)
+            return;
 
         query.setFirstResult(paginationConfiguration.getFirstRow());
         query.setMaxResults(paginationConfiguration.getNumberOfRows());
@@ -349,7 +371,7 @@ public class QueryBuilder {
     public QueryBuilder(Class<?> clazz, String alias) {
         this("from " + clazz.getName() + " " + alias);
     }
-    
+
     private boolean isValueBlank(Object value) {
         return value == null || ((value instanceof String) && ((String) value).trim().length() == 0);
     }

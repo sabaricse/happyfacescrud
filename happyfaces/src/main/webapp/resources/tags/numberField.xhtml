@@ -27,12 +27,12 @@
 				<p:outputLabel for="fromRangeField_#{cc.parent.attrs.field}" value="#{cc.parent.attrs.label}" />  
 			    <h:panelGrid columns="4">
 		   			<h:outputText value="#{messages['commons.from']}" style="padding-right:5px"/>
-			        <p:inputText id="fromRangeField_#{cc.parent.attrs.field}" value="#{cc.parent.filters[cc.fromRangeSearchFilterNameFromParent]}" size="5" disabled="#{cc.parent.attrs.disabled}">
+			        <p:inputText id="fromRangeField_#{cc.parent.attrs.field}" label="#{cc.parent.attrs.label}" value="#{cc.parent.filters[cc.fromRangeSearchFilterNameFromParent]}" size="5" disabled="#{cc.parent.attrs.disabled}">
 			        	<f:converter converterId="#{cc.attrs.converterId}"/>
 			        </p:inputText>
 			        
 		   			<h:outputText value="#{messages['commons.to']}" style="padding:5px" />
-			        <p:inputText id="toRangeField_#{cc.parent.attrs.field}" value="#{cc.parent.attrs.filters[cc.toRangeSearchFilterNameFromParent]}" size="5" disabled="#{cc.parent.attrs.disabled}" >
+			        <p:inputText id="toRangeField_#{cc.parent.attrs.field}" label="#{cc.parent.attrs.label}" value="#{cc.parent.attrs.filters[cc.toRangeSearchFilterNameFromParent]}" size="5" disabled="#{cc.parent.attrs.disabled}" >
 			        	<f:converter converterId="#{cc.attrs.converterId}"/>
 			        </p:inputText>
 			    </h:panelGrid>

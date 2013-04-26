@@ -18,6 +18,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
 /**
+ * Customer domain model.
+ * 
  * @author Ignas
  * 
  */

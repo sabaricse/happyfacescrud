@@ -22,6 +22,9 @@ public class VariableTypeService implements IVariableTypeService {
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * @see org.happyfaces.services.base.IVariableTypeService#getById(java.lang.Class, java.lang.Long)
+     */
     public BaseEntity getById(Class<? extends IEntity> entityClass, Long id) {
         return new BaseService<BaseEntity>(entityClass, em).getById(id);
     }

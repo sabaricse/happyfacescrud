@@ -7,9 +7,11 @@ import org.happyfaces.domain.base.IEntity;
 import org.happyfaces.jsf.datatable.PaginationConfiguration;
 
 /**
+ * Base service interface with all provided methods.
+ * 
  * @author Ignas
  * 
- * @param <T>
+ * @param <T> Type of Service.
  */
 public interface IService<T extends IEntity> {
 

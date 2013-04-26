@@ -15,6 +15,12 @@ import org.happyfaces.services.ICustomerService;
 import org.happyfaces.services.base.IService;
 import org.primefaces.model.DualListModel;
 
+/**
+ * Backing bean for customer UI.
+ * 
+ * @author Ignas
+ *
+ */
 @ManagedBean(name = "customerBean")
 @ViewScoped
 public class CustomerBean extends BaseBean<Customer> {

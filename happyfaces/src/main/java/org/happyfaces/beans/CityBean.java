@@ -9,6 +9,12 @@ import org.happyfaces.domain.City;
 import org.happyfaces.services.ICityService;
 import org.happyfaces.services.base.IService;
 
+/**
+ * Backing bean for city (used only for returning all cities in drop down menu in sample).
+ * 
+ * @author Ignas
+ *
+ */
 @ManagedBean(name = "cityBean")
 @ViewScoped
 public class CityBean extends BaseBean<City> {

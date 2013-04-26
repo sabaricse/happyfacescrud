@@ -18,8 +18,10 @@ import javax.validation.constraints.NotNull;
 import org.happyfaces.domain.base.BaseEntity;
 
 /**
+ * Account domain model.
+ * 
  * @author Ignas
- *
+ * 
  */
 @Entity
 @Table(name = "ACCOUNT")
