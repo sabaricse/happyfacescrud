@@ -16,10 +16,14 @@ import javax.faces.convert.FacesConverter;
 @FacesConverter("enumConverter")
 public class EnumConverter implements javax.faces.convert.Converter {
 
-    private static final String ATTRIBUTE_ENUM_TYPE = "GenericEnumConverter.enumType";
+    /**
+     * Map key for attribute in jsf component where enum class is kept.
+     */
+    protected static final String ATTRIBUTE_ENUM_TYPE = "GenericEnumConverter.enumType";
 
     /**
-     * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.String)
+     * @see javax.faces.convert.Converter#getAsObject(javax.faces.context.FacesContext,
+     *      javax.faces.component.UIComponent, java.lang.String)
      */
     @Override
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -36,8 +40,9 @@ public class EnumConverter implements javax.faces.convert.Converter {
         }
     }
 
-    /* (non-Javadoc)
-     * @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext, javax.faces.component.UIComponent, java.lang.Object)
+    /**
+     * @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext,
+     *      javax.faces.component.UIComponent, java.lang.Object)
      */
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {

@@ -1,5 +1,6 @@
 package org.happyfaces.jsf.exceptionhandler;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 
 import javax.faces.FacesException;
@@ -13,6 +14,7 @@ import javax.faces.event.ExceptionQueuedEventContext;
 
 import org.apache.log4j.Logger;
 import org.happyfaces.utils.FacesUtils;
+import org.hibernate.StaleObjectStateException;
 
 /**
  * Exception handler implementation. This handler is central part where all
@@ -59,8 +61,14 @@ public class HappyFacesExceptionHandler extends ExceptionHandlerWrapper {
             final NavigationHandler nav = fc.getApplication().getNavigationHandler();
 
             try {
+                
+                // change exception for different jpa provider as this is what hibernate throws in case of optimistic lock failure.
+                if (unwindException(t) instanceof StaleObjectStateException) {
+                    FacesUtils.error("error.optimisticLocking");
+                    nav.handleNavigation(fc, null, null);
+                    fc.renderResponse();
 
-                if (t instanceof ViewExpiredException) {
+                } else if (t instanceof ViewExpiredException) {
 
                     FacesUtils.error("error.sessionExpired");
                     nav.handleNavigation(fc, null, "/login.xhtml");
@@ -91,4 +99,22 @@ public class HappyFacesExceptionHandler extends ExceptionHandlerWrapper {
         getWrapped().handle();
     }
 
+    /**
+     * Looks up and returns the root cause of an exception. If none is found, returns
+     * supplied Throwable object unchanged. If root is found, recursively "unwraps" it,
+     * and returns the result to the user.
+     */
+    private static Throwable unwindException(Throwable th) {
+        if (th instanceof SQLException) {
+            SQLException sql = (SQLException) th;
+            if (sql.getNextException() != null) {
+                return unwindException(sql.getNextException());
+            }
+        }
+        else if (th.getCause() != null) {
+            return unwindException(th.getCause());
+        }
+
+        return th;
+    }
 }

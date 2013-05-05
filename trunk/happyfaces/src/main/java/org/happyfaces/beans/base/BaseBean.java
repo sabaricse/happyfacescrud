@@ -16,7 +16,6 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
-import org.springframework.orm.hibernate4.HibernateOptimisticLockingFailureException;
 
 /**
  * Base bean class. Other jsf backing beans extends this class to get basic crud
@@ -98,9 +97,9 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     public T initEntity() {
         if (getObjectId() != null) {
             if (getFormFieldsToFetch() == null) {
-                entity = getPersistenceService().getById(getObjectId());
+                entity = getPersistenceService().findById(getObjectId());
             } else {
-                entity = getPersistenceService().getById(getObjectId(), getFormFieldsToFetch());
+                entity = getPersistenceService().findById(getObjectId(), getFormFieldsToFetch());
             }
         } else {
             try {
@@ -157,12 +156,8 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
             getPersistenceService().add(entity);
             FacesUtils.info("save.successful");
         } else {
-            try {
-                getPersistenceService().update(entity);
-                FacesUtils.info("update.successful");
-            } catch (HibernateOptimisticLockingFailureException e) {
-                FacesUtils.error("error.optimisticLocking");
-            }
+            getPersistenceService().update(entity);
+            FacesUtils.info("update.successful");
         }
     }
 
@@ -377,7 +372,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
                  */
                 @Override
                 public T getRowData(String rowKey) {
-                    return getPersistenceService().getById(Long.valueOf(rowKey));
+                    return getPersistenceService().findById(Long.valueOf(rowKey));
                 }
 
                 /**

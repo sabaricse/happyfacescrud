@@ -1,5 +1,8 @@
 package org.happyfaces.services.base;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,16 +20,25 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 @Transactional(readOnly = true)
-public class VariableTypeService implements IVariableTypeService {
+public class VariableTypeService implements IVariableTypeService, Serializable {
     
+    /**
+     * Class version id for serialization. After a change to serialized field this number should be changed so it would
+     * be clear its different class version.
+     */
+    private static final long serialVersionUID = 1L;
+    
+    /** JPA entity manager. */
     @PersistenceContext
     private EntityManager em;
 
     /**
      * @see org.happyfaces.services.base.IVariableTypeService#getById(java.lang.Class, java.lang.Long)
      */
-    public BaseEntity getById(Class<? extends IEntity> entityClass, Long id) {
-        return new BaseService<BaseEntity>(entityClass, em).getById(id);
+    @SuppressWarnings("rawtypes")
+    public BaseEntity findById(Class<? extends IEntity> entityClass, Long id) {
+        List list = em.createQuery("from " + entityClass.getName() + " where id=?").setParameter(1, id).getResultList();
+        return list.size() > 0 ? (BaseEntity) list.get(0) : null;
     }
 
 }

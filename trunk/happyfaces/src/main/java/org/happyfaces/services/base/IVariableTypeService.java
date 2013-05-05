@@ -20,6 +20,6 @@ public interface IVariableTypeService {
      *            Entity ID
      * @return Loaded Entity.
      */
-    public BaseEntity getById(Class<? extends IEntity> entityClass, Long id);
+    public BaseEntity findById(Class<? extends IEntity> entityClass, Long id);
 
 }
