@@ -44,7 +44,7 @@ public class UserService extends BaseService<User> implements IUserService, User
     private UserRepository repository;
 
     /**
-     * @see com.docapost.bpo.jedi.services.BaseService#getRepository()
+     * @see org.happyfaces.services.BaseService#getRepository()
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
@@ -53,7 +53,7 @@ public class UserService extends BaseService<User> implements IUserService, User
     }
 
     /**
-     * @see com.docapost.bpo.jedi.services.IUserService#findByUserName(java.lang.String)
+     * @see org.happyfaces.services.IUserService#findByUserName(java.lang.String)
      */
     @Override
     public User findByUserName(String username) {
@@ -75,7 +75,7 @@ public class UserService extends BaseService<User> implements IUserService, User
     }
     
     /**
-     * @see com.docapost.bpo.jedi.services.IUserService#isPaswordCorrect(com.docapost.bpo.jedi.domain.user.User, java.lang.String)
+     * @see org.happyfaces.services.IUserService#isPaswordCorrect(org.happyfaces.domain.user.User, java.lang.String)
      */
     @Override
     public boolean isPaswordCorrect(User user, String password) {
@@ -87,7 +87,7 @@ public class UserService extends BaseService<User> implements IUserService, User
     }
     
     /**
-     * @see com.docapost.bpo.jedi.services.IUserService#changePassword(com.docapost.bpo.jedi.domain.user.User, java.lang.String)
+     * @see org.happyfaces.services.IUserService#changePassword(org.happyfaces.domain.user.User, java.lang.String)
      */
     @Override
     @Transactional(readOnly = false)

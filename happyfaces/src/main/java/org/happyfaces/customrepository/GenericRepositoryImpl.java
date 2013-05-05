@@ -75,7 +75,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable> extends QueryDslJ
     }
 
     /**
-     * @see com.docapost.bpo.jedi.customrepository.GenericRepository#findOne(java.io.Serializable, java.util.List)
+     * @see org.happyfaces.customrepository.GenericRepository#findOne(java.io.Serializable, java.util.List)
      */
     @Override
     public final T findOne(ID id, List<String> fetchFields) {
@@ -100,7 +100,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable> extends QueryDslJ
     }
 
     /**
-     * @see com.docapost.bpo.jedi.customrepository.GenericRepository#findAll(com.mysema.query.types.Predicate,
+     * @see org.happyfaces.customrepository.GenericRepository#findAll(com.mysema.query.types.Predicate,
      *      org.springframework.data.domain.Pageable, java.util.List)
      */
     @Override
