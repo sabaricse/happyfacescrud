@@ -24,10 +24,16 @@ import org.happyfaces.services.base.IVariableTypeService;
 @ManagedBean(name = "entityConverter")
 public class EntityConverter implements javax.faces.convert.Converter, Serializable {
 
+    /**
+     * Class version id for serialization. After a change to serialized field this number should be changed so it would
+     * be clear its different class version.
+     */
     private static final long serialVersionUID = 1L;
 
+    /** Logger. */
     private static Logger log = Logger.getLogger(EntityConverter.class);
 
+    /** Injected service. */
     @ManagedProperty(value = "#{variableTypeService}")
     private IVariableTypeService variableTypeService;
 
@@ -40,7 +46,7 @@ public class EntityConverter implements javax.faces.convert.Converter, Serializa
      *      javax.faces.component.UIComponent, java.lang.String)
      */
     @SuppressWarnings("unchecked")
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String value) throws ConverterException {
+    public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
         BaseEntity entity;
         if (value == null || "".equals(value)) {
             entity = null;
@@ -56,7 +62,7 @@ public class EntityConverter implements javax.faces.convert.Converter, Serializa
                 throw new ConverterException("Class with name " + idAndClass[1] + " was not found.");
             }
 
-            entity = (BaseEntity) variableTypeService.getById(clazz, id);
+            entity = (BaseEntity) variableTypeService.findById(clazz, id);
             if (entity == null) {
                 log.error("There is no entity with id:  " + id + " for class " + clazz);
             }
@@ -68,18 +74,15 @@ public class EntityConverter implements javax.faces.convert.Converter, Serializa
      * @see javax.faces.convert.Converter#getAsString(javax.faces.context.FacesContext,
      *      javax.faces.component.UIComponent, java.lang.Object)
      */
-    public String getAsString(FacesContext facesContext, UIComponent component, Object value) throws ConverterException {
+    public String getAsString(FacesContext facesContext, UIComponent component, Object value) {
         if (value == null || "".equals(value)) {
             return "";
         }
-        if (value != null && !(value instanceof BaseEntity)) {
+        if (!(value instanceof BaseEntity)) {
             throw new IllegalArgumentException("This converter only handles instances of BaseEntity");
-        }
-        if (value instanceof String) {
-            return (String) value;
         }
         BaseEntity entity = (BaseEntity) value;
         return entity.getId() == null ? "" : entity.getId().toString() + "_" + entity.getClass().getCanonicalName();
     }
-
+    
 }

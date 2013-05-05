@@ -1,5 +1,6 @@
 package org.happyfaces.services.base;
 
+import java.beans.Introspector;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
@@ -8,43 +9,61 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
-import org.apache.log4j.Logger;
+import org.happyfaces.customrepository.GenericRepository;
 import org.happyfaces.domain.base.BaseEntity;
 import org.happyfaces.domain.base.IEntity;
-import org.happyfaces.domain.base.IdentifiableEnum;
 import org.happyfaces.jsf.datatable.PaginationConfiguration;
-import org.happyfaces.utils.QueryBuilder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mysema.query.types.Predicate;
+import com.mysema.query.types.expr.BooleanExpression;
+import com.mysema.query.types.path.BooleanPath;
+import com.mysema.query.types.path.DatePath;
+import com.mysema.query.types.path.EnumPath;
+import com.mysema.query.types.path.ListPath;
+import com.mysema.query.types.path.NumberPath;
+import com.mysema.query.types.path.PathBuilder;
+import com.mysema.query.types.path.StringPath;
+
 /**
- * Base service that other persistence services can extend. It provides all
- * common crud operations. Also provide default search capabilities which work
- * nicely with composite jsf search components.
+ * Base service that other persistence services can extend. It provides all common crud operations. Also provide default
+ * search capabilities which work nicely with composite jsf search components.
  * 
  * @author Ignas
  * 
+ * @param <T>
+ *            Type of entity.
+ * 
  */
 @Transactional(readOnly = true)
-public class BaseService<T extends IEntity> implements IService<T>, Serializable {
+public abstract class BaseService<T extends IEntity> implements IService<T>, Serializable {
 
+    /**
+     * Class version id for serialization. After a change to serialized field this number should be changed so it would
+     * be clear its different class version.
+     */
     private static final long serialVersionUID = 1L;
 
+    // CHECKSTYLE:OFF
+    /** Entity class of service. */
     protected final Class<? extends IEntity> entityClass;
 
+    /** JPA entity manager. */
     @PersistenceContext
     protected EntityManager em;
 
-    private static Logger log = Logger.getLogger(BaseService.class.getName());
+    // CHECKSTYLE:ON
 
     /**
-     * Default constructor. Loads entity class from super service information.
-     * It is used
+     * Default constructor. Loads entity class from super service information. It is used
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public BaseService() {
@@ -62,39 +81,35 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
     }
 
     /**
-     * Constructor when entityClass is passed together with entity maneger. Used
-     * in {@link VariableTypeService}.
+     * Repository object provided by spring data which makes querying and operating on entities much easier.
      */
-    public BaseService(Class<? extends IEntity> entityClass, EntityManager em) {
-        this.entityClass = entityClass;
-        this.em = em;
-    }
+    protected abstract JpaRepository<T, Long> getRepository();
 
-    /* (non-Javadoc)
+    /**
      * @see org.happyfaces.services.base.IService#add(org.happyfaces.domain.base.IEntity)
      */
     @Override
     @Transactional(readOnly = false)
     public void add(T entity) {
-        em.persist(entity);
+        getRepository().save(entity);
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.happyfaces.services.base.IService#update(org.happyfaces.domain.base.IEntity)
      */
     @Override
     @Transactional(readOnly = false)
     public void update(T entity) {
-        em.merge(entity);
+        getRepository().save(entity);
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.happyfaces.services.base.IService#delete(org.happyfaces.domain.base.IEntity)
      */
     @Override
     @Transactional(readOnly = false)
     public void delete(T entity) {
-        em.remove(entity);
+        getRepository().delete(entity);
     }
 
     /**
@@ -103,198 +118,168 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
     @Override
     @Transactional(readOnly = false)
     public void delete(Long id) {
-        Query query = em.createQuery("delete from " + entityClass.getName() + " where id = :id)");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        getRepository().delete(id);
     }
 
     /**
-     * @see org.happyfaces.services.base.IService#deleteMany(java.util.Set)
+     * @see org.happyfaces.services.base.IService#deleteMany(java.lang.Iterable)
      */
     @Override
     @Transactional(readOnly = false)
-    public void deleteMany(Set<Long> ids) {
-        Query query = em.createQuery("delete from " + entityClass.getName() + " where id in (:ids)");
-        query.setParameter("ids", ids);
-        query.executeUpdate();
-    }
-
-    /**
-     * @see org.happyfaces.services.base.IService#getById(java.lang.Long)
-     */
-    @Override
-    public T getById(Long id) {
-        @SuppressWarnings("unchecked")
-        List<T> list = em.createQuery("from " + entityClass.getName() + " where id=?").setParameter(1, id).getResultList();
-        return list.size() > 0 ? (T) list.get(0) : null;
-    }
-
-    /**
-     * @see org.happyfaces.services.base.IService#getById(java.lang.Long, java.util.List)
-     */
-    @Override
-    public T getById(Long id, List<String> fetchFields) {
-        log.debug(String.format("start of find %s by id (id=%s) ..", entityClass.getSimpleName(), id));
-        StringBuilder queryString = new StringBuilder("from " + entityClass.getName() + " a");
-        if (fetchFields != null && !fetchFields.isEmpty()) {
-            for (String fetchField : fetchFields) {
-                if (fetchField.contains(".")) {
-                    String[] fields = fetchField.split("\\.");
-                    queryString.append(" left join fetch a." + fields[0] + " as " + fields[0]);
-                    queryString.append(" left join fetch " + fields[0] + "." + fields[1] + " as " + fields[1]);
-                } else {
-                    queryString.append(" left join fetch a." + fetchField + " as " + fetchField);
-                }
-            }
+    public void deleteMany(Iterable<Long> ids) {
+        for (Long id : ids) {
+            getRepository().delete(id);
         }
-        queryString.append(" where a.id = :id");
-        Query query = em.createQuery(queryString.toString());
-        query.setParameter("id", id);
+    }
 
-        @SuppressWarnings("unchecked")
-        List<T> list = query.getResultList();
+    /**
+     * @see org.happyfaces.services.base.IService#findById(java.lang.Long)
+     */
+    @Override
+    public T findById(Long id) {
+        return getRepository().findOne(id);
+    }
 
-        return list.size() > 0 ? (T) list.get(0) : null;
+    /**
+     * @see org.happyfaces.services.base.IService#findById(java.lang.Long, java.util.List)
+     */
+    @Override
+    public T findById(Long id, List<String> fetchFields) {
+        return ((GenericRepository<T, Long>) getRepository()).findOne(id, fetchFields);
     }
 
     /**
      * @see org.happyfaces.services.base.IService#list()
      */
-    @SuppressWarnings("unchecked")
     @Override
     public List<T> list() {
-        List<T> list = em.createQuery("from " + entityClass.getName()).getResultList();
-        return list;
-    }
-
-    /**
-     * @see org.happyfaces.services.base.IService#list(org.happyfaces.jsf.datatable.PaginationConfiguration)
-     */
-    @Override
-    @SuppressWarnings({ "unchecked" })
-    public List<T> list(PaginationConfiguration config) {
-        QueryBuilder queryBuilder = getQuery(config);
-        Query query = queryBuilder.getQuery(em);
-        return query.getResultList();
-    }
-
-    /**
-     * @see org.happyfaces.services.base.IService#count(org.happyfaces.jsf.datatable.PaginationConfiguration)
-     */
-    @Override
-    public int count(PaginationConfiguration config) {
-        QueryBuilder queryBuilder = getQuery(config);
-        return queryBuilder.count(em);
+        return getRepository().findAll();
     }
 
     /**
      * @see org.happyfaces.services.base.IService#count()
      */
     @Override
-    public int count() {
-        QueryBuilder queryBuilder = new QueryBuilder(entityClass, "a", null);
-        return queryBuilder.count(em);
+    public long count() {
+        return getRepository().count();
     }
 
     /**
-     * Creates query to filter entities according data provided in pagination
-     * configuration.
+     * @see org.happyfaces.services.base.IService#list(org.happyfaces.jsf.datatable.PaginationConfiguration)
+     */
+    @Override
+    public List<T> list(final PaginationConfiguration config) {
+        Predicate predicate = getPredicate(config);
+        Pageable pageable = new PageRequest(config.getFirstRow() / config.getNumberOfRows(), config.getNumberOfRows(),
+                config.getSortField() != null ? new Sort(new Sort.Order(config.getSortDirection(),
+                        config.getSortField())) : null);
+        return ((GenericRepository<T, Long>) getRepository()).findAll(predicate, pageable, config.getFetchFields())
+                .getContent();
+    }
+
+    /**
+     * @see org.happyfaces.services.base.IService#count(org.happyfaces.jsf.datatable.PaginationConfiguration)
+     */
+    @Override
+    public long count(PaginationConfiguration config) {
+        Predicate predicate = getPredicate(config);
+        return ((GenericRepository<T, Long>) getRepository()).count(predicate);
+    }
+
+    /**
+     * Creates a Predicate from list of BooleanExpression predicates which represents all search filters.
      * 
      * @param config
      *            PaginationConfiguration data holding object
      * @return query to filter entities according pagination configuration data.
      */
-    protected QueryBuilder getQuery(PaginationConfiguration config) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    protected Predicate getPredicate(PaginationConfiguration config) {
 
-        QueryBuilder queryBuilder = new QueryBuilder(entityClass, "a", config.getFetchFields());
+        PathBuilder<T> entityPath = new PathBuilder(entityClass, getAliasName(entityClass));
+        BooleanExpression predicate = null;
+
         Map<String, Object> filters = config.getFilters();
         if (filters != null) {
             // first we process nonstandard filters
-            List<String> filtersToRemove = processNonStandardFilters(filters, queryBuilder);
+            List<String> filtersToRemove = processNonStandardFilters(filters, entityPath);
             filters = removeUsedFilters(filtersToRemove, filters);
             if (!filters.isEmpty()) {
-                for (String key : filters.keySet()) {
-                    Object filter = filters.get(key);
+                for (Map.Entry<String, Object> entry : filters.entrySet()) {
+                    String key = entry.getKey();
+                    Object filter = entry.getValue();
                     if (filter != null) {
-                        addFilter(key, filter, queryBuilder);
+
+                        // if ranged search (from - to fields)
+                        if (key.contains("fromRange-")) {
+                            // CHECKSTYLE:OFF
+                            String parsedKey = key.substring(10);
+                            // CHECKSTYLE:ON
+                            if (filter instanceof Number) {
+                                NumberPath path = createNumberPath(entityPath, parsedKey, filter);
+                                predicate = and(predicate, path.goe((Number) filter));
+                            } else if (filter instanceof Date) {
+                                DatePath path = entityPath.getDate(parsedKey, Date.class);
+                                predicate = and(predicate, path.goe((Date) filter));
+                            }
+                        } else if (key.contains("toRange-")) {
+                            // CHECKSTYLE:OFF
+                            String parsedKey = key.substring(8);
+                            // CHECKSTYLE:ON
+                            if (filter instanceof Number) {
+                                NumberPath path = createNumberPath(entityPath, parsedKey, filter);
+                                predicate = and(predicate, path.loe((Number) filter));
+                            } else if (filter instanceof Date) {
+                                DatePath path = entityPath.getDate(parsedKey, Date.class);
+                                predicate = and(predicate, path.loe((Date) filter));
+                            }
+                        } else if (key.contains("list-")) {
+                            // CHECKSTYLE:OFF
+                            // if searching elements from list
+                            String parsedKey = key.substring(5);
+                            // CHECKSTYLE:ON
+                            ListPath path = entityPath.getList(parsedKey, filter.getClass());
+                            predicate = and(predicate, path.contains(filter));
+                        } else { // if not ranged search
+                            if (filter instanceof String) {
+                                StringPath path = entityPath.getString(key);
+                                String filterString = (String) filter;
+                                predicate = and(predicate, path.startsWithIgnoreCase(filterString));
+                            } else if (filter instanceof Date) {
+                                DatePath path = entityPath.getDate(key, Date.class);
+                                predicate = and(predicate, path.eq(filter));
+                            } else if (filter instanceof Number) {
+                                NumberPath path = createNumberPath(entityPath, key, filter);
+                                predicate = and(predicate, path.eq(filter));
+                            } else if (filter instanceof Boolean) {
+                                BooleanPath path = entityPath.getBoolean(key);
+                                predicate = and(predicate, path.eq((Boolean) filter));
+                            } else if (filter instanceof Enum) {
+                                EnumPath path = entityPath.getEnum(key, Enum.class);
+                                predicate = and(predicate, path.eq(filter));
+                            } else if (BaseEntity.class.isAssignableFrom(filter.getClass())) {
+                                PathBuilder path = entityPath.get(key);
+                                predicate = and(predicate, path.eq(filter));
+                            }
+                        }
+
                     }
                 }
             }
         }
-        queryBuilder.addPaginationConfiguration(config, "a");
-        return queryBuilder;
+        return predicate;
     }
 
     /**
-     * Add filter to QueryBuilder. If some non standard filter is needed - this
-     * method can be overridden, however better approach is to add filter in
-     * processNonStandardFilters() method. (if decided to override this method
-     * do not forget to invoke super.addFilter() in overridden method if default
-     * functionality is needed).
-     */
-    @SuppressWarnings("rawtypes")
-    protected void addFilter(String key, Object filter, QueryBuilder queryBuilder) {
-        // if ranged search (from - to fields)
-        if (key.contains("fromRange-")) {
-            String parsedKey = key.substring(10);
-            if (filter instanceof Double) {
-                BigDecimal rationalNumber = new BigDecimal((Double) filter);
-                queryBuilder.addCriterion("a." + parsedKey, " >= ", rationalNumber, true);
-            } else if (filter instanceof Number) {
-                queryBuilder.addCriterion("a." + parsedKey, " >= ", filter, true);
-            } else if (filter instanceof Date) {
-                queryBuilder.addCriterionDateRangeFromTruncatedToDay("a." + parsedKey, (Date) filter);
-            }
-        } else if (key.contains("toRange-")) {
-            String parsedKey = key.substring(8);
-            if (filter instanceof Double) {
-                BigDecimal rationalNumber = new BigDecimal((Double) filter);
-                queryBuilder.addCriterion("a." + parsedKey, " <= ", rationalNumber, true);
-            } else if (filter instanceof Number) {
-                queryBuilder.addCriterion("a." + parsedKey, " <= ", filter, true);
-            } else if (filter instanceof Date) {
-                queryBuilder.addCriterionDateRangeToTruncatedToDay("a." + parsedKey, (Date) filter);
-            }
-        } else if (key.contains("list-")) {
-            // if searching elements from list
-            String parsedKey = key.substring(5);
-            queryBuilder.addSqlCriterion(":" + parsedKey + " in elements(a." + parsedKey + ")", parsedKey, filter);
-        }
-        // if not ranged search
-        else {
-            if (filter instanceof String) {
-                // if contains dot, that means join is needed
-                String filterString = (String) filter;
-                queryBuilder.addCriterionWildcard("a." + key, filterString, true);
-            } else if (filter instanceof Date) {
-                queryBuilder.addCriterionDateTruncatedToDay("a." + key, (Date) filter);
-            } else if (filter instanceof Number) {
-                queryBuilder.addCriterion("a." + key, " = ", filter, true);
-            } else if (filter instanceof Boolean) {
-                queryBuilder.addCriterion("a." + key, " is ", filter, true);
-            } else if (filter instanceof Enum) {
-                if (filter instanceof IdentifiableEnum) {
-                    String enumIdKey = new StringBuilder(key).append("Id").toString();
-                    queryBuilder.addCriterion("a." + enumIdKey, " = ", ((IdentifiableEnum) filter).getId(), true);
-                } else {
-                    queryBuilder.addCriterionEnum("a." + key, (Enum) filter);
-                }
-            } else if (BaseEntity.class.isAssignableFrom(filter.getClass())) {
-                queryBuilder.addCriterionEntity("a." + key, filter);
-            }
-        }
-    }
-
-    /**
-     * This method groups some filters to one. This might be needed when several
-     * filters are dependent on each other, for example when we have several
-     * text fields and we want all of them to participate in search and we need
-     * OR functionality between them.
+     * This method groups some filters to one. This might be needed when several filters are dependent on each other,
+     * for example when we have several text fields and we want all of them to participate in search and we need OR
+     * functionality between them.
      * 
      * @return processed filters keys.
      */
-    protected List<String> processNonStandardFilters(@SuppressWarnings("unused") Map<String, Object> filters,
-            @SuppressWarnings("unused") QueryBuilder queryBuilder) {
+    @SuppressWarnings("unused")
+    protected List<String> processNonStandardFilters(Map<String, Object> filters,
+            @SuppressWarnings("rawtypes") PathBuilder pathBuilder) {
         return Collections.emptyList();
     }
 
@@ -308,4 +293,47 @@ public class BaseService<T extends IEntity> implements IService<T>, Serializable
         return filtersMap;
     }
 
+    /**
+     * Class name in lower case as alias is used for spring data.
+     */
+    private String getAliasName(@SuppressWarnings("rawtypes") Class clazz) {
+        return Introspector.decapitalize(clazz.getSimpleName());
+    }
+
+    /**
+     * Join all predicates with and clause.
+     */
+    private BooleanExpression and(BooleanExpression old, BooleanExpression newPredidcate) {
+        if (old != null) {
+            return old.and(newPredidcate);
+        } else {
+            return newPredidcate;
+        }
+    }
+
+    /**
+     * If filter is number its required to know its concrete class so this private helper method creates and returns
+     * predicate based on concrete class.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private NumberPath createNumberPath(PathBuilder entityPath, String key, Object filter) {
+        if (filter instanceof BigDecimal) {
+            return entityPath.getNumber(key, BigDecimal.class);
+        } else if (filter instanceof Long) {
+            return entityPath.getNumber(key, Long.class);
+        } else if (filter instanceof Integer) {
+            return entityPath.getNumber(key, Integer.class);
+        } else if (filter instanceof Double) {
+            return entityPath.getNumber(key, Double.class);
+        } else if (filter instanceof Float) {
+            return entityPath.getNumber(key, Float.class);
+        } else if (filter instanceof Byte) {
+            return entityPath.getNumber(key, Byte.class);
+        } else if (filter instanceof Short) {
+            return entityPath.getNumber(key, Short.class);
+        } else {
+            throw new IllegalStateException(
+                    "Unknown number type in search filter. Supported type: BigDecimal, Long, Integer, Double, Float, Byte, Short");
+        }
+    }
 }

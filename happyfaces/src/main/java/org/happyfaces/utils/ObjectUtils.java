@@ -8,7 +8,6 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 
-// TODO unit tests
 /**
  * Utils to work with objects and properties.
  * 
