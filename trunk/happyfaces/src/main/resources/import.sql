@@ -1,5 +1,5 @@
-insert into APP_USER (ID, VERSION, FIRST_NAME, LAST_NAME, EMAIL, USER_NAME, PASSWORD) values (101, 0, 'Incognito', 'Incognito', 'admin@docapost.com', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
-insert into APP_USER (ID, VERSION, FIRST_NAME, LAST_NAME, EMAIL, USER_NAME, PASSWORD) values (102, 0, 'no name', 'no name', 'test@docapost.com', 'test', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
+insert into APP_USER (ID, VERSION, FIRST_NAME, LAST_NAME, EMAIL, USER_NAME, PASSWORD) values (101, 0, 'Incognito', 'Incognito', 'admin@happyfaces.com', 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
+insert into APP_USER (ID, VERSION, FIRST_NAME, LAST_NAME, EMAIL, USER_NAME, PASSWORD) values (102, 0, 'no name', 'no name', 'test@happyfaces.com', 'test', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
 
 insert into CITY (ID, VERSION, NAME, COUNTRY) values (1, 1, "Vilnius", "Lithuania");
 insert into CITY (ID, VERSION, NAME, COUNTRY) values (2, 1, "London", "England");
