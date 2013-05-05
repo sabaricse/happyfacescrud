@@ -57,11 +57,11 @@
 				<h:panelGrid columns="2">
 					<p:outputLabel for="fromRange_#{cc.attrs.field}_date" value="#{cc.attrs.label}" />
 					<h:panelGrid columns="4">
-						<h:outputText value="#{messages['commons.dateFrom']}" style="padding-right:5px" />
 						<p:calendar id="fromRange_#{cc.attrs.field}_date" value="#{cc.filters[cc.fromRangeSearchFilterName]}" label="#{cc.attrs.label}" pattern="#{cc.datePattern}" disabled="#{cc.attrs.disabled}" />
-		
-						<h:outputText value="#{messages['commons.dateTill']}" style="padding:5px" />
+						<p:watermark for="fromRange_#{cc.attrs.field}_date" value="#{messages['commons.dateFrom']}" />  
+						
 						<p:calendar id="toRange_#{cc.attrs.field}_date" value="#{cc.filters[cc.toRangeSearchFilterName]}" label="#{cc.attrs.label}" pattern="#{cc.datePattern}" disabled="#{cc.attrs.disabled}" />
+						<p:watermark for="toRange_#{cc.attrs.field}_date" value="#{messages['commons.dateTill']}" />  
 					</h:panelGrid>
 				</h:panelGrid>
 			</ui:fragment>
