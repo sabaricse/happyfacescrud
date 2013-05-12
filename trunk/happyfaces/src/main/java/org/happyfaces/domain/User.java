@@ -18,10 +18,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "APP_USER")
 public class User extends BaseEntity {
     
-    /**
-     * Class version id for serialization. After a change to serialized field this number should be changed so it would
-     * be clear its different class version.
-     */
+    /** */
     private static final long serialVersionUID = 1L;
     
     /** User first name. */

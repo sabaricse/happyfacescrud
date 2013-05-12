@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Service("cityService")
 public class CityService extends BaseService<City> implements ICityService {
 
+    /** */
     private static final long serialVersionUID = 1L;
 
     /** Injected repository. */

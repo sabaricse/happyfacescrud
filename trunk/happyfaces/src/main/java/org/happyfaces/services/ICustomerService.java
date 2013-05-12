@@ -10,10 +10,13 @@ import org.happyfaces.services.base.IService;
  * Customer service interface.
  * 
  * @author Ignas
- *
+ * 
  */
 public interface ICustomerService extends IService<Customer> {
-    
-    public List<CustomerPerk> getAllCustomerPerks();
+
+    /**
+     * Loads all customer perks.
+     */
+    List<CustomerPerk> getAllCustomerPerks();
 
 }

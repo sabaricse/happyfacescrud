@@ -12,8 +12,12 @@ import javax.faces.context.ExceptionHandlerFactory;
  */
 public class HappyFacesExceptionHandlerFactory extends ExceptionHandlerFactory {
 
+    /** Parent factory. */
     private ExceptionHandlerFactory parent;
 
+    /**
+     * Constructor.
+     */
     public HappyFacesExceptionHandlerFactory(ExceptionHandlerFactory parent) {
         this.parent = parent;
     }

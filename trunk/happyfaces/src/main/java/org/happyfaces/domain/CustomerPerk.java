@@ -16,11 +16,14 @@ import org.happyfaces.domain.base.BaseEntity;
 @Table(name = "CUSTOMER_PERK")
 public class CustomerPerk extends BaseEntity {
 
+    /** */
     private static final long serialVersionUID = 1L;
     
+    /** Perk name. */
     @Column(name = "NAME", nullable = false)
     private String name;
     
+    /** Perk description. */
     @Column(name = "DESCRIPTION")
     private String description;
 

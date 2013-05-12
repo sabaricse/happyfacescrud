@@ -25,11 +25,16 @@ import org.hibernate.StaleObjectStateException;
  */
 public class HappyFacesExceptionHandler extends ExceptionHandlerWrapper {
 
-    private static final Logger log = Logger.getLogger(HappyFacesExceptionHandler.class.getName());
+    /** Logger. */
+    private static Logger log = Logger.getLogger(HappyFacesExceptionHandler.class.getName());
 
+    /** Wrapped handler. */
     private ExceptionHandler wrapped;
 
-    HappyFacesExceptionHandler(ExceptionHandler exception) {
+    /**
+     * Constructor.
+     */
+    public HappyFacesExceptionHandler(ExceptionHandler exception) {
         this.wrapped = exception;
     }
 
@@ -61,8 +66,9 @@ public class HappyFacesExceptionHandler extends ExceptionHandlerWrapper {
             final NavigationHandler nav = fc.getApplication().getNavigationHandler();
 
             try {
-                
-                // change exception for different jpa provider as this is what hibernate throws in case of optimistic lock failure.
+
+                // change exception for different jpa provider as this is what
+                // hibernate throws in case of optimistic lock failure.
                 if (unwindException(t) instanceof StaleObjectStateException) {
                     FacesUtils.error("error.optimisticLocking");
                     nav.handleNavigation(fc, null, null);
@@ -100,9 +106,9 @@ public class HappyFacesExceptionHandler extends ExceptionHandlerWrapper {
     }
 
     /**
-     * Looks up and returns the root cause of an exception. If none is found, returns
-     * supplied Throwable object unchanged. If root is found, recursively "unwraps" it,
-     * and returns the result to the user.
+     * Looks up and returns the root cause of an exception. If none is found,
+     * returns supplied Throwable object unchanged. If root is found,
+     * recursively "unwraps" it, and returns the result to the user.
      */
     private static Throwable unwindException(Throwable th) {
         if (th instanceof SQLException) {
@@ -110,8 +116,7 @@ public class HappyFacesExceptionHandler extends ExceptionHandlerWrapper {
             if (sql.getNextException() != null) {
                 return unwindException(sql.getNextException());
             }
-        }
-        else if (th.getCause() != null) {
+        } else if (th.getCause() != null) {
             return unwindException(th.getCause());
         }
 

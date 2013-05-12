@@ -7,7 +7,7 @@ import org.happyfaces.services.base.IService;
  * City service interface.
  * 
  * @author Ignas
- *
+ * 
  */
 public interface ICityService extends IService<City> {
 

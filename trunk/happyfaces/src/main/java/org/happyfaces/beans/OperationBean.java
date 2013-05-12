@@ -22,15 +22,23 @@ import org.happyfaces.services.base.IService;
 @ViewScoped
 public class OperationBean extends BaseBean<Operation> {
 
+    /** */
     private static final long serialVersionUID = 1L;
     
+    /** Injected service. */
     @ManagedProperty(value = "#{operationService}")
     private IOperationService operationService;
 
+    /**
+     * Constructor.
+     */
     public OperationBean() {
         super(Operation.class);
     }
 
+    /**
+     * @see org.happyfaces.beans.base.BaseBean#getPersistenceService()
+     */
     @Override
     protected IService<Operation> getPersistenceService() {
         return operationService;

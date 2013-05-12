@@ -26,27 +26,33 @@ import org.happyfaces.domain.base.BaseEntity;
 @Entity
 @Table(name = "ACCOUNT")
 public class Account extends BaseEntity {
-    
+
+    /** */
     private static final long serialVersionUID = 1L;
 
+    /** Customer. */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOMER_ID")
     private Customer customer;
-    
+
+    /** Account number. */
     @NotNull
     @Column(name = "ACCOUNT_NUMBER", nullable = false)
     private String accountNumber;
-    
+
+    /** Is account active. */
     @Column(name = "ACCOUNT_ACTIVE")
     private Boolean active;
-    
-    @OneToMany(mappedBy="account", cascade = CascadeType.ALL)
+
+    /** Account operations history. */
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Operation> operations;
-    
+
+    /** Account opening date. */
     @Temporal(TemporalType.DATE)
     @Column(name = "OPENING_DATE")
     private Date openingDate;
-    
+
     public Customer getCustomer() {
         return customer;
     }
@@ -79,12 +85,20 @@ public class Account extends BaseEntity {
         this.active = active;
     }
 
+    /** Getter. */
     public Date getOpeningDate() {
-        return openingDate;
+        if (openingDate != null) {
+            return new Date(openingDate.getTime());
+        } else {
+            return null;
+        }
     }
 
+    /** Setter. */
     public void setOpeningDate(Date openingDate) {
-        this.openingDate = openingDate;
+        if (openingDate != null) {
+            this.openingDate = new Date(openingDate.getTime());
+        }
     }
-    
+
 }

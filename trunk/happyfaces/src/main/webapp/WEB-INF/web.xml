@@ -75,6 +75,7 @@
         <url-pattern>*.jsf</url-pattern>
       </servlet-mapping>
       
+      <!-- Spring MVC servlet for REST requests -->
       <servlet>
         <servlet-name>springREST</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

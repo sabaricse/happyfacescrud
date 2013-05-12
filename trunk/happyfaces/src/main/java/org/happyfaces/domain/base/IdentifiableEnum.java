@@ -12,11 +12,11 @@ public interface IdentifiableEnum {
     /**
      * Enum id that is saved in database.
      */
-    public Integer getId();
+    Integer getId();
     
     /**
      * Enum label.
      */
-    public String getLabel();
+    String getLabel();
 
 }

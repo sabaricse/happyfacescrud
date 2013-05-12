@@ -34,8 +34,9 @@ import com.mysema.query.types.path.PathBuilder;
 import com.mysema.query.types.path.StringPath;
 
 /**
- * Base service that other persistence services can extend. It provides all common crud operations. Also provide default
- * search capabilities which work nicely with composite jsf search components.
+ * Base service that other persistence services can extend. It provides all
+ * common crud operations. Also provide default search capabilities which work
+ * nicely with composite jsf search components.
  * 
  * @author Ignas
  * 
@@ -47,8 +48,9 @@ import com.mysema.query.types.path.StringPath;
 public abstract class BaseService<T extends IEntity> implements IService<T>, Serializable {
 
     /**
-     * Class version id for serialization. After a change to serialized field this number should be changed so it would
-     * be clear its different class version.
+     * Class version id for serialization. After a change to serialized field
+     * this number should be changed so it would be clear its different class
+     * version.
      */
     private static final long serialVersionUID = 1L;
 
@@ -63,7 +65,8 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     // CHECKSTYLE:ON
 
     /**
-     * Default constructor. Loads entity class from super service information. It is used
+     * Default constructor. Loads entity class from super service information.
+     * It is used
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public BaseService() {
@@ -81,7 +84,8 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     }
 
     /**
-     * Repository object provided by spring data which makes querying and operating on entities much easier.
+     * Repository object provided by spring data which makes querying and
+     * operating on entities much easier.
      */
     protected abstract JpaRepository<T, Long> getRepository();
 
@@ -141,7 +145,8 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     }
 
     /**
-     * @see org.happyfaces.services.base.IService#findById(java.lang.Long, java.util.List)
+     * @see org.happyfaces.services.base.IService#findById(java.lang.Long,
+     *      java.util.List)
      */
     @Override
     public T findById(Long id, List<String> fetchFields) {
@@ -171,10 +176,8 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     public List<T> list(final PaginationConfiguration config) {
         Predicate predicate = getPredicate(config);
         Pageable pageable = new PageRequest(config.getFirstRow() / config.getNumberOfRows(), config.getNumberOfRows(),
-                config.getSortField() != null ? new Sort(new Sort.Order(config.getSortDirection(),
-                        config.getSortField())) : null);
-        return ((GenericRepository<T, Long>) getRepository()).findAll(predicate, pageable, config.getFetchFields())
-                .getContent();
+                config.getSortField() != null ? new Sort(new Sort.Order(config.getSortDirection(), config.getSortField())) : null);
+        return ((GenericRepository<T, Long>) getRepository()).findAll(predicate, pageable, config.getFetchFields()).getContent();
     }
 
     /**
@@ -187,7 +190,8 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     }
 
     /**
-     * Creates a Predicate from list of BooleanExpression predicates which represents all search filters.
+     * Creates a Predicate from list of BooleanExpression predicates which
+     * represents all search filters.
      * 
      * @param config
      *            PaginationConfiguration data holding object
@@ -271,15 +275,15 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     }
 
     /**
-     * This method groups some filters to one. This might be needed when several filters are dependent on each other,
-     * for example when we have several text fields and we want all of them to participate in search and we need OR
-     * functionality between them.
+     * This method groups some filters to one. This might be needed when several
+     * filters are dependent on each other, for example when we have several
+     * text fields and we want all of them to participate in search and we need
+     * OR functionality between them.
      * 
      * @return processed filters keys.
      */
     @SuppressWarnings("unused")
-    protected List<String> processNonStandardFilters(Map<String, Object> filters,
-            @SuppressWarnings("rawtypes") PathBuilder pathBuilder) {
+    protected List<String> processNonStandardFilters(Map<String, Object> filters, @SuppressWarnings("rawtypes") PathBuilder pathBuilder) {
         return Collections.emptyList();
     }
 
@@ -312,8 +316,9 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
     }
 
     /**
-     * If filter is number its required to know its concrete class so this private helper method creates and returns
-     * predicate based on concrete class.
+     * If filter is number its required to know its concrete class so this
+     * private helper method creates and returns predicate based on concrete
+     * class.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private NumberPath createNumberPath(PathBuilder entityPath, String key, Object filter) {
@@ -332,8 +337,7 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
         } else if (filter instanceof Short) {
             return entityPath.getNumber(key, Short.class);
         } else {
-            throw new IllegalStateException(
-                    "Unknown number type in search filter. Supported type: BigDecimal, Long, Integer, Double, Float, Byte, Short");
+            throw new IllegalStateException("Unknown number type in search filter. Supported type: BigDecimal, Long, Integer, Double, Float, Byte, Short");
         }
     }
 }

@@ -15,7 +15,7 @@ import org.joda.time.Days;
 public final class DateUtils {
     
     /**
-     * Private constructor so this class will never be instantiated.
+     * Private constructor (to forbid utility class instantiation).
      */
     private DateUtils() {
         super();

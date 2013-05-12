@@ -31,13 +31,11 @@ import org.springframework.security.web.WebAttributes;
  */
 public class LoginErrorPhaseListener implements PhaseListener {
 
+    /** */
     private static final long serialVersionUID = 1L;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * javax.faces.event.PhaseListener#beforePhase(javax.faces.event.PhaseEvent)
+    /**
+     * @see javax.faces.event.PhaseListener#beforePhase(javax.faces.event.PhaseEvent)
      */
     @Override
     public void beforePhase(final PhaseEvent arg0) {

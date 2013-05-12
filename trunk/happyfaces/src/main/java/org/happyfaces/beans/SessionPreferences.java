@@ -1,4 +1,4 @@
- package org.happyfaces.beans;
+package org.happyfaces.beans;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.happyfaces.domain.User;
+import org.happyfaces.services.UserService.HappyfacesUserDetails;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,21 +21,28 @@ import org.springframework.security.web.servletapi.SecurityContextHolderAwareReq
  * Static and non static methods for session related information and actions.
  * 
  * @author Ignas
- *
+ * 
  */
 @ManagedBean(name = "sessionPreferences")
 @SessionScoped
 public class SessionPreferences implements Serializable {
 
+    /** */
     private static final long serialVersionUID = 1L;
-    
+
+    /**
+     * When 60 sec left start countdown for user session logout.
+     */
+    private static final int LOGOUT_POPUP_COUNTDOWN = 60;
+
     /** Logger. */
     private static Logger log = Logger.getLogger(SessionPreferences.class.getName());
-    
+
+    /** Locale set in application. */
     private Locale locale;
-    
+
     /**
-     * Default constructor. 
+     * Default constructor.
      */
     public SessionPreferences() {
         this.locale = new Locale("en");
@@ -46,7 +55,7 @@ public class SessionPreferences implements Serializable {
     public static Locale getCurrentLocale() {
         return FacesContext.getCurrentInstance().getViewRoot().getLocale();
     }
-    
+
     /**
      * Non-static locale of SessionPreferences getter.
      */
@@ -64,28 +73,28 @@ public class SessionPreferences implements Serializable {
         locale = new Locale(language);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
-    
+
     /**
      * Get session duration.
      */
     public int getSessionDuration() {
-        return ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getMaxInactiveInterval();
+        return ((HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true)).getMaxInactiveInterval();
     }
-    
+
     /**
      * When 60 sec left, show session expiration popup.
      */
     public int getSessionTimeoutAlertDuration() {
-        return 60;
+        return LOGOUT_POPUP_COUNTDOWN;
     }
-    
+
     /**
      * Maintain session.
      */
     public void keepSessionAlive() {
-       FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        FacesContext.getCurrentInstance().getExternalContext().getSession(false);
     }
-    
+
     /**
      * Check if user has authority to edit. Override if specific role is
      * required for different pages.
@@ -105,30 +114,31 @@ public class SessionPreferences implements Serializable {
         return sc.isUserInRole(role);
     }
 
-   /**
-    * Return authenticated user name.
-    */
-   public static String getUserName() {
-       try {
-           UserDetails authenticatedUser = (UserDetails) ((SecurityContext) SecurityContextHolder.getContext()).getAuthentication().getPrincipal();
-           return authenticatedUser.getUsername();
-       } catch (Throwable e) {
-           log.error("Error getting logged in user", e);
-           return "authentication error";
-       }
-   }
+    /**
+     * Return authenticated user name.
+     */
+    public static String getUserName() {
+        try {
+            UserDetails authenticatedUser = (UserDetails) ((SecurityContext) SecurityContextHolder.getContext()).getAuthentication().getPrincipal();
+            return authenticatedUser.getUsername();
+        } catch (Throwable e) {
+            log.error("Error getting logged in user", e);
+            return "authentication error";
+        }
+    }
 
-//    /**
-//     * Return currently logged in user.
-//     */
-//    public static User getLoggedInUser() {
-//       try {
-//           JediUserDetails authenticatedUser = (JediUserDetails) ((SecurityContext) SecurityContextHolder.getContext()).getAuthentication().getPrincipal();
-//           return authenticatedUser.getUser();
-//       } catch (Throwable e) {
-//           log.error("Error getting logged in user", e);
-//           return null;
-//       }
-//   }
-    
+    /**
+     * Return currently logged in user.
+     */
+    public static User getLoggedInUser() {
+        try {
+            HappyfacesUserDetails authenticatedUser = (HappyfacesUserDetails) ((SecurityContext) SecurityContextHolder.getContext()).getAuthentication()
+                    .getPrincipal();
+            return authenticatedUser.getUser();
+        } catch (Throwable e) {
+            log.error("Error getting logged in user", e);
+            return null;
+        }
+    }
+
 }
