@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Service("operationService")
 public class OperationService extends BaseService<Operation> implements IOperationService {
 
+    /** */
     private static final long serialVersionUID = 1L;
 
     /** Injected repository. */

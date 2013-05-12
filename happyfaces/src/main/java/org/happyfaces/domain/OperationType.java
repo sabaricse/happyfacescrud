@@ -8,11 +8,20 @@ package org.happyfaces.domain;
  */
 public enum OperationType {
     
-    CREDIT(1, "operation.credit"), DEBIT(2, "operation.debit");
+    /** Credit operation. */
+    CREDIT(1, "operation.credit"), 
+    /** Debit operation. */
+    DEBIT(2, "operation.debit");
     
+    /** Enum id. */
     private Integer id;
+    
+    /** Enum label. */
     private String label;
     
+    /**
+     * Constructor.
+     */
     private OperationType(Integer id, String label) {
         this.id = id;
         this.label = label;

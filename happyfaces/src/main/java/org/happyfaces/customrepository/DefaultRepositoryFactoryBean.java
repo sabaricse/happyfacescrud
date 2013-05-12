@@ -23,9 +23,6 @@ public class DefaultRepositoryFactoryBean<T extends JpaRepository<S, ID>, S, ID 
 
     /**
      * Returns a {@link RepositoryFactorySupport}.
-     * 
-     * @param entityManager
-     * @return
      */
     protected final RepositoryFactorySupport createRepositoryFactory(EntityManager entityManager) {
         return new DefaultRepositoryFactory(entityManager);

@@ -22,15 +22,23 @@ import org.happyfaces.services.base.IService;
 @ViewScoped
 public class AccountBean extends BaseBean<Account> {
 
+    /** */
     private static final long serialVersionUID = 1L;
 
+    /** Injected service. */
     @ManagedProperty(value = "#{accountService}")
     private IAccountService accountService;
 
+    /**
+     * Constructor.
+     */
     public AccountBean() {
         super(Account.class);
     }
 
+    /**
+     * @see org.happyfaces.beans.base.BaseBean#getPersistenceService()
+     */
     @Override
     protected IService<Account> getPersistenceService() {
         return accountService;

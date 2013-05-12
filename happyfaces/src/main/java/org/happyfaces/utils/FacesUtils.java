@@ -20,15 +20,23 @@ import org.happyfaces.beans.SessionPreferences;
  * @author Ignas
  * 
  */
-public class FacesUtils {
+public final class FacesUtils {
 
     /**
-     * Application message file root name
+     * Application message file root name.
      */
     private static final String MESSAGE_FILE_NAME = "messages";
 
     /** Logger. */
     private static Logger log = Logger.getLogger(FacesUtils.class.getName());
+
+    
+    /**
+     * Private constructor (to forbid utility class instantiation).
+     */
+    private FacesUtils() {
+        super();
+    }
 
     /**
      * Show info message in view.
@@ -74,12 +82,15 @@ public class FacesUtils {
     }
 
     /**
-     * For using messages from messages.properties
+     * For using messages from messages.properties.
      */
     private static void addFacesMessage(Severity severity, String messageKey, String... params) {
         addMessageFromBundle(severity, messageKey, MESSAGE_FILE_NAME, params);
     }
 
+    /**
+     * For using messages.
+     */
     private static void addMessageFromBundle(Severity severity, String messageKey, String bundleName, String... params) {
         ResourceBundle bundle = ResourceBundle.getBundle(bundleName, FacesContext.getCurrentInstance().getViewRoot().getLocale());
         addFacesMessage(severity, messageKey, bundle, params);
@@ -104,6 +115,9 @@ public class FacesUtils {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, message, ""));
     }
 
+    /**
+     * Add string message (not from bundle).
+     */
     public static void addFacesMessageWithoutKey(Severity severity, String message) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, message, ""));
     }

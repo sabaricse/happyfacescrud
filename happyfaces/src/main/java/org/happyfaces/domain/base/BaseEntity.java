@@ -20,16 +20,25 @@ import javax.persistence.Version;
 @MappedSuperclass
 public class BaseEntity implements IEntity, Serializable {
 
+    /** */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Entity ID in database.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     private Long id;
 
+    /**
+     * Version field for optimistic locking. If on update version is different
+     * than it was on load that means someone already modified that entity and
+     * Concurent modification exception is thrown.
+     */
     @Version
     private Long version;
-    
+
     /**
      * @see org.happyfaces.domain.base.IEntity#getId()
      */
@@ -51,7 +60,7 @@ public class BaseEntity implements IEntity, Serializable {
     public Long getVersion() {
         return version;
     }
-    
+
     /**
      * Version setter.
      */
@@ -86,18 +95,23 @@ public class BaseEntity implements IEntity, Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         BaseEntity other = (BaseEntity) obj;
         if (id == null) {
-            if (other.id != null)
+            if (other.id != null) {
                 return false;
-        } else if (!id.equals(other.id))
+            }
+        } else if (!id.equals(other.id)) {
             return false;
+        }
         return true;
     }
 

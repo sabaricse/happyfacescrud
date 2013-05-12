@@ -19,15 +19,23 @@ import org.happyfaces.services.base.IService;
 @ViewScoped
 public class CityBean extends BaseBean<City> {
 
+    /** */
     private static final long serialVersionUID = 1L;
 
+    /** Injected service. */
     @ManagedProperty(value = "#{cityService}")
     private ICityService cityService;
 
+    /**
+     * Constructor.
+     */
     public CityBean() {
         super(City.class);
     }
 
+    /**
+     * @see org.happyfaces.beans.base.BaseBean#getPersistenceService()
+     */
     @Override
     protected IService<City> getPersistenceService() {
         return cityService;

@@ -13,6 +13,7 @@ import javax.faces.event.PhaseListener;
  */
 public class PhaseListenerImpl implements PhaseListener {
 
+    /** */
     private static final long serialVersionUID = 1L;
 
     /**

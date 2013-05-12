@@ -1,6 +1,7 @@
 package org.happyfaces.beans.base;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,16 +23,20 @@ import org.primefaces.model.SortOrder;
  * functionality + out of box search functionality. Bean should be ViewScoped.
  * 
  * @author Ignas
+ * 
+ * @param <T>
+ *            BaseBean entity type.
  */
 public abstract class BaseBean<T extends IEntity> implements Serializable {
 
+    /** */
     private static final long serialVersionUID = 1L;
 
     /** Logger. */
     private static Logger log = Logger.getLogger(BaseBean.class.getName());
 
     /** Search filters. */
-    protected Map<String, Object> filters;
+    private Map<String, Object> filters;
 
     /** Class of backing bean. */
     private Class<T> clazz;
@@ -60,11 +65,11 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * Bind datatable for search results.
      */
     private DataTable dataTable;
-    
+
     /**
      * Selected Entities in multiselect datatable.
      */
-    private IEntity[] selectedEntities;  
+    private IEntity[] selectedEntities;
 
     /**
      * Constructor.
@@ -78,7 +83,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     }
 
     /**
-     * Returns entity class
+     * Returns entity class.
      * 
      * @return Class
      */
@@ -90,8 +95,6 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * Initiates entity from request parameter id. If request parameter does not
      * exist - create new object for entity.
      * 
-     * @param objectClass
-     *            Class of the object.
      * @return Entity from database.
      */
     public T initEntity() {
@@ -245,9 +248,9 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
             if (selectedEntities != null && selectedEntities.length > 0) {
                 Set<Long> idsToDelete = new HashSet<Long>();
                 StringBuilder idsString = new StringBuilder();
-                for (IEntity entity : selectedEntities) {
-                    idsToDelete.add((Long)entity.getId());
-                    idsString.append(entity.getId()).append(" ");
+                for (IEntity entityToDelete : selectedEntities) {
+                    idsToDelete.add((Long) entityToDelete.getId());
+                    idsString.append(entityToDelete.getId()).append(" ");
                 }
                 log.info(String.format("Deleting multiple entities %s with ids = %s", clazz.getName(), idsString.toString()));
                 getPersistenceService().deleteMany(idsToDelete);
@@ -272,8 +275,9 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * @return Filters map.
      */
     public Map<String, Object> getFilters() {
-        if (filters == null)
+        if (filters == null) {
             filters = new HashMap<String, Object>();
+        }
         return filters;
     }
 
@@ -283,7 +287,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     public void clean() {
         filters = new HashMap<String, Object>();
     }
-    
+
     /**
      * Reset values to the last state.
      */
@@ -329,7 +333,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     protected List<String> getFormFieldsToFetch() {
         return null;
     }
-    
+
     /**
      * DataModel for primefaces lazy loading datatable component.
      * 
@@ -338,7 +342,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
     public LazyDataModel<T> getLazyDataModel() {
         if (dataModel == null) {
             dataModel = new LazyDataModel<T>() {
-                
+
                 private static final long serialVersionUID = 1L;
 
                 private Integer rowCount;
@@ -346,22 +350,21 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
                 private Integer rowIndex;
 
                 /**
-                 * @see org.primefaces.model.LazyDataModel#load(int, int, java.lang.String, org.primefaces.model.SortOrder, java.util.Map)
+                 * @see org.primefaces.model.LazyDataModel#load(int, int,
+                 *      java.lang.String, org.primefaces.model.SortOrder,
+                 *      java.util.Map)
                  */
                 @Override
-                public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder,
-                        Map<String, String> loadingFilters) {
+                public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> loadingFilters) {
                     Map<String, Object> copyOfFilters = new HashMap<String, Object>();
                     copyOfFilters.putAll(getFilters());
                     setRowCount((int) getPersistenceService().count(
-                            new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(),
-                                    sortField, sortOrder)));
+                            new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder)));
                     if (getRowCount() > 0) {
                         copyOfFilters = new HashMap<String, Object>();
                         copyOfFilters.putAll(getFilters());
                         return getPersistenceService().list(
-                                new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(),
-                                        sortField, sortOrder));
+                                new PaginationConfiguration(first, pageSize, copyOfFilters, getListFieldsToFetch(), sortField, sortOrder));
                     } else {
                         return null; // no need to load then
                     }
@@ -477,14 +480,20 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
      * column).
      */
     public IEntity[] getSelectedEntities() {
-        return selectedEntities;
+        if (selectedEntities != null) {
+            return Arrays.copyOf(selectedEntities, selectedEntities.length);
+        } else {
+            return null;
+        }
     }
 
     /**
      * Selected entities setter.
      */
     public void setSelectedEntities(IEntity[] selectedEntities) {
-        this.selectedEntities = selectedEntities;
+        if (selectedEntities != null) {
+            this.selectedEntities = Arrays.copyOf(selectedEntities, selectedEntities.length);
+        }
     }
 
     /**

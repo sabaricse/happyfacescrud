@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service("customerService")
 public class CustomerService extends BaseService<Customer> implements ICustomerService {
 
+    /** */
     private static final long serialVersionUID = 1L;
     
     /** Injected repository. */

@@ -15,10 +15,13 @@ import org.happyfaces.domain.base.BaseEntity;
 @Table(name = "CITY")
 public class City  extends BaseEntity {
     
+    /** */
     private static final long serialVersionUID = 1L;
 
+    /** City name. */
     private String name;
     
+    /** Country of the city. */
     private String country;
 
     public String getName() {

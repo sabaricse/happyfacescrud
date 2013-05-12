@@ -28,10 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("userService")
 public class UserService extends BaseService<User> implements IUserService, UserDetailsService {
 
-    /**
-     * Class version id for serialization. After a change to serialized field this number should be changed so it would
-     * be clear its different class version.
-     */
+    /** */
     private static final long serialVersionUID = 1L;
     
     /** Password encoding strenght. */

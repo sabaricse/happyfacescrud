@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Service("accountService")
 public class AccountService extends BaseService<Account> implements IAccountService {
 
+    /** */
     private static final long serialVersionUID = 1L;
     
     /** Injected repository. */

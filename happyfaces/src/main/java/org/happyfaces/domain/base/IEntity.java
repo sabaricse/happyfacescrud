@@ -13,11 +13,11 @@ public interface IEntity {
     /**
      * All entities must have an ID field.
      */
-    public Serializable getId();
+    Serializable getId();
     
     /**
      * Returns if entity is already saved in database.
      */
-    public boolean isTransient();
+    boolean isTransient();
 
 }

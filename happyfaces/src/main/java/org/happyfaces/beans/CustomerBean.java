@@ -25,17 +25,26 @@ import org.primefaces.model.DualListModel;
 @ViewScoped
 public class CustomerBean extends BaseBean<Customer> {
 
+    /** */
     private static final long serialVersionUID = 1L;
     
+    /** Injected service. */
     @ManagedProperty(value = "#{customerService}")
     private ICustomerService customerService;
 
+    /** Customer perks list model for primefaces pick list component. */
     private DualListModel<CustomerPerk> perks;
     
+    /**
+     * Constructor.
+     */
     public CustomerBean() {
         super(Customer.class);
     }
 
+    /**
+     * @see org.happyfaces.beans.base.BaseBean#getPersistenceService()
+     */
     @Override
     public IService<Customer> getPersistenceService() {
         return customerService;
@@ -65,6 +74,9 @@ public class CustomerBean extends BaseBean<Customer> {
         return perks;
     }
     
+    /**
+     * Sets dual list model.
+     */
     public void setDualListModel(DualListModel<CustomerPerk> perks) {
         getEntity().setPerks(perks.getTarget());
     }

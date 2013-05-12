@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @RequestScoped
 public class LoginBean {
     
+    /** Remember logged in user flag. If true user does not need to login. */
     private boolean rememberMe;
 
     /**
