@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 
 import org.happyfaces.domain.base.BaseEntity;
 import org.happyfaces.domain.base.IEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 @Transactional(readOnly = true)
+@Service("variableTypeService")
 public class VariableTypeService implements IVariableTypeService, Serializable {
     
     /**
