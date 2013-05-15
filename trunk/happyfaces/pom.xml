@@ -355,6 +355,7 @@
 	</dependencies>
 
 	<build>
+		 <finalName>{project.artifactId}</finalName>
 		<filters>
 			<filter>src/main/filters/filter-${env}.properties</filter>
 		</filters>
