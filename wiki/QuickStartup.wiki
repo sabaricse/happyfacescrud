@@ -8,6 +8,7 @@
   * After archetype is in your local repository go to project workspace (must leave archetype dir where pom is) and run "mvn archetype:generate -!DarchetypeCatalog=local" to create your project from happyfaces archetype.
   * Import it to eclipse (TODO not tested on other IDEs - feedback would be really appreciated). Use M2E plugin and add maven nature (*NOT mvn eclipse:eclipse*).
   * Right click on project choose maven -> update project configuration.
+  * Right click on target/generated-sources/java dir and go build path -> use as source folder.
   * Edit build.properties file and fill information about your database. Mysql is recommended and its connector is included in maven pom, but of course any other database can be used.
   * Add project to tomcat and start.
   * Go to http://localhost:8080/{project name}/login.jsf and enter User/Passw admin/admin.
