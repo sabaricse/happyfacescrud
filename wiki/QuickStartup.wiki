@@ -9,7 +9,7 @@
   * Import it to eclipse (TODO not tested on other IDEs - feedback would be really appreciated). Use M2E plugin and add maven nature (*NOT mvn eclipse:eclipse*).
   * Right click on project choose maven -> update project configuration.
   * Right click on target/generated-sources/java dir and go build path -> use as source folder.
-  * Edit build.properties file and fill information about your database. Mysql is recommended and its connector is included in maven pom, but of course any other database can be used.
+  * Edit filter-dev.properties file and fill information about your database. Mysql is recommended and its connector is included in maven pom, but of course any other database can be used.
   * Use project->clean if project shows some errors in eclipse.
   * Add project to tomcat and start.
   * Go to http://localhost:8080/{project name}/login.jsf and enter User/Passw admin/admin.
