@@ -355,7 +355,6 @@
 	</dependencies>
 
 	<build>
-		 <finalName>{project.artifactId}</finalName>
 		<filters>
 			<filter>src/main/filters/filter-${env}.properties</filter>
 		</filters>
@@ -658,7 +657,7 @@
 		<site>
 			<id>site.deployments</id>
 			<name>Site deployments</name>
-			<url>http://127.0.0.1:8080/sites/${project.artifactId}/</url>
+			<url>http://127.0.0.1:8080/sites/</url>
 		</site>
 	</distributionManagement>
 
