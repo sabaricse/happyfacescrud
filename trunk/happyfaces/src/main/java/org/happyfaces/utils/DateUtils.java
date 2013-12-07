@@ -80,6 +80,7 @@ public final class DateUtils {
     /**
      * Returns difference in number of days between firstDate and secondDate.
      */
+    @SuppressWarnings("deprecation")
     public static int substractInDays(Date startDate, Date endDate) {
         if (startDate == null || endDate == null) {
             return 0;
