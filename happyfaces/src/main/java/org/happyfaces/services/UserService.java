@@ -74,6 +74,7 @@ public class UserService extends BaseService<User> implements IUserService, User
     /**
      * @see org.happyfaces.services.IUserService#isPaswordCorrect(org.happyfaces.domain.user.User, java.lang.String)
      */
+    @SuppressWarnings("deprecation")
     @Override
     public boolean isPaswordCorrect(User user, String password) {
         // load fresh user version from db to be sure to have current password.
@@ -86,6 +87,7 @@ public class UserService extends BaseService<User> implements IUserService, User
     /**
      * @see org.happyfaces.services.IUserService#changePassword(org.happyfaces.domain.user.User, java.lang.String)
      */
+    @SuppressWarnings("deprecation")
     @Override
     @Transactional(readOnly = false)
     public void changePassword(User user, String newPassword) {
