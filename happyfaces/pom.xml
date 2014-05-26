@@ -26,7 +26,7 @@
 		<spring.version>3.2.5.RELEASE</spring.version>
 		<spring.security.version>3.1.4.RELEASE</spring.security.version>
 		<hibernate.version>4.2.7.SP1</hibernate.version>
-		<jsf.version>2.2.4</jsf.version>
+		<jsf.version>2.2.6</jsf.version>
 		<querydsl.version>3.2.4</querydsl.version>
 		<env>dev</env>
 	</properties>
@@ -239,7 +239,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>4.3.1.Final</version>
+			<version>5.0.1.Final</version>
 		</dependency>
 
 		<dependency>
