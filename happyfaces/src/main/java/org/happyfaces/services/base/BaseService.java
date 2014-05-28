@@ -282,7 +282,6 @@ public abstract class BaseService<T extends IEntity> implements IService<T>, Ser
      * 
      * @return processed filters keys.
      */
-    @SuppressWarnings("unused")
     protected List<String> processNonStandardFilters(Map<String, Object> filters, @SuppressWarnings("rawtypes") PathBuilder pathBuilder) {
         return Collections.emptyList();
     }

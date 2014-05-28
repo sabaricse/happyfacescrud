@@ -9,12 +9,12 @@ import org.happyfaces.repositories.UserRepository;
 import org.happyfaces.services.base.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,9 +31,6 @@ public class UserService extends BaseService<User> implements IUserService, User
     /** */
     private static final long serialVersionUID = 1L;
     
-    /** Password encoding strenght. */
-    private static final int PASSWORD_256_BITS = 256;
-
     /**
      * Spring Data repository for {@link User} entity.
      */
@@ -74,25 +71,23 @@ public class UserService extends BaseService<User> implements IUserService, User
     /**
      * @see org.happyfaces.services.IUserService#isPaswordCorrect(org.happyfaces.domain.user.User, java.lang.String)
      */
-    @SuppressWarnings("deprecation")
     @Override
     public boolean isPaswordCorrect(User user, String password) {
         // load fresh user version from db to be sure to have current password.
         User userFromDb = findById(user.getId());
-        PasswordEncoder encoder = new ShaPasswordEncoder(PASSWORD_256_BITS);
-        String encodedPassword = encoder.encodePassword(password, null);
+        PasswordEncoder encoder = new StandardPasswordEncoder();
+        String encodedPassword = encoder.encode(password);
         return encodedPassword.equals(userFromDb.getPassword());
     }
     
     /**
      * @see org.happyfaces.services.IUserService#changePassword(org.happyfaces.domain.user.User, java.lang.String)
      */
-    @SuppressWarnings("deprecation")
     @Override
     @Transactional(readOnly = false)
     public void changePassword(User user, String newPassword) {
-        PasswordEncoder encoder = new ShaPasswordEncoder(PASSWORD_256_BITS);
-        String encodedPassword = encoder.encodePassword(newPassword, null);
+        PasswordEncoder encoder = new StandardPasswordEncoder();
+        String encodedPassword = encoder.encode(newPassword);
         // load fresh user version from db to have managed version and avoid optimistic lock exception.
         User userFromDb = findById(user.getId());
         userFromDb.setPassword(encodedPassword);

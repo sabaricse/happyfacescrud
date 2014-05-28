@@ -25,7 +25,6 @@ public abstract class BaseRestController {
     /**
      * Handles exception if entity is not found in the system.
      */
-    @SuppressWarnings("unused")
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
@@ -36,7 +35,6 @@ public abstract class BaseRestController {
     /**
      * Handles exception if entity is not found in database.
      */
-    @SuppressWarnings("unused")
     @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
@@ -47,7 +45,6 @@ public abstract class BaseRestController {
     /**
      * Handles error when save/update results in constraint violation in database.
      */
-    @SuppressWarnings("unused")
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
@@ -64,7 +61,6 @@ public abstract class BaseRestController {
     /**
      * Handles all unknown unexpected exception that can happen during WS call.
      */
-    @SuppressWarnings("unused")
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody

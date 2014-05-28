@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.EntityManager;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.support.JpaEntityInformation;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.util.Assert;
 
 /**
- * Overriden factory to return custom {@link GenericRepositoryImpl} repository implementation instead of standard spring
+ * Overridden factory to return custom {@link GenericRepositoryImpl} repository implementation instead of standard spring
  * ones.
  * 
  * @author Ignas
@@ -35,7 +35,7 @@ public class DefaultRepositoryFactory extends JpaRepositoryFactory {
      *      (org.springframework.data.repository.core.RepositoryMetadata, javax.persistence.EntityManager)
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    protected final <T, ID extends Serializable> JpaRepository<?, ?> getTargetRepository(RepositoryMetadata metadata,
+    protected final <T, ID extends Serializable> SimpleJpaRepository<?, ?> getTargetRepository(RepositoryMetadata metadata,
             EntityManager entityManager) {
 
         Class<?> repositoryInterface = metadata.getRepositoryInterface();

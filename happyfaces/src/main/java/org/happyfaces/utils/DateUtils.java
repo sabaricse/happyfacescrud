@@ -12,6 +12,7 @@ import org.joda.time.Days;
  * @author Ignas
  *
  */
+// TODO use java 1.8 date api instead of joda time
 public final class DateUtils {
     
     /**
