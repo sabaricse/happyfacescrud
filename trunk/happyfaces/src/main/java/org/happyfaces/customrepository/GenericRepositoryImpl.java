@@ -64,7 +64,7 @@ public class GenericRepositoryImpl<T, ID extends Serializable> extends QueryDslJ
      */
    
     public GenericRepositoryImpl(JpaEntityInformation<T, ID> entityInformation, EntityManager entityManager, // NOPMD
-            @SuppressWarnings("unused") Class<?> springDataRepositoryInterface) {
+            Class<?> springDataRepositoryInterface) {
         super(entityInformation, entityManager);
 
         this.em = entityManager;

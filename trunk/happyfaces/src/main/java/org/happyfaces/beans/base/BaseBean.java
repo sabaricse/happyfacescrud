@@ -355,7 +355,7 @@ public abstract class BaseBean<T extends IEntity> implements Serializable {
                  *      java.util.Map)
                  */
                 @Override
-                public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, String> loadingFilters) {
+                public List<T> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> loadingFilters) {
                     Map<String, Object> copyOfFilters = new HashMap<String, Object>();
                     copyOfFilters.putAll(getFilters());
                     setRowCount((int) getPersistenceService().count(
