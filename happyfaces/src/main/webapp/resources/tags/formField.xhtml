@@ -183,9 +183,8 @@
 	
 							<p:column rendered="#{cc.attrs.deleteButton and cc.editMode}">
 								<p:tooltip for="deletelink" value="#{messages['commons.delete']}" showEffect="slide" hideEffect="slide"/>
-								<h:commandLink id="deletelink" action="#{cc.backingBeanFromParentOrCurrent.delete(listElement.id)}"
+								<h:commandLink id="deletelink" action="#{cc.backingBeanFromParentOrCurrent.delete(listElement.id)}" icon="ui-icon-trash" 
 									onclick="if(confirm('#{messages['commons.confirmDelete']}')){return true;}else{return false;}">
-									<h:graphicImage value="/img/delete.gif" style="border:0" />
 								</h:commandLink>
 							</p:column>
 						</p:dataTable>
