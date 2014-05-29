@@ -80,21 +80,6 @@ public class HappyFacesExceptionHandler extends ExceptionHandlerWrapper {
                     nav.handleNavigation(fc, null, "/login.xhtml");
                     fc.renderResponse();
 
-                } else {
-
-                    log.error("Unexpected exception.", t);
-
-                    FacesUtils.error("error.unexpected");
-
-                    // add this if need to show exception. Also might add
-                    // automatic email notification to admin about error, or at
-                    // least admin info for customer etc..
-                    // FacesUtils.addFacesMessageWithoutKey(FacesMessage.SEVERITY_WARN,
-                    // t.getCause().toString());
-
-                    // redirect to error page
-                    nav.handleNavigation(fc, null, "/error.xhtml");
-                    fc.renderResponse();
                 }
 
             } finally {

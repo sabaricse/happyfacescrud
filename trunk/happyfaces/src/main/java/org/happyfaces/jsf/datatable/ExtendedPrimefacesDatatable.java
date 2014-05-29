@@ -17,6 +17,7 @@ import org.primefaces.component.datatable.DataTable;
  * @author Ignas
  * 
  */
+// TODO primefaces 5.0 should accept EL as sort by, but for some reason it doesn't work in column.xhtml if I try #{entity[field]}
 @FacesComponent(value = "ExtendedPrimefacesDatatable")
 public class ExtendedPrimefacesDatatable extends DataTable {
 

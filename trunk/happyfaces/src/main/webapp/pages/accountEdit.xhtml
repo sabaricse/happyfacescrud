@@ -12,7 +12,7 @@
 	<ui:param name="pageTitle" value="#{messages['account.page.title']}" />
 	<ui:define name="content">
 	
-		<hf:formPanel id="formPanel" label="#{messages['account.page.panel']}" backingBean="#{accountBean}" >
+		<hf:formPanel id="formPanel" label="#{messages['account.page.panel']}" backingBean="#{accountBean}" columns="1" >
 			
 			<!-- Simple fields like numbers, strings, dates etc only needs field name provided. -->
 			<hf:formField label="#{messages['account.accountNumber']}" field="accountNumber" required="true" />

@@ -43,5 +43,4 @@ public class CustomerRestController extends BaseRestController {
         return new ResponseEntity<CustomerDTO>(customerDTO, HttpStatus.OK);
     }
 
-
 }
