@@ -15,10 +15,6 @@
                  <p:password id="j_password" name="j_username" required="true"  requiredMessage="#{messages['login.passwordRequired']}"/>
                  <p:commandButton id="Ok" value="#{messages['login.button']}" action="#{loginBean.doLogin()}" ajax="false"/>
              </h:panelGrid>
-             <h:panelGrid columns="2">
-                 <p:outputLabel for="_spring_security_remember_me" value="#{messages['login.rememberMe']}: "/>
-                 <p:selectBooleanCheckbox id="_spring_security_remember_me" name="_spring_security_remember_me" value="#{loginBean.rememberMe}" />
-             </h:panelGrid>
          </h:form>
     </ui:define>
 </ui:composition>
