@@ -22,7 +22,6 @@
 			login-page="/login.jsf" default-target-url="/index.jsf"
 			always-use-default-target="true" authentication-failure-url="/login.jsf" />
 		<logout logout-url="/logout.jsf" logout-success-url="/login.jsf" invalidate-session="true" />
-		<remember-me key="happyKey"/>
 	</http>
 
 	<authentication-manager alias="authenticationManager">
