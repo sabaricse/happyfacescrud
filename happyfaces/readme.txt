@@ -1,12 +1,14 @@
-Rename build.sample.properties to build.properties and configure it for your database. Add application to tomcat (might need to right click -> maven -> update project configuration for exlipse maven plugin), 
-start and go to http://localhost:8080/happyfaces/login.jsf
-User/password: admin/admin (can change in applicationContext-security.xml
+Install mysql and create database for your project.
+Edit filter-dev.properties and add details of your database.
+Add to tomcat, start it and go to http://localhost:8080/{projectName}/login.jsf
+User/password: admin/admin.
 
-If you prefer you can populate sample data run "mvn properties:read-project-properties dbunit:operation" command (run command in same dir as project's pom.xml).
-Import.sql on startup is used with create-drop by default for data population.
+Import.sql on startup is used for sample data population.
 
-To create project site with javadocs, source code, findbugs, checkstyle etc run mvn site:run (url: http://localhost:port/)
+To create maven site with javadocs, source code, findbugs, checkstyle etc run mvn site:run (url: http://localhost:port/)
 
+Currently archetype creates project with sample application. Reason for that is that I have no time to write documentation, and example
+is always good learning tool.
 To remove current sample application:
 Delete Customer.java, CustomerPerk.java, Account.java, Contacts.java, Operation.java, OperationType.java, City.java from domain package
 Delete CustomerBean.java, AccountBean.java, OperationBean.java, CityBean.java from beans package

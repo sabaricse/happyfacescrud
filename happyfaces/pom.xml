@@ -61,9 +61,9 @@
 
 	<developers>
 		<developer>
-			<name>Ignas Lelys</name>
-			<id>ignas</id>
-			<email>ignas.lelys@google.com</email>
+			<name>Your name</name>
+			<id>nameId</id>
+			<email>your_email@email.com</email>
 			<roles>
 				<role>Developer</role>
 			</roles>
@@ -478,7 +478,7 @@
 							<artifactId>maven-pmd-plugin</artifactId>
 							<version>3.1</version>
 							<configuration>
-								<targetJdk>1.8</targetJdk>
+								<targetJdk>1.7</targetJdk>
 							</configuration>
 						</plugin>
 						<!-- need to run jxr:jxr once so links to pmd and other plugins will 
