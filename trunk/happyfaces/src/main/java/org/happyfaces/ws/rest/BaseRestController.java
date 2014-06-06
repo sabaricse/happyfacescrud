@@ -35,10 +35,10 @@ public abstract class BaseRestController {
     /**
      * Handles exception if entity is not found in database.
      */
-    @ExceptionHandler(javax.persistence.EntityNotFoundException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ResponseBody
-    public ErrorDTO handleJPAEntityNotFoundExceptions(javax.persistence.EntityNotFoundException exception, HttpServletResponse response) {
+    public ErrorDTO handleJPAEntityNotFoundExceptions(EntityNotFoundException exception, HttpServletResponse response) {
         return new ErrorDTO("Entity not found");
     }
 

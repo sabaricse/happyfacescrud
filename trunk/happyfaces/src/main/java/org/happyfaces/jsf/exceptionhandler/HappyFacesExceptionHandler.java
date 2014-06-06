@@ -12,7 +12,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ExceptionQueuedEvent;
 import javax.faces.event.ExceptionQueuedEventContext;
 
-import org.apache.log4j.Logger;
 import org.happyfaces.utils.FacesUtils;
 import org.hibernate.StaleObjectStateException;
 
@@ -24,9 +23,6 @@ import org.hibernate.StaleObjectStateException;
  * 
  */
 public class HappyFacesExceptionHandler extends ExceptionHandlerWrapper {
-
-    /** Logger. */
-    private static Logger log = Logger.getLogger(HappyFacesExceptionHandler.class.getName());
 
     /** Wrapped handler. */
     private ExceptionHandler wrapped;
